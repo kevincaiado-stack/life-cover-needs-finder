@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Life Cover Needs Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F7F9;--card:#FFFFFF;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC;--field:#FFFFFF;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1622;--card:#16212F;--ink:#E8EEF5;--mute:#9AA7B8;--line:#2A3849;--teal:#4FD1C5;--tealbg:#12332F;--amber:#F6B352;--amberbg:#3A2C12;--field:#0E1622}}
+:root[data-theme="dark"]{--bg:#0E1622;--card:#16212F;--ink:#E8EEF5;--mute:#9AA7B8;--line:#2A3849;--teal:#4FD1C5;--tealbg:#12332F;--amber:#F6B352;--amberbg:#3A2C12;--field:#0E1622}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+header{max-width:1040px;margin:0 auto;padding:28px 20px 8px}
+h1{font:600 clamp(28px,5vw,40px)/1.1 Fraunces,Georgia,serif;margin:0 0 6px}
+header p{margin:0;color:var(--mute);max-width:56ch}
+.wrap{max-width:1040px;margin:0 auto;padding:16px 20px 48px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
+@media(max-width:820px){.wrap{grid-template-columns:1fr}}
+section.card,aside.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px}
+h2{font-size:17px;margin:0 0 4px;font-weight:600}
+.hint{color:var(--mute);font-size:14px;margin:0 0 12px}
+label{display:block;font-weight:500;font-size:14px;margin:12px 0 4px}
+input[type=text],input[type=date]{width:100%;padding:11px 12px;font:inherit;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:8px}
+input:focus-visible,button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.words{font-size:13px;color:var(--teal);min-height:18px;margin-top:3px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:4px}
+.seg button{font:inherit;font-size:14px;padding:8px 14px;border:0;background:transparent;color:var(--mute);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--teal);color:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.goal{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.goal h3{margin:0 0 6px;font-size:15px;font-weight:600}
+.calc{background:var(--tealbg);border-radius:8px;padding:4px 12px 12px;margin-top:8px}
+.calc .res{font-weight:600;margin-top:8px;font-size:14px}
+aside.card{position:sticky;top:12px}
+@media(max-width:820px){aside.card{position:static}}
+.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.line span:first-child{color:var(--mute)}
+.line b{font-weight:600;white-space:nowrap}
+.gap{background:var(--amberbg);border-radius:10px;padding:14px;margin:14px 0}
+.gap small{color:var(--amber);font-weight:600;display:block}
+.gap strong{font:600 32px/1.2 Fraunces,Georgia,serif;color:var(--amber)}
+.gap p{margin:4px 0 0;font-size:13px;color:var(--mute)}
+.total{background:var(--teal);color:#fff;border-radius:10px;padding:16px;margin-top:14px}
+.total small{display:block;opacity:.9}
+.total strong{font:600 clamp(28px,5vw,36px)/1.2 Fraunces,Georgia,serif}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .total{color:#0E1622}:root:not([data-theme="light"]) .seg button[aria-pressed=true]{color:#0E1622}}
+:root[data-theme="dark"] .total,:root[data-theme="dark"] .seg button[aria-pressed=true]{color:#0E1622}
+.kid{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}.kh{display:flex;justify-content:space-between;align-items:center}.kt,.ph{font-size:15px;margin:0}.ph{margin-top:14px}.rm,.add{font:inherit;font-size:14px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}.add{margin-top:12px}
+.q{border:0;padding:0;margin:14px 0 0}.q legend{font-weight:500;font-size:14px;padding:0}label.r{display:flex;gap:8px;align-items:center;font-weight:400;font-size:15px;margin:6px 0}input[type=radio]{accent-color:var(--teal);width:18px;height:18px}.sub{color:var(--mute);font-size:13px}
+.recbox{padding:6px 0 8px;border-bottom:1px solid var(--line);font-size:14px}.rec{font-weight:600;color:var(--teal)}.alert{margin-top:6px;background:var(--amberbg);color:var(--amber);border:1px solid var(--amber);border-radius:8px;padding:6px 10px;font-weight:600}
+.calcbox{margin-top:10px;background:var(--tealbg);border-radius:8px;padding:4px 12px}.calcbox .hint{margin:4px 0 6px}
+.vl{margin:4px 0 0;padding-left:18px}
+.why{margin:6px 0 0;color:var(--ink);font-size:14px}
+details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}summary:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.pdate{display:none;color:var(--mute);font-size:13px;margin:10px 0 0}
+@media print{
+  :root{--bg:#fff;--card:#fff;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff}
+  header p,.wrap>div:first-child,#printBtn{display:none}
+  header{padding:0 0 8px}
+  .wrap{display:block;padding:0}
+  aside.card{position:static;border:0;padding:0;margin:0}
+  .pdate{display:block}
+  .recbox,.line,.gap,.total{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Life cover needs finder</h1>
+  <p>Answer a few questions. The summary on the side updates as you type and shows how much cover your family may need.</p>
+</header>
+<div class="wrap">
+<div>
+  <section class="card">
+    <h2>1. About you</h2>
+    <p class="hint">We use your age and yearly income to find your Human Life Value.</p>
+    <div class="seg" role="group" aria-label="Enter age or date of birth">
+      <button type="button" id="mAge" aria-pressed="true">I know my age</button>
+      <button type="button" id="mDob" aria-pressed="false">Use date of birth</button>
+    </div>
+    <div id="ageBox"><label for="age">Age (years)</label><input type="text" id="age" inputmode="numeric" placeholder="e.g. 35"></div>
+    <div id="dobBox" hidden><label for="dob">Date of birth</label><input type="date" id="dob"><div class="words" id="dobAge"></div></div>
+    <label for="inc">Yearly income (₹)</label>
+    <input type="text" id="inc" class="money" inputmode="numeric" placeholder="e.g. 12,00,000">
+    <div class="words" data-for="inc"></div>
+    <label for="exp">Monthly fixed expenses (₹)</label>
+    <input type="text" id="exp" class="money" inputmode="numeric" placeholder="e.g. 50,000">
+    <div class="words" data-for="exp"></div>
+    <div class="calcbox"><div class="line"><span>Yearly expenses</span><b id="yExp">₹0</b></div><div class="line"><span>Yearly savings</span><b id="ySav">₹0</b></div><p class="hint" id="savNote"></p></div>
+    <label for="ret">Age when you stop working</label>
+    <input type="text" id="ret" inputmode="numeric" value="60">
+  </section>
+
+  <section class="card">
+    <h2>2. What you owe and what you have</h2>
+    <p class="hint">Use today's totals.</p>
+    <label for="liab">Loans and mortgages you owe (B)</label>
+    <input type="text" id="liab" class="money" inputmode="numeric" placeholder="e.g. 25,00,000">
+    <div class="words" data-for="liab"></div>
+    <label for="assets">Savings and investments, like FD, mutual funds, stocks (C)</label>
+    <input type="text" id="assets" class="money" inputmode="numeric" placeholder="e.g. 10,00,000">
+    <div class="words" data-for="assets"></div>
+    <label for="cover">Life insurance cover you already have (D)</label>
+    <input type="text" id="cover" class="money" inputmode="numeric" placeholder="e.g. 50,00,000">
+    <div class="words" data-for="cover"></div>
+  </section>
+
+  <section class="card">
+    <h2>3. Your children</h2>
+    <p class="hint">Add each child. Skip this if it does not apply. A goal is not counted if the child is already past that age or if the goal is less than 5 years away.</p>
+    <div id="kids"></div>
+    <button type="button" class="add" id="addKid">Add a child</button>
+  </section>
+
+  <section class="card">
+    <h2>4. Other goals</h2>
+    <p class="hint">Fill in only the goals that apply.</p>
+    <div id="goals"></div>
+  </section>
+</div>
+
+<aside class="card" aria-live="polite">
+  <h2>Your summary</h2>
+  <div class="line"><span>Yearly expenses</span><b id="oExp">₹0</b></div>
+  <div class="line"><span>Yearly savings</span><b id="oSav">₹0</b></div>
+  <div class="line"><span>Human Life Value (A)</span><b id="oA">₹0</b></div>
+  <div class="line"><span>Loans and mortgages (B)</span><b id="oB">₹0</b></div>
+  <div class="line"><span>Savings and investments (C)</span><b id="oC">₹0</b></div>
+  <div class="line"><span>Existing life cover (D)</span><b id="oD">₹0</b></div>
+  <div class="gap"><small>Cover gap: (A + B) − (C + D)</small><strong id="oGap">₹0</strong><p id="gapNote"></p></div>
+  <div id="oGoals"></div>
+  <div class="total"><small>Total financial need</small><strong id="oTotal">₹0</strong><small id="oWords"></small></div>
+  <p class="pdate" id="pdate"></p>
+  <button type="button" class="add" id="printBtn">Print or save as PDF</button>
+</aside>
+</div>
+
+<script>
+var mode="age",seq=0;
+function $(i){return document.getElementById(i)}
+function num(s){return parseInt(String(s||"").replace(/\D/g,""),10)||0}
+function rs(v){return "₹"+Math.round(v).toLocaleString("en-IN")}
+function words(v){v=Math.round(v);if(v>=1e7)return (v/1e7).toFixed(2)+" crore";if(v>=1e5)return (v/1e5).toFixed(2)+" lakh";return ""}
+function money(el){var d=num(el.value);el.value=d?d.toLocaleString("en-IN"):""}
+
+function seg(k,l){return '<div class="seg" role="group" aria-label="'+l+' input type"><button type="button" data-k="'+k+'" data-m="direct" aria-pressed="true">I know the amount</button><button type="button" data-k="'+k+'" data-m="calc" aria-pressed="false">Help me work it out</button></div>'}
+function block(k,title,mid){
+  return '<div class="goal"><h3>'+title+'</h3>'+mid+seg(k,title)+
+  '<div id="'+k+'D"><label for="'+k+'A">Amount needed (₹)</label><input type="text" class="money" inputmode="numeric" id="'+k+'A" placeholder="e.g. 20,00,000"><div class="words" data-for="'+k+'A"></div></div>'+
+  '<div id="'+k+'C" class="calc" hidden><label for="'+k+'T">Cost in today\'s money (₹)</label><input type="text" class="money" inputmode="numeric" id="'+k+'T">'+
+  '<label for="'+k+'R">Yearly price rise % (optional)</label><input type="text" inputmode="numeric" id="'+k+'R" placeholder="Leave empty to skip"><div class="res" id="'+k+'X"></div></div>'+qs(k)+'</div>';
+}
+function rad(k,q,t,o){return '<fieldset class="q"><legend>'+t+'</legend>'+o.map(function(x){return '<label class="r"><input type="radio" name="'+k+q+'" value="'+x+'"> '+x+'</label>'}).join('')+'</fieldset>'}
+function qs(k){
+  return rad(k,"q1","How do you want the money?",(k==="home"||/^k\d+m$/.test(k))?["Lumpsum"]:["Lumpsum","Income based","Both"])+
+  rad(k,"q2","Should the money be market based, guaranteed, or based on bonus?",["Market based","Guaranteed","Based on bonus"])+
+  '<div id="'+k+'q3w" hidden>'+rad(k,"q3","Should the income be immediate or at a later stage?",["Immediate","At a later stage"])+'</div>';
+}
+function pick(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:""}
+function pref(k){var a=pick(k+"q1"),b=pick(k+"q2"),w=$(k+"q3w");w.hidden=!(a==="Income based"||a==="Both");return [a,b,w.hidden?"":pick(k+"q3")].filter(Boolean).join(" · ")}
+function rec(k,a,it){
+  if(!a)return "";
+  if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
+  var q1=pick(k+"q1"),swp=(q1==="Income based"||q1==="Both")?'<p class="why">Build a corpus via Lumpsum and opt for Systematic Withdrawals for regular income.</p>':"";
+  var ppcw=(a>=18&&a<=50)?'<p class="why">PPC can be opted under the Premium Plus variant of Wealth Edge. With PPC, upon Sad Demise the Sum Assured is paid, future premiums if any, are borne by the company & the plan benefits are still paid upon maturity.</p>':"";
+  var fam=(it&&it.c!=null&&it.c<18)?'<p class="why">This plan can be taken in the name of the child, as the child is under 18.</p>':"";
+  if(it&&(it.t==="edu"||it.t==="mar")){
+    if(it.y<5)return '<div class="recbox"><small class="sub">No plan is recommended, as this goal is less than 5 years away.</small></div>';
+    if(it.y<10)return '<div class="recbox"><span class="rec">Suggested plan: Wealth Edge</span><p class="why">Market based option, recommended as this goal is 5 to 10 years away.</p><details><summary>Show Wealth Edge variants</summary><p class="why">Minimum lock-in is 5 years for all variants:</p><ul class="vl"><li><b>Invest Plus:</b> term up to 30 years</li><li><b>Life Plus:</b> by default up to 100 years. It helps create wealth, and partial withdrawals at intervals can meet goals like education, marriage or medical needs. The fund value keeps growing in the market, which can help create a legacy and meet protection gaps.</li><li><b>Premium Plus:</b> term up to 30 years</li></ul></details>'+ppcw+swp+fam+'</div>';
+  }
+  var x=pick(k+"q1"),y=pick(k+"q2"),z=pick(k+"q3"),inc=(x==="Income based"||x==="Both");
+  if(y==="Market based"){
+    if(!it||it.y<10)return "";
+    var m='<div class="recbox"><span class="rec">Suggested plans: Wealth Edge or Secure Invest</span><p class="why">Market based options. Either plan can be opted.</p><details><summary>Show Wealth Edge variants</summary><p class="why">Minimum lock-in is 5 years for all variants:</p><ul class="vl"><li><b>Invest Plus:</b> term up to 30 years</li><li><b>Life Plus:</b> by default up to 100 years. It helps create wealth, and partial withdrawals at intervals can meet goals like education, marriage or medical needs. The fund value keeps growing in the market, which can help create a legacy and meet protection gaps.</li><li><b>Premium Plus:</b> term up to 30 years</li></ul></details><details><summary>Show Secure Invest variants</summary><p class="why">Minimum lock-in is 5 years for both variants:</p><ul class="vl"><li><b>Secure Invest Choice:</b> term from 20 to 40 years</li><li><b>Secure Invest Forever:</b> by default up to 85 years. It works like the Life Plus variant of Wealth Edge: it helps create wealth, partial withdrawals can meet goals, and the growing fund value can help create a legacy and meet protection gaps.</li></ul></details>';
+    if(a>=18&&a<=50)m+='<p class="why">PPC can be opted under the Premium Plus variant of Wealth Edge. With PPC, upon Sad Demise the Sum Assured is paid, future premiums if any, are borne by the company & the plan benefits are still paid upon maturity.</p>';
+    return m+swp+fam+'</div>';
+  }
+  if(y==="Based on bonus"){
+    var bn="",bl=[];
+    if(x==="Lumpsum"){
+      if(it&&it.y<12)return '<div class="recbox"><small class="sub">Promise plans for a lumpsum need at least 12 years to reach this goal.</small></div>';
+      bn="Promise4Future";bl=["<b>Savings for Future:</b> a lumpsum at maturity"];
+    }else if(inc&&z==="At a later stage"){
+      bn="Promise4Future";bl=["<b>Income4Future:</b> guaranteed income and bonus every year after the premium paying term (PPT), with a lumpsum at the end of the PPT and also at maturity"];
+    }else if(inc&&z==="Immediate"){
+      bn="Promise4Life";bl=["<b>Forever Income:</b> guaranteed income and bonus every year, with income up to 100 years. It can also be made a 3 Generation plan","<b>Assured Term Income:</b> guaranteed income and bonus every year for a limited term, with a lumpsum at maturity"];
+    }else return "";
+    return '<div class="recbox"><span class="rec">Suggested plan: '+bn+'</span><ul class="vl">'+bl.map(function(t){return '<li>'+t+'</li>'}).join("")+'</ul>'+fam+'</div>';
+  }
+  if(!x||y!=="Guaranteed")return "";
+  var n="",v=[],al="";
+  if(x==="Lumpsum"){
+    if(it&&(it.t==="mar"||it.t==="ret")&&it.y<10)return '<div class="recbox"><small class="sub">Lumpsum plans need at least 10 years to reach this goal.</small></div>';
+    n="Iselect Guaranteed Future Plus";v=["Endowment: lumpsum at maturity, with PPC"];if(a<=55)al="PPC MUST BE OPTED";}
+  else if(inc&&z==="At a later stage"){n="Iselect Guaranteed Future Plus";v=["Regular Income after PPT, with PPC","Long Term Income with Return of Premium"];if(a<=55)al="PPC MUST BE OPTED";}
+  else if(inc&&z==="Immediate"){
+    if(a>50)return '<div class="recbox"><small class="sub">Income Now is for ages 18 to 50.</small></div>';
+    n="Income Now";v=["Level income","Step up income"];
+  }else return "";
+  var h='<div class="recbox"><span class="rec">Suggested plan: '+n+'</span><ul class="vl">'+v.map(function(t){return '<li>'+t+'</li>'}).join("")+'</ul>';
+  if(n==="Iselect Guaranteed Future Plus"&&it){
+    var w="",ppc="With PPC, on a sad demise the sum assured is paid, future premiums are borne by the company and the plan benefits are still paid.";
+    if(x==="Lumpsum"){
+      var goal={edu:"fund the child's education",mar:"fund the child's marriage",ret:"build a retirement corpus"}[it.t];
+      if(goal){
+        if((it.t==="edu"||it.t==="mar")&&it.y>=15)w="Ideal plan for this goal, as there are 15 or more years to achieve it. ";
+        w+="The Endowment option builds a Lumpsum corpus to "+goal+". With PPC, upon Sad Demise the Sum Assured is paid, future premiums if any, are borne by the company & the plan benefits are still paid upon maturity.";
+      }
+    }else{
+      if(it.t==="ret")w="Apt solution to ensure guaranteed income during the golden years of life. "+ppc;
+      else if(it.t==="edu"&&it.y>=15)w="Ideal plan for this goal, as there are 15 or more years to achieve it. It gives a guaranteed income. "+ppc;
+    }
+    if(w)h+='<p class="why">'+w+'</p>';
+  }
+  h+=fam;
+  if(al)h+='<div class="alert" role="alert">'+al+'</div>';
+  return h+'</div>';
+}
+function gapRec(a){
+  if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
+  var h='<div class="recbox">'+(a<=60?'<span class="rec">Suggested plan: Young Term plan</span>':'<small class="sub">Young Term plan is for ages 18 to 60.</small>');
+  return h+'<br><span class="rec">Also suggested: Promise4Life, Century Milestone variant</span><p class="why">Helps meet the protection gap, and can also act as income replacement or help create a legacy.</p></div>';
+}
+function kidHtml(n){var p="k"+n;
+  return '<div class="kid" data-n="'+n+'"><div class="kh"><h3 class="kt"></h3><button type="button" class="rm" data-rm="1">Remove</button></div>'+
+  '<label for="'+p+'age">Child\'s age (years)</label><input type="text" inputmode="numeric" id="'+p+'age" placeholder="e.g. 5">'+
+  block(p+"e","Education",'<label for="'+p+'eN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'eN" value="18">')+
+  block(p+"m","Marriage",'<label for="'+p+'mN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'mN" value="25">')+'</div>';
+}
+function buildGoals(){
+  $("goals").innerHTML=
+  block("home","Home",'<label for="homeY">In how many years?</label><input type="text" inputmode="numeric" id="homeY" placeholder="10 or more"><p class="hint">Home is counted in the need only if this is 10 years or more.</p>')+
+  block("ret","Retirement",'<p class="hint">Years left are worked out from your age and the age you stop working.</p>');
+}
+
+function age(){
+  if(mode==="dob"){
+    var v=$("dob").value;if(!v)return 0;
+    var b=new Date(v),n=new Date(),a=n.getFullYear()-b.getFullYear();
+    var m=n.getMonth()-b.getMonth();if(m<0||(m===0&&n.getDate()<b.getDate()))a--;
+    return a>0?a:0;
+  }
+  return num($("age").value);
+}
+
+function getAmt(k,y){
+  if($(k+"C").hidden)return num($(k+"A").value);
+  var t=num($(k+"T").value),r=parseFloat($(k+"R").value)||0,f=(r>0&&y>0)?t*Math.pow(1+r/100,y):t;
+  $(k+"X").textContent=t?((r>0&&y>0)?("You will need about "+rs(f)+" in "+y+" years."):("Amount needed: "+rs(f))):"Fill in the boxes to see the amount.";
+  return t?f:0;
+}
+
+function render(){
+  var a=age(),inc=num($("inc").value),ret=num($("ret").value)||60;
+  $("dobAge").textContent=(mode==="dob"&&a)?("Your age is "+a+" years."):"";
+  var ex=num($("exp").value)*12,sv=inc-ex,st=sv<0?"−"+rs(-sv):rs(sv);
+  $("yExp").textContent=rs(ex);$("oExp").textContent=rs(ex);$("ySav").textContent=st;$("oSav").textContent=st;
+  $("savNote").textContent=(inc&&sv<0)?"Your expenses are more than your income.":"";
+  var A=Math.max(0,ret-a)*inc,B=num($("liab").value),C=num($("assets").value),D=num($("cover").value);
+  var raw=(A+B)-(C+D),gap=Math.max(0,raw);
+  $("oA").textContent=rs(A);$("oB").textContent=rs(B);$("oC").textContent=rs(C);$("oD").textContent=rs(D);
+  $("oGap").textContent=rs(gap);
+  $("gapNote").textContent=(a&&inc)?(raw<0?"Good news: your savings and cover are already more than the need. We count the gap as ₹0.":"This is the extra life cover your family needs. It is the top priority."):"Fill in your age and income to see the gap.";
+  var items=[];
+  document.querySelectorAll(".kid").forEach(function(el,i){
+    var p="k"+el.dataset.n,ca=$(p+"age").value.trim();
+    el.querySelector(".kt").textContent="Child "+(i+1);
+    [["e","education"],["m","marriage"]].forEach(function(g){
+      var raw=ca===""?0:num($(p+g[0]+"N").value)-num(ca),y=Math.max(0,raw),v=getAmt(p+g[0],y);
+      var ok=raw>=5,pf=pref(p+g[0]);
+      if(v&&ca!==""&&ok)items.push({n:"Child "+(i+1)+" "+g[1],y:y,v:v,s:pf,k:p+g[0],t:g[0]==="e"?"edu":"mar",c:num(ca)});
+    });
+  });
+  var hy=num($("homeY").value),hv=getAmt("home",hy),hp=pref("home");
+  if(hv&&hy>=10)items.push({n:"Home",y:hy,v:hv,s:hp,k:"home",t:"home"});
+  var ry=a?Math.max(0,ret-a):0,rv=getAmt("ret",ry),rp=pref("ret");
+  if(rv&&a)items.push({n:"Retirement",y:ry,v:rv,s:rp,k:"ret",t:"ret"});
+  items.sort(function(p,q){return p.y-q.y});
+  var yt=(a&&gap>0)?gapRec(a):"",tot=gap,gh='<h3 class="ph">Priority order</h3><div class="line"><span>1. Insurance gap</span><b>'+rs(gap)+'</b></div>'+yt;
+  items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?'in '+it.y+' yrs':'due now')+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+rec(it.k,a,it)});
+  $("oGoals").innerHTML=gh;
+  $("oTotal").textContent=rs(tot);
+  $("oWords").textContent=words(tot)?("About "+words(tot)):"";
+  document.querySelectorAll(".words[data-for]").forEach(function(w){var v=num($(w.dataset.for).value);w.textContent=words(v)?("= "+words(v)):""});
+}
+
+function setMode(m){mode=m;
+  $("mAge").setAttribute("aria-pressed",m==="age");$("mDob").setAttribute("aria-pressed",m==="dob");
+  $("ageBox").hidden=m!=="age";$("dobBox").hidden=m!=="dob";render()}
+
+buildGoals();
+$("mAge").onclick=function(){setMode("age")};
+$("mDob").onclick=function(){setMode("dob")};
+$("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));render()};
+document.addEventListener("click",function(e){
+  var r=e.target.closest("button[data-rm]");
+  if(r){r.closest(".kid").remove();render();return}
+  var b=e.target.closest("button[data-k]");if(!b)return;
+  var k=b.dataset.k,c=b.dataset.m==="calc";
+  $(k+"D").hidden=c;$(k+"C").hidden=!c;
+  document.querySelectorAll('button[data-k="'+k+'"]').forEach(function(x){x.setAttribute("aria-pressed",x===b)});
+  render();
+});
+document.addEventListener("input",function(e){
+  if(e.target.classList.contains("money"))money(e.target);
+  render();
+});
+$("printBtn").onclick=function(){window.print()};
+var reopen=[];
+window.addEventListener("beforeprint",function(){
+  $("pdate").textContent="Prepared on "+new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});
+  reopen=[];document.querySelectorAll("aside details").forEach(function(d){if(!d.open){reopen.push(d);d.open=true}});
+});
+window.addEventListener("afterprint",function(){reopen.forEach(function(d){d.open=false})});
+render();
+</script>
+</body>
+</html>
