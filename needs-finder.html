@@ -243,8 +243,9 @@ var CM_LO=4000000,CM_HI=6000000;/* 'around 50 lakh' = 40 to 60 lakh */
 function gapRec(a,gap){
   if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
   var h='<div class="recbox">'+(a<=60?'<span class="rec">Suggested plan: Young Term plan</span>':'<small class="sub">Young Term plan is for ages 18 to 60.</small>');
-  var must=(gap>=CM_LO&&gap<=CM_HI)?'<div class="alert" role="alert">Protection gap is around ₹50 lakh: Promise4Life, Century Milestone variant must be offered.</div>':'';
-  return h+'<br><span class="rec">Also suggested: Promise4Life, Century Milestone variant</span><p class="why">Helps meet the protection gap. Promise4Life is purely for Legacy Creation and not an Income Replacement.</p>'+must+'</div>';
+  if(gap>CM_HI)return h+'<p class="why">The protection gap is more than ₹50 lakh, so only the Young Term plan is offered.</p></div>';
+  var must=(gap>=CM_LO)?'<div class="alert" role="alert">Protection gap is around ₹50 lakh: Promise4Life, Century Milestone variant must be offered.</div>':'';
+  return h+'<br><span class="rec">Also suggested: Promise4Life, Century Milestone variant</span><p class="why">Promise4Life is purely for Legacy Creation and not an Income Replacement. Ideal for customers above the age of 55 years with a protection gap of around ₹50 lakh.</p>'+must+'</div>';
 }
 function kidHtml(n){var p="k"+n;
   return '<div class="kid" data-n="'+n+'"><div class="kh"><h3 class="kt"></h3><button type="button" class="rm" data-rm="1">Remove</button></div>'+
