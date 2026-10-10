@@ -244,6 +244,7 @@ function gapRec(a,gap){
   if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
   var h='<div class="recbox">'+(a<=60?'<span class="rec">Suggested plan: Young Term plan</span>':'<small class="sub">Young Term plan is for ages 18 to 60.</small>');
   if(gap>CM_HI)return h+'<p class="why">The protection gap is more than ₹50 lakh, so only the Young Term plan is offered.</p></div>';
+  if(!(a>=50||gap>=CM_LO))return h+'</div>';/* Century Milestone shows for age 50+ (gap up to 50 lakh) or when gap is around 50 lakh */
   var must=(gap>=CM_LO)?'<div class="alert" role="alert">Protection gap is around ₹50 lakh: Promise4Life, Century Milestone variant must be offered.</div>':'';
   if(!must&&a<50)return h+'</div>';
   return h+'<br><span class="rec">Also suggested: Promise4Life, Century Milestone variant</span><p class="why">Promise4Life is purely for Legacy Creation and not an Income Replacement. Ideal for customers above the age of 50 years with a protection gap of around ₹50 lakh.</p>'+must+'</div>';
