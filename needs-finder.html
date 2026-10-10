@@ -57,6 +57,21 @@ aside.card{position:sticky;top:12px}
 .why{margin:6px 0 0;color:var(--ink);font-size:14px}
 details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}summary:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
 .acts{display:flex;gap:10px;flex-wrap:wrap}#dlHint{margin-top:10px}.pdate{display:none;color:var(--mute);font-size:13px;margin:10px 0 0}
+.viz{--v1:#2a78d6;--v2:#eb6834;--v3:#1baf7a;--v4:#eda100;--v5:#e87ba4;--vo:#898781;--vs:var(--card)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .viz{--v1:#3987e5;--v2:#d95926;--v3:#199e70;--v4:#c98500;--v5:#d55181}}
+:root[data-theme="dark"] .viz{--v1:#3987e5;--v2:#d95926;--v3:#199e70;--v4:#c98500;--v5:#d55181}
+.viz h3{font-size:15px;margin:20px 0 2px;font-weight:600}
+.viz .cap{margin:2px 0 6px;font-size:13px;color:var(--mute)}
+.viz svg{width:100%;height:auto;display:block;max-width:460px}
+.viz svg.dn{max-width:200px;margin:4px auto}
+.viz svg text{fill:var(--ink);font:12px system-ui,sans-serif}
+.viz svg text.mu{fill:var(--mute)}
+.viz svg text.big{font:600 15px system-ui,sans-serif}
+.lg{list-style:none;margin:6px 0 0;padding:0;font-size:13px}
+.lg li{display:flex;align-items:center;gap:8px;padding:3px 0}
+.lg i{width:12px;height:12px;border-radius:3px;flex:none}
+.lg span{flex:1}.lg b{font-weight:600;white-space:nowrap}
+.lg em{font-style:normal;color:var(--mute);min-width:36px;text-align:right}
 @media print{
   :root{--bg:#fff;--card:#fff;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -66,7 +81,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   .wrap{display:block;padding:0}
   aside.card{position:static;border:0;padding:0;margin:0}
   .pdate{display:block}
-  .recbox,.line,.gap,.total{break-inside:avoid}
+  .recbox,.line,.gap,.total,.cb{break-inside:avoid}
 }
 </style>
 </head>
@@ -136,6 +151,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   <div class="gap"><small>Cover gap: (A + B) − (C + D)</small><strong id="oGap">₹0</strong><p id="gapNote"></p></div>
   <div id="oGoals"></div>
   <div class="total"><small>Total financial need</small><strong id="oTotal">₹0</strong><small id="oWords"></small></div>
+  <div class="viz" id="charts"></div>
   <p class="pdate" id="pdate"></p>
   <div class="acts"><button type="button" class="add" id="printBtn">Print or save as PDF</button> <button type="button" class="add" id="dlBtn">Save summary file</button></div>
   <p class="hint" id="dlHint">If the print window does not open, tap <b>Save summary file</b>, open the saved file, and print or save as PDF from there.</p>
@@ -288,9 +304,44 @@ function render(){
   $("oGoals").innerHTML=gh;
   $("oTotal").textContent=rs(tot);
   $("oWords").textContent=words(tot)?("About "+words(tot)):"";
+  charts(A,B,C,D,gap,raw,items);
   document.querySelectorAll(".words[data-for]").forEach(function(w){var v=num($(w.dataset.for).value);w.textContent=words(v)?("= "+words(v)):""});
 }
 
+function cr(v){v=Math.round(v);if(v>=1e7)return "₹"+(v/1e7).toFixed(2)+" Cr";if(v>=1e5)return "₹"+(v/1e5).toFixed(2)+" L";return rs(v)}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function lg(rows){return '<ul class="lg">'+rows.map(function(r){return '<li><i style="background:var(--'+r.c+')"></i><span>'+esc(r.n)+'</span><b>'+cr(r.v)+'</b>'+(r.p!=null?'<em>'+r.p+'%</em>':'')+'</li>'}).join("")+'</ul>'}
+function charts(A,B,C,D,gap,raw,items){
+  var el=$("charts");
+  if(!(A+B+C+D)&&!items.length){el.innerHTML="";return}
+  var h="",need=A+B,have=C+D,mx=Math.max(need,have,1),W=300;
+  function bar(y,segs){var x=0,o="";segs.forEach(function(g){if(g.v<=0)return;var w=Math.max(3,g.v/mx*W);o+='<rect x="'+x.toFixed(1)+'" y="'+y+'" width="'+w.toFixed(1)+'" height="26" rx="4" fill="var(--'+g.c+')" stroke="var(--vs)" stroke-width="2"><title>'+esc(g.n)+': '+rs(g.v)+'</title></rect>';x+=w});return o}
+  var s1=[{n:"Income value (A)",v:A,c:"v1"},{n:"Loans (B)",v:B,c:"v2"}],s2=[{n:"Savings (C)",v:C,c:"v3"},{n:"Existing cover (D)",v:D,c:"v4"}];
+  h+='<div class="cb"><h3>What you need vs what you have</h3><p class="cap">'+(raw>0?"The shortfall is "+cr(raw)+".":"What you have already covers what you need.")+'</p>'+
+  '<svg viewBox="0 0 320 84" role="img" aria-label="Bars comparing what you need, '+cr(need)+', with what you have, '+cr(have)+'">'+
+  '<text class="mu" x="0" y="11">What you need</text><text class="big" x="320" y="12" text-anchor="end">'+cr(need)+'</text>'+bar(16,s1)+
+  '<text class="mu" x="0" y="55">What you already have</text><text class="big" x="320" y="56" text-anchor="end">'+cr(have)+'</text>'+bar(60,s2)+'</svg>'+
+  lg(s1.concat(s2).filter(function(g){return g.v>0}))+'</div>';
+  var sl=[];if(gap>0)sl.push({n:"Insurance gap",v:gap});
+  items.forEach(function(it){if(it.v>0)sl.push({n:it.n,v:it.v,y:it.y})});
+  if(sl.length>=2){
+    var pc=["v1","v2","v3","v4","v5"],ds=sl.slice(0,5).map(function(g,i){return {n:g.n,v:g.v,c:pc[i]}});
+    if(sl.length>5){var ot=0;sl.slice(5).forEach(function(g){ot+=g.v});ds.push({n:"Other goals",v:ot,c:"vo"})}
+    var sum=0;ds.forEach(function(g){sum+=g.v});
+    var R=56,L=2*Math.PI*R,acc=0,arcs="";
+    ds.forEach(function(g){g.p=Math.round(g.v/sum*100);var len=g.v/sum*L,dash=Math.max(len-2,1);
+      arcs+='<circle cx="80" cy="80" r="'+R+'" fill="none" stroke="var(--'+g.c+')" stroke-width="28" stroke-dasharray="'+dash.toFixed(2)+' '+(L-dash).toFixed(2)+'" stroke-dashoffset="'+(-acc).toFixed(2)+'" transform="rotate(-90 80 80)"><title>'+esc(g.n)+': '+rs(g.v)+' ('+g.p+'%)</title></circle>';acc+=len});
+    h+='<div class="cb"><h3>Where the total need goes</h3><p class="cap">Each slice is a share of your total need.</p>'+
+    '<svg class="dn" viewBox="0 0 160 160" role="img" aria-label="Donut chart of the total need, '+cr(sum)+'">'+arcs+
+    '<text class="mu" x="80" y="76" text-anchor="middle">Total need</text><text class="big" x="80" y="96" text-anchor="middle">'+cr(sum)+'</text></svg>'+lg(ds)+'</div>';
+    var rows=sl.slice(0,8),bm=0;rows.forEach(function(g){bm=Math.max(bm,g.v)});
+    var bs="";rows.forEach(function(g,i){var y=i*28,nm=g.n+(g.y?" · "+g.y+"y":""),w=Math.max(3,g.v/bm*100);
+      bs+='<text class="mu" x="0" y="'+(y+17)+'">'+esc(nm.length>26?nm.slice(0,25)+"…":nm)+'</text><rect x="150" y="'+y+'" width="'+w.toFixed(1)+'" height="22" rx="4" fill="var(--v1)"><title>'+esc(g.n)+': '+rs(g.v)+'</title></rect><text x="'+(150+w+6).toFixed(1)+'" y="'+(y+16)+'">'+cr(g.v)+'</text>'});
+    h+='<div class="cb"><h3>Priority order, side by side</h3><p class="cap">Bar length shows how big each need is. The years show when it is due.</p>'+
+    '<svg viewBox="0 0 320 '+(rows.length*28)+'" role="img" aria-label="Bars of each need in priority order">'+bs+'</svg></div>';
+  }
+  el.innerHTML=h;
+}
 function setMode(m){mode=m;
   $("mAge").setAttribute("aria-pressed",m==="age");$("mDob").setAttribute("aria-pressed",m==="dob");
   $("ageBox").hidden=m!=="age";$("dobBox").hidden=m!=="dob";render()}
@@ -312,7 +363,7 @@ document.addEventListener("input",function(e){
   if(e.target.classList.contains("money"))money(e.target);
   render();
 });
-var SUM_CSS="body{font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#14213D;max-width:720px;margin:24px auto;padding:0 16px}h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:12px 0 4px}.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #D9E0E7}.line span:first-child{color:#5B6778}.gap{background:#FDF1DC;border-radius:10px;padding:14px;margin:14px 0}.gap small{color:#B45309;font-weight:600;display:block}.gap strong{font-size:30px;color:#B45309}.gap p{margin:4px 0 0;font-size:13px;color:#5B6778}.total{background:#0F766E;color:#fff;border-radius:10px;padding:16px;margin-top:14px}.total small{display:block}.total strong{font-size:32px}.recbox{padding:6px 0 8px;border-bottom:1px solid #D9E0E7;font-size:14px}.rec{font-weight:600;color:#0F766E}.alert{margin-top:6px;background:#FDF1DC;color:#B45309;border:1px solid #B45309;border-radius:8px;padding:6px 10px;font-weight:600}.sub{color:#5B6778;font-size:13px}.why{margin:6px 0 0;font-size:14px}.vl{margin:4px 0 0;padding-left:18px}.ph{font-size:15px;margin:14px 0 0}.pbtn{margin-top:16px;padding:10px 16px;font:inherit;border:1px solid #0F766E;background:#fff;color:#0F766E;border-radius:8px;cursor:pointer}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.line,.recbox,.gap,.total{break-inside:avoid}@media print{.pbtn{display:none}}";
+var SUM_CSS="body{font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#14213D;max-width:720px;margin:24px auto;padding:0 16px}h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:12px 0 4px}.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #D9E0E7}.line span:first-child{color:#5B6778}.gap{background:#FDF1DC;border-radius:10px;padding:14px;margin:14px 0}.gap small{color:#B45309;font-weight:600;display:block}.gap strong{font-size:30px;color:#B45309}.gap p{margin:4px 0 0;font-size:13px;color:#5B6778}.total{background:#0F766E;color:#fff;border-radius:10px;padding:16px;margin-top:14px}.total small{display:block}.total strong{font-size:32px}.recbox{padding:6px 0 8px;border-bottom:1px solid #D9E0E7;font-size:14px}.rec{font-weight:600;color:#0F766E}.alert{margin-top:6px;background:#FDF1DC;color:#B45309;border:1px solid #B45309;border-radius:8px;padding:6px 10px;font-weight:600}.sub{color:#5B6778;font-size:13px}.why{margin:6px 0 0;font-size:14px}.vl{margin:4px 0 0;padding-left:18px}.ph{font-size:15px;margin:14px 0 0}.pbtn{margin-top:16px;padding:10px 16px;font:inherit;border:1px solid #0F766E;background:#fff;color:#0F766E;border-radius:8px;cursor:pointer}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.viz{--v1:#2a78d6;--v2:#eb6834;--v3:#1baf7a;--v4:#eda100;--v5:#e87ba4;--vo:#898781;--vs:#fff;--ink:#14213D;--mute:#5B6778}.viz h3{font-size:15px;margin:18px 0 2px}.viz .cap{margin:2px 0 6px;font-size:13px;color:#5B6778}.viz svg{width:100%;height:auto;display:block;max-width:420px}.viz svg.dn{max-width:180px;margin:4px auto}.viz svg text{fill:#14213D;font:12px system-ui,Arial,sans-serif}.viz svg text.mu{fill:#5B6778}.viz svg text.big{font-weight:600;font-size:15px}.lg{list-style:none;margin:6px 0 0;padding:0;font-size:13px}.lg li{display:flex;align-items:center;gap:8px;padding:3px 0}.lg i{width:12px;height:12px;border-radius:3px;flex:none}.lg span{flex:1}.lg em{font-style:normal;color:#5B6778;min-width:36px;text-align:right}.cb{break-inside:avoid}.line,.recbox,.gap,.total{break-inside:avoid}@media print{.pbtn{display:none}}";
 function buildSummary(){
   var c=document.querySelector("aside").cloneNode(true);
   ["printBtn","dlBtn","dlHint","pdate"].forEach(function(id){var e=c.querySelector("#"+id);if(e)e.remove()});
