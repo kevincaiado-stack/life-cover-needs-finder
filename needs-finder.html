@@ -266,8 +266,8 @@ function kidHtml(n){var p="k"+n;
 }
 function buildGoals(){
   $("goals").innerHTML=
-  block("home","Home",'<label for="homeY">In how many years?</label><input type="text" inputmode="numeric" id="homeY" placeholder="10 or more"><p class="hint">Home is counted in the need only if this is 10 years or more.</p>')+
-  block("ret","Retirement",'<p class="hint">Years left are worked out from your age and the age you stop working.</p>');
+  block("home","Home or Wealth Creation",'<label for="homeY">In how many years?</label><input type="text" inputmode="numeric" id="homeY" placeholder="10 or more"><p class="hint">This goal is counted in the need only if it is 10 years or more away.</p>')+
+  block("ret","Passive Income or Retirement",'<p class="hint">Years left are worked out from your age and the age you stop working.</p>');
 }
 
 function age(){
@@ -309,9 +309,9 @@ function render(){
     });
   });
   var hy=num($("homeY").value),hv=getAmt("home",hy),hp=pref("home");
-  if(hv&&hy>=10)items.push({n:"Home",y:hy,v:hv,s:hp,k:"home",t:"home"});
+  if(hv&&hy>=10)items.push({n:"Home or Wealth Creation",sn:"Home / wealth",y:hy,v:hv,s:hp,k:"home",t:"home"});
   var ry=a?Math.max(0,ret-a):0,rv=getAmt("ret",ry),rp=pref("ret");
-  if(rv&&a)items.push({n:"Retirement",y:ry,v:rv,s:rp,k:"ret",t:"ret"});
+  if(rv&&a)items.push({n:"Passive Income or Retirement",sn:"Passive income",y:ry,v:rv,s:rp,k:"ret",t:"ret"});
   items.sort(function(p,q){return p.y-q.y});
   var yt=(a&&gap>0)?gapRec(a,gap):"",tot=gap,gh='<h3 class="ph">Priority order</h3><div class="line"><span>1. Insurance gap</span><b>'+rs(gap)+'</b></div>'+yt;
   items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?'in '+it.y+' yrs':'due now')+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+rec(it.k,a,it)});
@@ -337,7 +337,7 @@ function charts(A,B,C,D,gap,raw,items){
   '<text class="mu" x="0" y="55">What you already have</text><text class="big" x="320" y="56" text-anchor="end">'+cr(have)+'</text>'+bar(60,s2)+'</svg>'+
   lg(s1.concat(s2).filter(function(g){return g.v>0}))+'</div>';
   var sl=[];if(gap>0)sl.push({n:"Insurance gap",v:gap});
-  items.forEach(function(it){if(it.v>0)sl.push({n:it.n,v:it.v,y:it.y})});
+  items.forEach(function(it){if(it.v>0)sl.push({n:it.n,sn:it.sn,v:it.v,y:it.y})});
   if(sl.length>=2){
     var pc=["v1","v2","v3","v4","v5"],ds=sl.slice(0,5).map(function(g,i){return {n:g.n,v:g.v,c:pc[i]}});
     if(sl.length>5){var ot=0;sl.slice(5).forEach(function(g){ot+=g.v});ds.push({n:"Other goals",v:ot,c:"vo"})}
@@ -349,7 +349,7 @@ function charts(A,B,C,D,gap,raw,items){
     '<svg class="dn" viewBox="0 0 160 160" role="img" aria-label="Donut chart of the total need, '+cr(sum)+'">'+arcs+
     '<text class="mu" x="80" y="76" text-anchor="middle">Total need</text><text class="big" x="80" y="96" text-anchor="middle">'+cr(sum)+'</text></svg>'+lg(ds)+'</div>';
     var rows=sl.slice(0,8),bm=0;rows.forEach(function(g){bm=Math.max(bm,g.v)});
-    var bs="";rows.forEach(function(g,i){var y=i*28,nm=g.n+(g.y?" · "+g.y+"y":""),w=Math.max(3,g.v/bm*100);
+    var bs="";rows.forEach(function(g,i){var y=i*28,nm=(g.sn||g.n)+(g.y?" · "+g.y+"y":""),w=Math.max(3,g.v/bm*100);
       bs+='<text class="mu" x="0" y="'+(y+17)+'">'+esc(nm.length>26?nm.slice(0,25)+"…":nm)+'</text><rect x="150" y="'+y+'" width="'+w.toFixed(1)+'" height="22" rx="4" fill="var(--v1)"><title>'+esc(g.n)+': '+rs(g.v)+'</title></rect><text x="'+(150+w+6).toFixed(1)+'" y="'+(y+16)+'">'+cr(g.v)+'</text>'});
     h+='<div class="cb"><h3>Priority order, side by side</h3><p class="cap">Bar length shows how big each need is. The years show when it is due.</p>'+
     '<svg viewBox="0 0 320 '+(rows.length*28)+'" role="img" aria-label="Bars of each need in priority order">'+bs+'</svg></div>';
