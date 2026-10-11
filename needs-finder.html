@@ -248,6 +248,7 @@ var CM_NOTE='<p class="why">Promise4Life is purely for Legacy Creation and not a
 function gapRec(a,gap){
   if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
   var cm='<span class="rec">Suggested plan: Promise4Life, Century Milestone variant</span>'+CM_NOTE;
+  if(a>60)return '<div class="recbox">'+cm+'<div class="alert red" role="alert">Age 61 to 65: only Promise4Life, Century Milestone variant MUST BE OFFERED. The Young Term plan is not suggested.</div></div>';
   if(gap<CM_LOW){
     if(a<65)return '<div class="recbox">'+cm+'<div class="alert red" role="alert">Protection gap is below ₹25 lakh: Promise4Life, Century Milestone variant MUST BE OFFERED. The Young Term plan is not suggested.</div></div>';
     return '<div class="recbox"><small class="sub">For a protection gap below ₹25 lakh, Century Milestone is offered only below age 65, and the Young Term plan is not suggested.</small></div>';
