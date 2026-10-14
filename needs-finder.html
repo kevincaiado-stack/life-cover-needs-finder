@@ -184,7 +184,7 @@ function qs(k){
 }
 function pick(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:""}
 function pref(k){var a=pick(k+"q1"),b=pick(k+"q2"),w=$(k+"q3w");w.hidden=!(a==="Income based"||a==="Both");return [a,b,w.hidden?"":pick(k+"q3")].filter(Boolean).join(" · ")}
-function rec(k,a,it){
+function rec0(k,a,it){
   if(!a)return "";
   if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
   var q1=pick(k+"q1"),swp=(q1==="Income based"||q1==="Both")?'<p class="why">Build a corpus via Lumpsum and opt for Systematic Withdrawals for regular income.</p>':"";
@@ -243,9 +243,31 @@ function rec(k,a,it){
   if(al)h+='<div class="alert" role="alert">'+al+'</div>';
   return h+'</div>';
 }
+var PD={
+we:["Wealth Edge",["<b>Invest Plus:</b> ideal entry age 0 to 65, policy term 10 to 30 years","<b>Life Plus:</b> ideal entry age 18 to 65, policy term by default up to 100 years","<b>Premium Plus:</b> ideal entry age 18 to 50, policy term 10 to 30 years, offers PPC","Minimum premium: ₹1.25 lakh for all variants"]],
+si:["Secure Invest",["<b>Secure Invest Choice:</b> ideal entry age 18 to 55, policy term 20 to 40 years","<b>Secure Invest Forever:</b> ideal entry age 18 to 55, policy term by default up to 85 years","Minimum premium: ₹50,000 for all variants"]],
+ig:["Iselect Guaranteed Future Plus",["<b>Endowment:</b> entry age 0 to 65, maximum policy term 20 years. PPC benefits if Life Assured and Proposer are the same, entry age 18 to 55","<b>Regular Income:</b> entry age 0 to 65, maximum policy term 40 years depending on the PPT chosen. PPC benefits if Life Assured and Proposer are the same, entry age 18 to 55","<b>Long Term Income with ROP:</b> entry age 0 to 65, policy term can be 15, 20, 30 or 40 years","For PPC benefits the maximum policy term is 85 years","Minimum premium: ₹1 lakh for all variants"]],
+inn:["Income Now",["<b>Early Income:</b> entry age 0 to 50, immediate income in advance or arrears for 20 to 40 years, maximum policy term 80 years","<b>Step up Income:</b> entry age 0 to 50, immediate income in advance, rising to 100%, 150% and 200% at intervals, maximum policy term 80 years (Premium Paying Term x 3)","Minimum premium: ₹50,000 for all variants"]],
+p4l:["Promise4Life",["<b>Forever Income:</b> entry age 0 to 65, immediate income in advance or arrears, by default up to 100 years","<b>Century Milestone:</b> entry age 0 to 65, revisionary bonus up to 100 years","<b>Assured Term Income:</b> entry age 0 to 65, immediate income in arrears only, up to 30 years maximum","Minimum premium: ₹50,000 for all variants"]],
+p4f:["Promise4Future",["<b>Savings4Future:</b> entry age 0 to 60, lumpsum at maturity, maximum policy term 70 years","<b>Income4Future:</b> entry age 0 to 55, income after the PPT and a lumpsum at maturity, maximum policy term 70 years","Minimum premium: ₹24,000 for all variants"]],
+yt:["Young Term plan",["Entry age 18 to 60 years","Maximum policy term up to 99 years*","Other conditions may apply"]]};
+function pdet(k){var d=PD[k];return '<details><summary>Show '+d[0]+' entry ages, terms and minimum premium</summary><ul class="vl">'+d[1].map(function(t){return '<li>'+t+'</li>'}).join("")+'</ul></details>'}
+function rec(k,a,it){
+  var h=rec0(k,a,it),m=/<span class="rec">([^<]*)<\/span>/.exec(h);
+  if(!m)return h;
+  var t=m[1],o="";
+  if(/Wealth Edge/.test(t))o+=pdet("we");
+  if(/Secure Invest/.test(t))o+=pdet("si");
+  if(/Iselect/.test(t))o+=pdet("ig");
+  if(/Income Now/.test(t))o+=pdet("inn");
+  if(/Promise4Life/.test(t))o+=pdet("p4l");
+  if(/Promise4Future/.test(t))o+=pdet("p4f");
+  var i=h.lastIndexOf("</div>");
+  return h.slice(0,i)+o+h.slice(i);
+}
 var CM_LOW=2500000,CM_HI=5000000;/* below 25 lakh: Century Milestone only (ages under 65), no Young Term. 25 to 50 lakh: Young Term, plus Century Milestone for age 50+. Above 50 lakh: Young Term only */
-var YT_FEATURES='<details open><summary>Key features of the Young Term plan</summary><ul class="vl"><li>Add riders like ADB (Accidental Death Benefit) and ATPD (Accidental Total and Permanent Disability)</li><li>Increase your cover at the same rate* with Block Your Premium</li><li>Child Care Benefit</li><li>Add your partner in the same policy</li></ul></details>';
-var CM_NOTE='<p class="why">Promise4Life is purely for Legacy Creation and not an Income Replacement. Ideal for customers above the age of 50 years with a protection gap of around ₹50 lakh.</p>';
+var YT_FEATURES=pdet('yt')+'<details open><summary>Key features of the Young Term plan</summary><ul class="vl"><li>Add riders like ADB (Accidental Death Benefit) and ATPD (Accidental Total and Permanent Disability)</li><li>Increase your cover at the same rate* with Block Your Premium</li><li>Child Care Benefit</li><li>Add your partner in the same policy</li></ul></details>';
+var CM_NOTE=pdet('p4l')+'<p class="why">Promise4Life is purely for Legacy Creation and not an Income Replacement. Ideal for customers above the age of 50 years with a protection gap of around ₹50 lakh.</p>';
 function gapRec(a,gap){
   if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
   var cm='<span class="rec">Suggested plan: Promise4Life, Century Milestone variant</span>'+CM_NOTE;
