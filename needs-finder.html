@@ -58,6 +58,7 @@ aside.card{position:sticky;top:12px}
 .calcbox{margin-top:10px;background:var(--tealbg);border-radius:8px;padding:4px 12px}.calcbox .hint{margin:4px 0 6px}
 .vl{margin:4px 0 0;padding-left:18px}
 .why{margin:6px 0 0;color:var(--ink);font-size:14px}
+.disc{margin:8px 0 0;font-size:12px;font-weight:600;color:var(--mute);border-top:1px dashed var(--line);padding-top:6px}
 details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}summary:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
 .acts{display:flex;gap:10px;flex-wrap:wrap}#dlHint{margin-top:10px}.pdate{display:none;color:var(--mute);font-size:13px;margin:10px 0 0}
 .viz{--v1:#2a78d6;--v2:#eb6834;--v3:#1baf7a;--v4:#eda100;--v5:#e87ba4;--vo:#898781;--vs:var(--card)}
@@ -252,6 +253,8 @@ p4l:["Promise4Life",["<b>Forever Income:</b> entry age 0 to 65, immediate income
 p4f:["Promise4Future",["<b>Savings4Future:</b> entry age 0 to 60, lumpsum at maturity, maximum policy term 70 years","<b>Income4Future:</b> entry age 0 to 55, income after the PPT and a lumpsum at maturity, maximum policy term 70 years","Minimum premium: ₹24,000 for all variants"]],
 yt:["Young Term plan",["Entry age 18 to 60 years","Maximum policy term up to 99 years*","Other conditions may apply"]]};
 function pdet(k){var d=PD[k];return '<details><summary>Show '+d[0]+' entry ages, terms and minimum premium</summary><ul class="vl">'+d[1].map(function(t){return '<li>'+t+'</li>'}).join("")+'</ul></details>'}
+var DISC='<p class="disc" role="note">This is Strictly for Internal Training Purposes only. These are purely illustrative values and not for Sale</p>';
+function addDisc(h){var i=h.lastIndexOf("</div>");return h.slice(0,i)+DISC+h.slice(i)}
 function rec(k,a,it){
   var h=rec0(k,a,it),m=/<span class="rec">([^<]*)<\/span>/.exec(h);
   if(!m)return h;
@@ -262,13 +265,13 @@ function rec(k,a,it){
   if(/Income Now/.test(t))o+=pdet("inn");
   if(/Promise4Life/.test(t))o+=pdet("p4l");
   if(/Promise4Future/.test(t))o+=pdet("p4f");
-  var i=h.lastIndexOf("</div>");
-  return h.slice(0,i)+o+h.slice(i);
+  return addDisc(h.slice(0,h.lastIndexOf("</div>"))+o+h.slice(h.lastIndexOf("</div>")));
 }
 var CM_LOW=2500000,CM_HI=5000000;/* below 25 lakh: Century Milestone only (ages under 65), no Young Term. 25 to 50 lakh: Young Term, plus Century Milestone for age 50+. Above 50 lakh: Young Term only */
 var YT_FEATURES=pdet('yt')+'<details open><summary>Key features of the Young Term plan</summary><ul class="vl"><li>Add riders like ADB (Accidental Death Benefit) and ATPD (Accidental Total and Permanent Disability)</li><li>Increase your cover at the same rate* with Block Your Premium</li><li>Child Care Benefit</li><li>Add your partner in the same policy</li></ul></details>';
 var CM_NOTE=pdet('p4l')+'<p class="why">Promise4Life is purely for Legacy Creation and not an Income Replacement. Ideal for customers above the age of 50 years with a protection gap of around ₹50 lakh.</p>';
-function gapRec(a,gap){
+function gapRec(a,gap){var h=gapRec0(a,gap);return h.indexOf('class="rec"')>-1?addDisc(h):h}
+function gapRec0(a,gap){
   if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
   var cm='<span class="rec">Suggested plan: Promise4Life, Century Milestone variant</span>'+CM_NOTE;
   if(a>60)return '<div class="recbox">'+cm+'<div class="alert red" role="alert">Age 61 to 65: only Promise4Life, Century Milestone variant MUST BE OFFERED. The Young Term plan is not suggested.</div></div>';
@@ -400,7 +403,7 @@ document.addEventListener("input",function(e){
   if(e.target.classList.contains("money"))money(e.target);
   render();
 });
-var SUM_CSS="body{font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#14213D;max-width:720px;margin:24px auto;padding:0 16px}h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:12px 0 4px}.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #D9E0E7}.line span:first-child{color:#5B6778}.gap{background:#FDF1DC;border-radius:10px;padding:14px;margin:14px 0}.gap small{color:#B45309;font-weight:600;display:block}.gap strong{font-size:30px;color:#B45309}.gap p{margin:4px 0 0;font-size:13px;color:#5B6778}.total{background:#0F766E;color:#fff;border-radius:10px;padding:16px;margin-top:14px}.total small{display:block}.total strong{font-size:32px}.recbox{padding:6px 0 8px;border-bottom:1px solid #D9E0E7;font-size:14px}.rec{font-weight:600;color:#0F766E}.alert{margin-top:6px;background:#FDF1DC;color:#B45309;border:1px solid #B45309;border-radius:8px;padding:6px 10px;font-weight:600}.sub{color:#5B6778;font-size:13px}.alert.red{background:#FDE8E8;color:#B42318;border-color:#B42318}.why{margin:6px 0 0;font-size:14px}.vl{margin:4px 0 0;padding-left:18px}.ph{font-size:15px;margin:14px 0 0}.pbtn{margin-top:16px;padding:10px 16px;font:inherit;border:1px solid #0F766E;background:#fff;color:#0F766E;border-radius:8px;cursor:pointer}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.viz{--v1:#2a78d6;--v2:#eb6834;--v3:#1baf7a;--v4:#eda100;--v5:#e87ba4;--vo:#898781;--vs:#fff;--ink:#14213D;--mute:#5B6778}.viz h3{font-size:15px;margin:18px 0 2px}.viz .cap{margin:2px 0 6px;font-size:13px;color:#5B6778}.viz svg{width:100%;height:auto;display:block;max-width:420px}.viz svg.dn{max-width:180px;margin:4px auto}.viz svg text{fill:#14213D;font:12px system-ui,Arial,sans-serif}.viz svg text.mu{fill:#5B6778}.viz svg text.big{font-weight:600;font-size:15px}.lg{list-style:none;margin:6px 0 0;padding:0;font-size:13px}.lg li{display:flex;align-items:center;gap:8px;padding:3px 0}.lg i{width:12px;height:12px;border-radius:3px;flex:none}.lg span{flex:1}.lg em{font-style:normal;color:#5B6778;min-width:36px;text-align:right}.cb{break-inside:avoid}.line,.recbox,.gap,.total{break-inside:avoid}@media print{.pbtn{display:none}}";
+var SUM_CSS="body{font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#14213D;max-width:720px;margin:24px auto;padding:0 16px}h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:12px 0 4px}.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #D9E0E7}.line span:first-child{color:#5B6778}.gap{background:#FDF1DC;border-radius:10px;padding:14px;margin:14px 0}.gap small{color:#B45309;font-weight:600;display:block}.gap strong{font-size:30px;color:#B45309}.gap p{margin:4px 0 0;font-size:13px;color:#5B6778}.total{background:#0F766E;color:#fff;border-radius:10px;padding:16px;margin-top:14px}.total small{display:block}.total strong{font-size:32px}.recbox{padding:6px 0 8px;border-bottom:1px solid #D9E0E7;font-size:14px}.rec{font-weight:600;color:#0F766E}.alert{margin-top:6px;background:#FDF1DC;color:#B45309;border:1px solid #B45309;border-radius:8px;padding:6px 10px;font-weight:600}.sub{color:#5B6778;font-size:13px}.alert.red{background:#FDE8E8;color:#B42318;border-color:#B42318}.why{margin:6px 0 0;font-size:14px}.disc{margin:8px 0 0;font-size:12px;font-weight:600;color:#5B6778;border-top:1px dashed #D9E0E7;padding-top:6px}.vl{margin:4px 0 0;padding-left:18px}.ph{font-size:15px;margin:14px 0 0}.pbtn{margin-top:16px;padding:10px 16px;font:inherit;border:1px solid #0F766E;background:#fff;color:#0F766E;border-radius:8px;cursor:pointer}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.viz{--v1:#2a78d6;--v2:#eb6834;--v3:#1baf7a;--v4:#eda100;--v5:#e87ba4;--vo:#898781;--vs:#fff;--ink:#14213D;--mute:#5B6778}.viz h3{font-size:15px;margin:18px 0 2px}.viz .cap{margin:2px 0 6px;font-size:13px;color:#5B6778}.viz svg{width:100%;height:auto;display:block;max-width:420px}.viz svg.dn{max-width:180px;margin:4px auto}.viz svg text{fill:#14213D;font:12px system-ui,Arial,sans-serif}.viz svg text.mu{fill:#5B6778}.viz svg text.big{font-weight:600;font-size:15px}.lg{list-style:none;margin:6px 0 0;padding:0;font-size:13px}.lg li{display:flex;align-items:center;gap:8px;padding:3px 0}.lg i{width:12px;height:12px;border-radius:3px;flex:none}.lg span{flex:1}.lg em{font-style:normal;color:#5B6778;min-width:36px;text-align:right}.cb{break-inside:avoid}.line,.recbox,.gap,.total{break-inside:avoid}@media print{.pbtn{display:none}}";
 function buildSummary(){
   var c=document.querySelector("aside").cloneNode(true);
   ["printBtn","dlBtn","dlHint","pdate"].forEach(function(id){var e=c.querySelector("#"+id);if(e)e.remove()});
