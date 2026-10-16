@@ -51,7 +51,7 @@ aside.card{position:sticky;top:12px}
 .total strong{font:600 clamp(28px,5vw,36px)/1.2 Fraunces,Georgia,serif}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .total{color:#0E1622}:root:not([data-theme="light"]) .seg button[aria-pressed=true]{color:#0E1622}}
 :root[data-theme="dark"] .total,:root[data-theme="dark"] .seg button[aria-pressed=true]{color:#0E1622}
-.kid{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}.kh{display:flex;justify-content:space-between;align-items:center}.kt,.ph{font-size:15px;margin:0}.ph{margin-top:14px}.rm,.add{font:inherit;font-size:14px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}.add{margin-top:12px}
+.kid{margin-top:12px}.kh{display:flex;justify-content:space-between;align-items:center}.kt,.ph{font-size:15px;margin:0}.ph{margin-top:14px}.rm,.add{font:inherit;font-size:14px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}.add{margin-top:12px}
 .q{border:0;padding:0;margin:14px 0 0}.q legend{font-weight:500;font-size:14px;padding:0}.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}label.r{position:relative;display:block;margin:0;font-weight:500}label.r input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}label.r span{display:block;padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:var(--field);color:var(--ink)}label.r input:checked+span{background:var(--teal);border-color:var(--teal);color:var(--on)}label.r input:focus-visible+span{outline:3px solid var(--teal);outline-offset:2px}.sub{color:var(--mute);font-size:13px}
 .recbox{padding:6px 0 8px;border-bottom:1px solid var(--line);font-size:14px}.rec{font-weight:600;color:var(--teal)}.alert{margin-top:6px;background:var(--amberbg);color:var(--amber);border:1px solid var(--amber);border-radius:8px;padding:6px 10px;font-weight:600}
 .alert.red{background:#FDE8E8;color:#B42318;border-color:#B42318}
@@ -133,15 +133,10 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   </section>
 
   <section class="card">
-    <h2>3. Your children</h2>
-    <p class="hint">Add each child, then tap Education or Marriage to include it. A goal is not counted if it is less than 5 years away.</p>
-    <div id="kids"></div>
-    <button type="button" class="add" id="addKid">Add a child</button>
-  </section>
-
-  <section class="card">
-    <h2>4. Other goals</h2>
+    <h2>3. Your goals</h2>
     <p class="hint">Tap a goal to add it. Goals left closed are not counted.</p>
+    <div id="kids"></div>
+    <button type="button" class="add" id="addKid">Add another child</button>
     <div id="goals"></div>
   </section>
 </div>
@@ -291,8 +286,8 @@ function gapRec0(a,gap){
 function kidHtml(n){var p="k"+n;
   return '<div class="kid" data-n="'+n+'"><div class="kh"><h3 class="kt"></h3><button type="button" class="rm" data-rm="1">Remove</button></div>'+
   '<label for="'+p+'age">Child\'s age (years)</label><input type="text" inputmode="numeric" id="'+p+'age" placeholder="e.g. 5">'+
-  block(p+"e","Education",'<label for="'+p+'eN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'eN" value="18">')+
-  block(p+"m","Marriage",'<label for="'+p+'mN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'mN" value="25">')+'</div>';
+  block(p+"e","Child education",'<label for="'+p+'eN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'eN" value="18">')+
+  block(p+"m","Child marriage",'<label for="'+p+'mN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'mN" value="25">')+'</div>';
 }
 function buildGoals(){
   $("goals").innerHTML=
@@ -331,7 +326,8 @@ function render(){
   var items=[];
   document.querySelectorAll(".kid").forEach(function(el,i){
     var p="k"+el.dataset.n,ca=$(p+"age").value.trim();
-    el.querySelector(".kt").textContent="Child "+(i+1);
+    var nk=document.querySelectorAll(".kid").length;
+    el.querySelector(".kt").textContent="Child "+(i+1);el.querySelector(".rm").hidden=nk<2;
     [["e","education"],["m","marriage"]].forEach(function(g){
       var kk=p+g[0],on=$(kk+"G").open,raw=ca===""?0:num($(kk+"N").value)-num(ca),y=Math.max(0,raw),v=getAmt(kk,y);
       var ok=raw>=5,pf=pref(kk);
@@ -397,6 +393,7 @@ function setMode(m){mode=m;
   $("ageBox").hidden=m!=="age";$("dobBox").hidden=m!=="dob";render()}
 
 buildGoals();
+seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));
 $("mAge").onclick=function(){setMode("age")};
 $("mDob").onclick=function(){setMode("dob")};
 $("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));render()};
