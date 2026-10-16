@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F4F7F9;--card:#FFFFFF;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC;--field:#FFFFFF;
+:root{--bg:#F4F7F9;--card:#FFFFFF;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC;--field:#FFFFFF;--on:#fff;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1622;--card:#16212F;--ink:#E8EEF5;--mute:#9AA7B8;--line:#2A3849;--teal:#4FD1C5;--tealbg:#12332F;--amber:#F6B352;--amberbg:#3A2C12;--field:#0E1622}}
-:root[data-theme="dark"]{--bg:#0E1622;--card:#16212F;--ink:#E8EEF5;--mute:#9AA7B8;--line:#2A3849;--teal:#4FD1C5;--tealbg:#12332F;--amber:#F6B352;--amberbg:#3A2C12;--field:#0E1622}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1622;--card:#16212F;--ink:#E8EEF5;--mute:#9AA7B8;--line:#2A3849;--teal:#4FD1C5;--tealbg:#12332F;--amber:#F6B352;--amberbg:#3A2C12;--field:#0E1622;--on:#0E1622}}
+:root[data-theme="dark"]{--bg:#0E1622;--card:#16212F;--ink:#E8EEF5;--mute:#9AA7B8;--line:#2A3849;--teal:#4FD1C5;--tealbg:#12332F;--amber:#F6B352;--amberbg:#3A2C12;--field:#0E1622;--on:#0E1622}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "IBM Plex Sans",system-ui,sans-serif}
@@ -31,7 +31,9 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--teal);outline-o
 .seg button{font:inherit;font-size:14px;padding:8px 14px;border:0;background:transparent;color:var(--mute);cursor:pointer}
 .seg button[aria-pressed=true]{background:var(--teal);color:#fff}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.goal{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.gc{border:1px solid var(--line);border-radius:12px;margin:10px 0 0;background:var(--card)}.gc[open]{border-color:var(--teal)}.gc>summary{list-style:none;display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;color:var(--ink);font-weight:600}.gc>summary::-webkit-details-marker{display:none}.gc>summary::after{content:"+";font-size:20px;line-height:1;color:var(--teal);margin-left:4px}.gc[open]>summary::after{content:"\2212"}.gc .gs{margin-left:auto;font-weight:400;font-size:13px;color:var(--mute);text-align:right}.gc[open] .gs{color:var(--teal);font-weight:500}.gb{padding:0 14px 14px}.gb>.hint{margin-top:0}
+.bar{display:none}
+@media(max-width:820px){body{padding-bottom:76px}.bar{display:flex;align-items:center;gap:14px;position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--card);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}.bar div{flex:1;line-height:1.2}.bar small{display:block;color:var(--mute);font-size:12px}.bar b{font-size:16px}.bar a{text-decoration:none;margin:0;background:var(--teal);color:var(--on);border-color:var(--teal)}}
 .goal h3{margin:0 0 6px;font-size:15px;font-weight:600}
 .calc{background:var(--tealbg);border-radius:8px;padding:4px 12px 12px;margin-top:8px}
 .calc .res{font-weight:600;margin-top:8px;font-size:14px}
@@ -50,7 +52,7 @@ aside.card{position:sticky;top:12px}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .total{color:#0E1622}:root:not([data-theme="light"]) .seg button[aria-pressed=true]{color:#0E1622}}
 :root[data-theme="dark"] .total,:root[data-theme="dark"] .seg button[aria-pressed=true]{color:#0E1622}
 .kid{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}.kh{display:flex;justify-content:space-between;align-items:center}.kt,.ph{font-size:15px;margin:0}.ph{margin-top:14px}.rm,.add{font:inherit;font-size:14px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}.add{margin-top:12px}
-.q{border:0;padding:0;margin:14px 0 0}.q legend{font-weight:500;font-size:14px;padding:0}label.r{display:flex;gap:8px;align-items:center;font-weight:400;font-size:15px;margin:6px 0}input[type=radio]{accent-color:var(--teal);width:18px;height:18px}.sub{color:var(--mute);font-size:13px}
+.q{border:0;padding:0;margin:14px 0 0}.q legend{font-weight:500;font-size:14px;padding:0}.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}label.r{position:relative;display:block;margin:0;font-weight:500}label.r input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}label.r span{display:block;padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:var(--field);color:var(--ink)}label.r input:checked+span{background:var(--teal);border-color:var(--teal);color:var(--on)}label.r input:focus-visible+span{outline:3px solid var(--teal);outline-offset:2px}.sub{color:var(--mute);font-size:13px}
 .recbox{padding:6px 0 8px;border-bottom:1px solid var(--line);font-size:14px}.rec{font-weight:600;color:var(--teal)}.alert{margin-top:6px;background:var(--amberbg);color:var(--amber);border:1px solid var(--amber);border-radius:8px;padding:6px 10px;font-weight:600}
 .alert.red{background:#FDE8E8;color:#B42318;border-color:#B42318}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .alert.red{background:#3B1414;color:#FF9C94;border-color:#FF9C94}}
@@ -80,7 +82,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   :root{--bg:#fff;--card:#fff;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body{background:#fff}
-  header p,.wrap>div:first-child,.acts,#dlHint{display:none}
+  header p,.wrap>div:first-child,.acts,#dlHint,.bar{display:none!important}
   header{padding:0 0 8px}
   .wrap{display:block;padding:0}
   aside.card{position:static;border:0;padding:0;margin:0}
@@ -92,7 +94,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
 <body>
 <header>
   <h1>Life cover needs finder</h1>
-  <p>Answer a few questions. The summary on the side updates as you type and shows how much cover your family may need.</p>
+  <p>Fill in the basics, then tap only the goals that apply. The summary updates as you type and shows how much cover your family may need.</p>
 </header>
 <div class="wrap">
 <div>
@@ -132,19 +134,19 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
 
   <section class="card">
     <h2>3. Your children</h2>
-    <p class="hint">Add each child. Skip this if it does not apply. A goal is not counted if the child is already past that age or if the goal is less than 5 years away.</p>
+    <p class="hint">Add each child, then tap Education or Marriage to include it. A goal is not counted if it is less than 5 years away.</p>
     <div id="kids"></div>
     <button type="button" class="add" id="addKid">Add a child</button>
   </section>
 
   <section class="card">
     <h2>4. Other goals</h2>
-    <p class="hint">Fill in only the goals that apply.</p>
+    <p class="hint">Tap a goal to add it. Goals left closed are not counted.</p>
     <div id="goals"></div>
   </section>
 </div>
 
-<aside class="card" aria-live="polite">
+<aside class="card" id="sum" aria-live="polite">
   <h2>Your summary</h2>
   <div class="line"><span>Yearly expenses</span><b id="oExp">₹0</b></div>
   <div class="line"><span>Yearly savings</span><b id="oSav">₹0</b></div>
@@ -157,10 +159,11 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   <div class="total"><small>Total financial need</small><strong id="oTotal">₹0</strong><small id="oWords"></small></div>
   <div class="viz" id="charts"></div>
   <p class="pdate" id="pdate"></p>
-  <div class="acts"><button type="button" class="add" id="printBtn">Print or save as PDF</button> <button type="button" class="add" id="dlBtn">Save summary file</button></div>
+  <div class="acts"><button type="button" class="add" id="printBtn">Print or save as PDF</button> <button type="button" class="add" id="dlBtn">Save summary file</button> <button type="button" class="add" id="resetBtn">Start over</button></div>
   <p class="hint" id="dlHint">If the print window does not open, tap <b>Save summary file</b>, open the saved file, and print or save as PDF from there.</p>
 </aside>
 </div>
+<div class="bar"><div><small>Total need</small><b id="bTot">₹0</b></div><div><small>Cover gap</small><b id="bGap">₹0</b></div><a class="add" href="#sum">View summary</a></div>
 
 <script>
 var mode="age",seq=0;
@@ -172,17 +175,18 @@ function money(el){var d=num(el.value);el.value=d?d.toLocaleString("en-IN"):""}
 
 function seg(k,l){return '<div class="seg" role="group" aria-label="'+l+' input type"><button type="button" data-k="'+k+'" data-m="direct" aria-pressed="true">I know the amount</button><button type="button" data-k="'+k+'" data-m="calc" aria-pressed="false">Help me work it out</button></div>'}
 function block(k,title,mid){
-  return '<div class="goal"><h3>'+title+'</h3>'+mid+seg(k,title)+
+  return '<details class="gc" id="'+k+'G"><summary><span class="gt">'+title+'</span><span class="gs" id="'+k+'S">Tap to add</span></summary><div class="gb">'+mid+seg(k,title)+
   '<div id="'+k+'D"><label for="'+k+'A">Amount needed (₹)</label><input type="text" class="money" inputmode="numeric" id="'+k+'A" placeholder="e.g. 20,00,000"><div class="words" data-for="'+k+'A"></div></div>'+
   '<div id="'+k+'C" class="calc" hidden><label for="'+k+'T">Cost in today\'s money (₹)</label><input type="text" class="money" inputmode="numeric" id="'+k+'T">'+
-  '<label for="'+k+'R">Yearly price rise % (optional)</label><input type="text" inputmode="numeric" id="'+k+'R" placeholder="Leave empty to skip"><div class="res" id="'+k+'X"></div></div>'+qs(k)+'</div>';
+  '<label for="'+k+'R">Yearly price rise % (optional)</label><input type="text" inputmode="numeric" id="'+k+'R" placeholder="Leave empty to skip"><div class="res" id="'+k+'X"></div></div>'+qs(k)+'</div></details>';
 }
-function rad(k,q,t,o){return '<fieldset class="q"><legend>'+t+'</legend>'+o.map(function(x){return '<label class="r"><input type="radio" name="'+k+q+'" value="'+x+'"> '+x+'</label>'}).join('')+'</fieldset>'}
+function rad(k,q,t,o){return '<fieldset class="q"><legend>'+t+'</legend><div class="opts">'+o.map(function(x){return '<label class="r"><input type="radio" name="'+k+q+'" value="'+x+'"><span>'+x+'</span></label>'}).join('')+'</div></fieldset>'}
 function qs(k){
-  return rad(k,"q1","How do you want the money?",(k==="home"||/^k\d+m$/.test(k))?["Lumpsum"]:["Lumpsum","Income based","Both"])+
+  return ((k==="home"||/^k\d+m$/.test(k))?'<input type="radio" name="'+k+'q1" value="Lumpsum" checked hidden><p class="sub">Payout: Lumpsum</p>':rad(k,"q1","How do you want the money?",["Lumpsum","Income based","Both"]))+
   rad(k,"q2","Should the money be market based, guaranteed, or based on bonus?",["Market based","Guaranteed","Based on bonus"])+
   '<div id="'+k+'q3w" hidden>'+rad(k,"q3","Should the income be immediate or at a later stage?",["Immediate","At a later stage"])+'</div>';
 }
+function setSt(k,t){var e=$(k+"S");if(e)e.textContent=t}
 function pick(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:""}
 function pref(k){var a=pick(k+"q1"),b=pick(k+"q2"),w=$(k+"q3w");w.hidden=!(a==="Income based"||a==="Both");return [a,b,w.hidden?"":pick(k+"q3")].filter(Boolean).join(" · ")}
 function rec0(k,a,it){
@@ -329,20 +333,26 @@ function render(){
     var p="k"+el.dataset.n,ca=$(p+"age").value.trim();
     el.querySelector(".kt").textContent="Child "+(i+1);
     [["e","education"],["m","marriage"]].forEach(function(g){
-      var raw=ca===""?0:num($(p+g[0]+"N").value)-num(ca),y=Math.max(0,raw),v=getAmt(p+g[0],y);
-      var ok=raw>=5,pf=pref(p+g[0]);
+      var kk=p+g[0],on=$(kk+"G").open,raw=ca===""?0:num($(kk+"N").value)-num(ca),y=Math.max(0,raw),v=getAmt(kk,y);
+      var ok=raw>=5,pf=pref(kk);
+      if(!on){setSt(kk,"Tap to add");return}
+      setSt(kk,ca===""?"Enter the child's age first":(!ok?"Not counted: less than 5 years away":(!v?"Enter the amount":cr(v)+" · in "+y+" yrs")));
       if(v&&ca!==""&&ok)items.push({n:"Child "+(i+1)+" "+g[1],y:y,v:v,s:pf,k:p+g[0],t:g[0]==="e"?"edu":"mar",c:num(ca)});
     });
   });
-  var hy=num($("homeY").value),hv=getAmt("home",hy),hp=pref("home");
-  if(hv&&hy>=10)items.push({n:"Home or Wealth Creation",sn:"Home / wealth",y:hy,v:hv,s:hp,k:"home",t:"home"});
-  var ry=a?Math.max(0,ret-a):0,rv=getAmt("ret",ry),rp=pref("ret");
-  if(rv&&a)items.push({n:"Passive Income or Retirement",sn:"Passive income",y:ry,v:rv,s:rp,k:"ret",t:"ret"});
+  var hy=num($("homeY").value),hv=getAmt("home",hy),hp=pref("home"),hon=$("homeG").open;
+  setSt("home",!hon?"Tap to add":(hy<10?"Counted only if 10 or more years away":(!hv?"Enter the amount":cr(hv)+" · in "+hy+" yrs")));
+  if(hon&&hv&&hy>=10)items.push({n:"Home or Wealth Creation",sn:"Home / wealth",y:hy,v:hv,s:hp,k:"home",t:"home"});
+  var ry=a?Math.max(0,ret-a):0,rv=getAmt("ret",ry),rp=pref("ret"),ron=$("retG").open;
+  setSt("ret",!ron?"Tap to add":(!a?"Enter your age first":(!rv?"Enter the amount":cr(rv)+" · in "+ry+" yrs")));
+  if(ron&&rv&&a)items.push({n:"Passive Income or Retirement",sn:"Passive income",y:ry,v:rv,s:rp,k:"ret",t:"ret"});
   items.sort(function(p,q){return p.y-q.y});
   var yt=(a&&gap>0)?gapRec(a,gap):"",tot=gap,gh='<h3 class="ph">Priority order</h3><div class="line"><span>1. Insurance gap</span><b>'+rs(gap)+'</b></div>'+yt;
   items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?'in '+it.y+' yrs':'due now')+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+rec(it.k,a,it)});
+  var op=[];document.querySelectorAll("#oGoals details").forEach(function(d,i){op[i]=d.open});
   $("oGoals").innerHTML=gh;
-  $("oTotal").textContent=rs(tot);
+  var nd=document.querySelectorAll("#oGoals details");if(nd.length===op.length)nd.forEach(function(d,i){d.open=op[i]});
+  $("oTotal").textContent=rs(tot);$("bTot").textContent=cr(tot);$("bGap").textContent=cr(gap);
   $("oWords").textContent=words(tot)?("About "+words(tot)):"";
   charts(A,B,C,D,gap,raw,items);
   document.querySelectorAll(".words[data-for]").forEach(function(w){var v=num($(w.dataset.for).value);w.textContent=words(v)?("= "+words(v)):""});
@@ -399,6 +409,8 @@ document.addEventListener("click",function(e){
   document.querySelectorAll('button[data-k="'+k+'"]').forEach(function(x){x.setAttribute("aria-pressed",x===b)});
   render();
 });
+document.addEventListener("toggle",function(e){if(e.target.classList&&e.target.classList.contains("gc"))render()},true);
+$("resetBtn").onclick=function(){location.reload()};
 document.addEventListener("input",function(e){
   if(e.target.classList.contains("money"))money(e.target);
   render();
@@ -406,7 +418,7 @@ document.addEventListener("input",function(e){
 var SUM_CSS="body{font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#14213D;max-width:720px;margin:24px auto;padding:0 16px}h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:12px 0 4px}.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #D9E0E7}.line span:first-child{color:#5B6778}.gap{background:#FDF1DC;border-radius:10px;padding:14px;margin:14px 0}.gap small{color:#B45309;font-weight:600;display:block}.gap strong{font-size:30px;color:#B45309}.gap p{margin:4px 0 0;font-size:13px;color:#5B6778}.total{background:#0F766E;color:#fff;border-radius:10px;padding:16px;margin-top:14px}.total small{display:block}.total strong{font-size:32px}.recbox{padding:6px 0 8px;border-bottom:1px solid #D9E0E7;font-size:14px}.rec{font-weight:600;color:#0F766E}.alert{margin-top:6px;background:#FDF1DC;color:#B45309;border:1px solid #B45309;border-radius:8px;padding:6px 10px;font-weight:600}.sub{color:#5B6778;font-size:13px}.alert.red{background:#FDE8E8;color:#B42318;border-color:#B42318}.why{margin:6px 0 0;font-size:14px}.disc{margin:8px 0 0;font-size:12px;font-weight:600;color:#5B6778;border-top:1px dashed #D9E0E7;padding-top:6px}.vl{margin:4px 0 0;padding-left:18px}.ph{font-size:15px;margin:14px 0 0}.pbtn{margin-top:16px;padding:10px 16px;font:inherit;border:1px solid #0F766E;background:#fff;color:#0F766E;border-radius:8px;cursor:pointer}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.viz{--v1:#2a78d6;--v2:#eb6834;--v3:#1baf7a;--v4:#eda100;--v5:#e87ba4;--vo:#898781;--vs:#fff;--ink:#14213D;--mute:#5B6778}.viz h3{font-size:15px;margin:18px 0 2px}.viz .cap{margin:2px 0 6px;font-size:13px;color:#5B6778}.viz svg{width:100%;height:auto;display:block;max-width:420px}.viz svg.dn{max-width:180px;margin:4px auto}.viz svg text{fill:#14213D;font:12px system-ui,Arial,sans-serif}.viz svg text.mu{fill:#5B6778}.viz svg text.big{font-weight:600;font-size:15px}.lg{list-style:none;margin:6px 0 0;padding:0;font-size:13px}.lg li{display:flex;align-items:center;gap:8px;padding:3px 0}.lg i{width:12px;height:12px;border-radius:3px;flex:none}.lg span{flex:1}.lg em{font-style:normal;color:#5B6778;min-width:36px;text-align:right}.cb{break-inside:avoid}.line,.recbox,.gap,.total{break-inside:avoid}@media print{.pbtn{display:none}}";
 function buildSummary(){
   var c=document.querySelector("aside").cloneNode(true);
-  ["printBtn","dlBtn","dlHint","pdate"].forEach(function(id){var e=c.querySelector("#"+id);if(e)e.remove()});
+  ["printBtn","dlBtn","resetBtn","dlHint","pdate"].forEach(function(id){var e=c.querySelector("#"+id);if(e)e.remove()});
   var ac=c.querySelector(".acts");if(ac)ac.remove();
   c.querySelectorAll("details").forEach(function(d){d.setAttribute("open","")});
   var d=new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});
