@@ -59,6 +59,7 @@ aside.card{position:sticky;top:12px}
 :root[data-theme="dark"] .alert.red{background:#3B1414;color:#FF9C94;border-color:#FF9C94}
 .calcbox{margin-top:10px;background:var(--tealbg);border-radius:8px;padding:4px 12px}.calcbox .hint{margin:4px 0 6px}
 .vl{margin:4px 0 0;padding-left:18px}
+.rt{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:8px 0 4px}.rt .seg{margin:0}
 .why{margin:6px 0 0;color:var(--ink);font-size:14px}
 .disc{margin:8px 0 0;font-size:12px;font-weight:600;color:var(--mute);border-top:1px dashed var(--line);padding-top:6px}
 details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}summary:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
@@ -82,7 +83,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   :root{--bg:#fff;--card:#fff;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body{background:#fff}
-  header p,.wrap>div:first-child,.acts,#dlHint,.bar{display:none!important}
+  header p,.wrap>div:first-child,.acts,#dlHint,.bar,.rt{display:none!important}
   header{padding:0 0 8px}
   .wrap{display:block;padding:0}
   aside.card{position:static;border:0;padding:0;margin:0}
@@ -161,7 +162,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
 <div class="bar"><div><small>Total need</small><b id="bTot">₹0</b></div><div><small>Cover gap</small><b id="bGap">₹0</b></div><a class="add" href="#sum">View summary</a></div>
 
 <script>
-var mode="age",seq=0;
+var mode="age",seq=0,showRec=false;
 function $(i){return document.getElementById(i)}
 function num(s){return parseInt(String(s||"").replace(/\D/g,""),10)||0}
 function rs(v){return "₹"+Math.round(v).toLocaleString("en-IN")}
@@ -343,8 +344,8 @@ function render(){
   setSt("ret",!ron?"Tap to add":(!a?"Enter your age first":(!rv?"Enter the amount":cr(rv)+" · in "+ry+" yrs")));
   if(ron&&rv&&a)items.push({n:"Passive Income or Retirement",sn:"Passive income",y:ry,v:rv,s:rp,k:"ret",t:"ret"});
   items.sort(function(p,q){return p.y-q.y});
-  var yt=(a&&gap>0)?gapRec(a,gap):"",tot=gap,gh='<h3 class="ph">Priority order</h3><div class="line"><span>1. Insurance gap</span><b>'+rs(gap)+'</b></div>'+yt;
-  items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?'in '+it.y+' yrs':'due now')+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+rec(it.k,a,it)});
+  var yt=(showRec&&a&&gap>0)?gapRec(a,gap):"",tot=gap,tg=a?'<div class="rt"><span class="sub">Plan recommendations</span><div class="seg" role="group" aria-label="Plan recommendations"><button type="button" data-rec="0" aria-pressed="'+(!showRec)+'">Hide</button><button type="button" data-rec="1" aria-pressed="'+showRec+'">Show plans</button></div></div>':'',gh='<h3 class="ph">Priority order</h3>'+tg+'<div class="line"><span>1. Insurance gap</span><b>'+rs(gap)+'</b></div>'+yt;
+  items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?'in '+it.y+' yrs':'due now')+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+(showRec?rec(it.k,a,it):"")});
   var op=[];document.querySelectorAll("#oGoals details").forEach(function(d,i){op[i]=d.open});
   $("oGoals").innerHTML=gh;
   var nd=document.querySelectorAll("#oGoals details");if(nd.length===op.length)nd.forEach(function(d,i){d.open=op[i]});
@@ -398,6 +399,8 @@ $("mAge").onclick=function(){setMode("age")};
 $("mDob").onclick=function(){setMode("dob")};
 $("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));render()};
 document.addEventListener("click",function(e){
+  var rb=e.target.closest("button[data-rec]");
+  if(rb){showRec=rb.dataset.rec==="1";render();return}
   var r=e.target.closest("button[data-rm]");
   if(r){r.closest(".kid").remove();render();return}
   var b=e.target.closest("button[data-k]");if(!b)return;
@@ -417,6 +420,7 @@ function buildSummary(){
   var c=document.querySelector("aside").cloneNode(true);
   ["printBtn","dlBtn","resetBtn","dlHint","pdate"].forEach(function(id){var e=c.querySelector("#"+id);if(e)e.remove()});
   var ac=c.querySelector(".acts");if(ac)ac.remove();
+  c.querySelectorAll(".rt").forEach(function(x){x.remove()});
   c.querySelectorAll("details").forEach(function(d){d.setAttribute("open","")});
   var d=new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});
   return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Life cover needs summary</title><style>'+SUM_CSS+'</style></head><body><h1>Life cover needs summary</h1><p class="sub">Prepared on '+d+'</p>'+c.innerHTML+'<button class="pbtn" onclick="window.print()">Print or save as PDF</button></body></html>';
