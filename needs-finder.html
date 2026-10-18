@@ -52,7 +52,8 @@ aside.card{position:sticky;top:12px}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .total{color:#0E1622}:root:not([data-theme="light"]) .seg button[aria-pressed=true]{color:#0E1622}}
 :root[data-theme="dark"] .total,:root[data-theme="dark"] .seg button[aria-pressed=true]{color:#0E1622}
 .kid{margin-top:12px}.kh{display:flex;justify-content:space-between;align-items:center}.kt,.ph{font-size:15px;margin:0}.ph{margin-top:14px}.rm,.add{font:inherit;font-size:14px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}.add{margin-top:12px}
-.q{border:0;padding:0;margin:14px 0 0}.q legend{font-weight:500;font-size:14px;padding:0}.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}label.r{position:relative;display:block;margin:0;font-weight:500}label.r[hidden]{display:none}label.r input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}label.r span{display:block;padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:var(--field);color:var(--ink)}label.r input:checked+span{background:var(--teal);border-color:var(--teal);color:var(--on)}label.r input:focus-visible+span{outline:3px solid var(--teal);outline-offset:2px}.sub{color:var(--mute);font-size:13px}
+.q{border:0;padding:0;margin:14px 0 0}.q legend{font-weight:500;font-size:14px;padding:0}.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}label.r{position:relative;display:block;margin:0;font-weight:500}label.r[hidden]{display:none}
+.lang{display:flex;align-items:center;gap:8px;margin-top:12px}.lang label{margin:0}.lang select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--ink)}label.r input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}label.r span{display:block;padding:7px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;background:var(--field);color:var(--ink)}label.r input:checked+span{background:var(--teal);border-color:var(--teal);color:var(--on)}label.r input:focus-visible+span{outline:3px solid var(--teal);outline-offset:2px}.sub{color:var(--mute);font-size:13px}
 .recbox{padding:6px 0 8px;border-bottom:1px solid var(--line);font-size:14px}.rec{font-weight:600;color:var(--teal)}.alert{margin-top:6px;background:var(--amberbg);color:var(--amber);border:1px solid var(--amber);border-radius:8px;padding:6px 10px;font-weight:600}
 .alert.red{background:#FDE8E8;color:#B42318;border-color:#B42318}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .alert.red{background:#3B1414;color:#FF9C94;border-color:#FF9C94}}
@@ -83,7 +84,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   :root{--bg:#fff;--card:#fff;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body{background:#fff}
-  header p,.wrap>div:first-child,.acts,#dlHint,.bar,.rt{display:none!important}
+  header p,.wrap>div:first-child,.acts,#dlHint,.bar,.rt,.lang{display:none!important}
   header{padding:0 0 8px}
   .wrap{display:block;padding:0}
   aside.card{position:static;border:0;padding:0;margin:0}
@@ -96,6 +97,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
 <header>
   <h1>Life cover needs finder</h1>
   <p>Fill in the basics, then tap only the goals that apply. The summary updates as you type and shows how much cover your family may need.</p>
+  <div class="lang"><label for="lang">Language</label><select id="lang"></select></div>
 </header>
 <div class="wrap">
 <div>
@@ -166,8 +168,152 @@ var mode="age",seq=0,showRec=false;
 function $(i){return document.getElementById(i)}
 function num(s){return parseInt(String(s||"").replace(/\D/g,""),10)||0}
 function rs(v){return "₹"+Math.round(v).toLocaleString("en-IN")}
-function words(v){v=Math.round(v);if(v>=1e7)return (v/1e7).toFixed(2)+" crore";if(v>=1e5)return (v/1e5).toFixed(2)+" lakh";return ""}
+function words(v){v=Math.round(v);if(v>=1e7)return (v/1e7).toFixed(2)+" "+tx("crore");if(v>=1e5)return (v/1e5).toFixed(2)+" "+tx("lakh");return ""}
 function money(el){var d=num(el.value);el.value=d?d.toLocaleString("en-IN"):""}
+/* ---- Language support. Order of each row: English, Hindi, Gujarati, Tamil, Malayalam, Kannada, Marathi ---- */
+var LANG="en",LI={hi:1,gu:2,ta:3,ml:4,kn:5,mr:6},TD={};
+var LANGS=[["en","English"],["hi","हिन्दी"],["gu","ગુજરાતી"],["ta","தமிழ்"],["ml","മലയാളം"],["kn","ಕನ್ನಡ"],["mr","मराठी"]];
+var ROWS=[
+["Life cover needs finder","जीवन बीमा आवश्यकता खोजक","જીવન વીમા જરૂરિયાત શોધક","ஆயுள் காப்பீட்டுத் தேவை கண்டறிவான்","ലൈഫ് കവർ ആവശ്യകത കണ്ടെത്തൽ","ಜೀವ ವಿಮೆ ಅಗತ್ಯ ಪತ್ತೆಕಾರ","जीवन विमा गरज शोधक"],
+["Fill in the basics, then tap only the goals that apply. The summary updates as you type and shows how much cover your family may need.","बुनियादी जानकारी भरें, फिर केवल लागू होने वाले लक्ष्यों पर टैप करें। आप जैसे-जैसे लिखते हैं, सारांश अपने आप बदलता है और दिखाता है कि आपके परिवार को कितने कवर की ज़रूरत हो सकती है।","મૂળભૂત માહિતી ભરો, પછી ફક્ત લાગુ પડતા લક્ષ્યો પર ટેપ કરો. તમે લખો તેમ સારાંશ બદલાય છે અને બતાવે છે કે તમારા પરિવારને કેટલા કવરની જરૂર પડી શકે.","அடிப்படை விவரங்களை நிரப்புங்கள், பிறகு பொருந்தும் இலக்குகளை மட்டும் தட்டுங்கள். நீங்கள் தட்டச்சு செய்யும்போது சுருக்கம் புதுப்பிக்கப்பட்டு, உங்கள் குடும்பத்திற்கு எவ்வளவு காப்பீடு தேவைப்படலாம் என்பதைக் காட்டும்.","അടിസ്ഥാന വിവരങ്ങൾ പൂരിപ്പിക്കുക, തുടർന്ന് ബാധകമായ ലക്ഷ്യങ്ങളിൽ മാത്രം ടാപ്പ് ചെയ്യുക. നിങ്ങൾ ടൈപ്പ് ചെയ്യുമ്പോൾ സംഗ്രഹം മാറുകയും നിങ്ങളുടെ കുടുംബത്തിന് എത്ര കവർ വേണ്ടിവരുമെന്ന് കാണിക്കുകയും ചെയ്യും.","ಮೂಲ ಮಾಹಿತಿಯನ್ನು ತುಂಬಿ, ನಂತರ ಅನ್ವಯಿಸುವ ಗುರಿಗಳನ್ನು ಮಾತ್ರ ಟ್ಯಾಪ್ ಮಾಡಿ. ನೀವು ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಂತೆ ಸಾರಾಂಶ ಬದಲಾಗುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಎಷ್ಟು ಕವರ್ ಬೇಕಾಗಬಹುದು ಎಂದು ತೋರಿಸುತ್ತದೆ.","मूलभूत माहिती भरा, मग फक्त लागू होणाऱ्या उद्दिष्टांवर टॅप करा. तुम्ही टाइप करताच सारांश बदलतो आणि तुमच्या कुटुंबाला किती कव्हर लागू शकते ते दाखवतो."],
+["Language","भाषा","ભાષા","மொழி","ഭാഷ","ಭಾಷೆ","भाषा"],
+["1. About you","1. आपके बारे में","1. તમારા વિશે","1. உங்களைப் பற்றி","1. നിങ്ങളെക്കുറിച്ച്","1. ನಿಮ್ಮ ಬಗ್ಗೆ","1. तुमच्याबद्दल"],
+["We use your age and yearly income to find your Human Life Value.","आपकी आयु और वार्षिक आय से हम आपका मानव जीवन मूल्य निकालते हैं।","તમારી ઉંમર અને વાર્ષિક આવક પરથી અમે તમારું માનવ જીવન મૂલ્ય શોધીએ છીએ.","உங்கள் வயது மற்றும் ஆண்டு வருமானத்தைக் கொண்டு உங்கள் மனித வாழ்க்கை மதிப்பைக் கணக்கிடுகிறோம்.","നിങ്ങളുടെ പ്രായവും വാർഷിക വരുമാനവും ഉപയോഗിച്ച് ഹ്യൂമൻ ലൈഫ് വാല്യു കണക്കാക്കുന്നു.","ನಿಮ್ಮ ವಯಸ್ಸು ಮತ್ತು ವಾರ್ಷಿಕ ಆದಾಯದಿಂದ ನಿಮ್ಮ ಮಾನವ ಜೀವನ ಮೌಲ್ಯವನ್ನು ಕಂಡುಹಿಡಿಯುತ್ತೇವೆ.","तुमचे वय आणि वार्षिक उत्पन्न वापरून आम्ही तुमचे मानवी जीवन मूल्य काढतो."],
+["I know my age","मुझे अपनी आयु पता है","મને મારી ઉંમર ખબર છે","என் வயது தெரியும்","എന്റെ പ്രായം അറിയാം","ನನ್ನ ವಯಸ್ಸು ಗೊತ್ತು","मला माझे वय माहीत आहे"],
+["Use date of birth","जन्मतिथि इस्तेमाल करें","જન્મ તારીખ વાપરો","பிறந்த தேதியைப் பயன்படுத்து","ജനനത്തീയതി ഉപയോഗിക്കുക","ಹುಟ್ಟಿದ ದಿನಾಂಕ ಬಳಸಿ","जन्मतारीख वापरा"],
+["Age (years)","आयु (वर्ष)","ઉંમર (વર્ષ)","வயது (ஆண்டுகள்)","പ്രായം (വർഷം)","ವಯಸ್ಸು (ವರ್ಷ)","वय (वर्षे)"],
+["Date of birth","जन्मतिथि","જન્મ તારીખ","பிறந்த தேதி","ജനനത്തീയതി","ಹುಟ್ಟಿದ ದಿನಾಂಕ","जन्मतारीख"],
+["Yearly income (₹)","वार्षिक आय (₹)","વાર્ષિક આવક (₹)","ஆண்டு வருமானம் (₹)","വാർഷിക വരുമാനം (₹)","ವಾರ್ಷಿಕ ಆದಾಯ (₹)","वार्षिक उत्पन्न (₹)"],
+["Monthly fixed expenses (₹)","मासिक निश्चित खर्च (₹)","માસિક નિશ્ચિત ખર્ચ (₹)","மாதாந்திர நிலையான செலவுகள் (₹)","പ്രതിമാസ സ്ഥിര ചെലവുകൾ (₹)","ಮಾಸಿಕ ಸ್ಥಿರ ವೆಚ್ಚಗಳು (₹)","मासिक निश्चित खर्च (₹)"],
+["Yearly expenses","वार्षिक खर्च","વાર્ષિક ખર્ચ","ஆண்டுச் செலவுகள்","വാർഷിക ചെലവുകൾ","ವಾರ್ಷಿಕ ವೆಚ್ಚಗಳು","वार्षिक खर्च"],
+["Yearly savings","वार्षिक बचत","વાર્ષિક બચત","ஆண்டுச் சேமிப்பு","വാർഷിക സമ്പാദ്യം","ವಾರ್ಷಿಕ ಉಳಿತಾಯ","वार्षिक बचत"],
+["Age when you stop working","काम बंद करने की आयु","કામ બંધ કરવાની ઉંમર","பணியை நிறுத்தும் வயது","ജോലി നിർത്തുന്ന പ്രായം","ಕೆಲಸ ನಿಲ್ಲಿಸುವ ವಯಸ್ಸು","काम थांबवण्याचे वय"],
+["2. What you owe and what you have","2. आप पर क्या बकाया है और आपके पास क्या है","2. તમારે શું ચૂકવવાનું છે અને તમારી પાસે શું છે","2. நீங்கள் கடன்பட்டிருப்பதும் உங்களிடம் இருப்பதும்","2. നിങ്ങൾ നൽകാനുള്ളതും നിങ്ങളുടെ പക്കലുള്ളതും","2. ನೀವು ಕೊಡಬೇಕಾದದ್ದು ಮತ್ತು ನಿಮ್ಮ ಬಳಿ ಇರುವುದು","2. तुमच्यावर काय देणे आहे आणि तुमच्याकडे काय आहे"],
+["Use today's totals.","आज की कुल रकम लिखें।","આજની કુલ રકમ વાપરો.","இன்றைய மொத்தத் தொகையைப் பயன்படுத்துங்கள்.","ഇന്നത്തെ ആകെ തുക ഉപയോഗിക്കുക.","ಇಂದಿನ ಒಟ್ಟು ಮೊತ್ತ ಬಳಸಿ.","आजची एकूण रक्कम वापरा."],
+["Loans and mortgages you owe (B)","आप पर कर्ज और गिरवी (B)","તમારા પર લોન અને ગીરો (B)","நீங்கள் செலுத்த வேண்டிய கடன்கள் மற்றும் அடமானங்கள் (B)","നിങ്ങൾ അടയ്ക്കാനുള്ള വായ്പകളും ഈടുവായ്പകളും (B)","ನೀವು ಕಟ್ಟಬೇಕಾದ ಸಾಲ ಮತ್ತು ಅಡಮಾನ (B)","तुमच्यावरील कर्ज आणि तारण (B)"],
+["Savings and investments, like FD, mutual funds, stocks (C)","बचत और निवेश, जैसे FD, म्यूचुअल फंड, शेयर (C)","બચત અને રોકાણ, જેમ કે FD, મ્યુચ્યુઅલ ફંડ, શેર (C)","சேமிப்பு மற்றும் முதலீடுகள், எ.கா. FD, மியூச்சுவல் ஃபண்ட், பங்குகள் (C)","സമ്പാദ്യവും നിക്ഷേപങ്ങളും, ഉദാ. FD, മ്യൂച്വൽ ഫണ്ട്, ഓഹരി (C)","ಉಳಿತಾಯ ಮತ್ತು ಹೂಡಿಕೆಗಳು, ಉದಾ. FD, ಮ್ಯೂಚುವಲ್ ಫಂಡ್, ಷೇರುಗಳು (C)","बचत आणि गुंतवणूक, जसे FD, म्युच्युअल फंड, शेअर्स (C)"],
+["Life insurance cover you already have (D)","आपके पास पहले से मौजूद जीवन बीमा कवर (D)","તમારી પાસે પહેલેથી રહેલું જીવન વીમા કવર (D)","ஏற்கனவே உள்ள ஆயுள் காப்பீட்டுத் தொகை (D)","നിങ്ങൾക്ക് ഇതിനകം ഉള്ള ലൈഫ് ഇൻഷുറൻസ് കവർ (D)","ನಿಮ್ಮ ಬಳಿ ಈಗಾಗಲೇ ಇರುವ ಜೀವ ವಿಮಾ ಕವರ್ (D)","तुमच्याकडे आधीपासून असलेले जीवन विमा कव्हर (D)"],
+["3. Your goals","3. आपके लक्ष्य","3. તમારા લક્ષ્યો","3. உங்கள் இலக்குகள்","3. നിങ്ങളുടെ ലക്ഷ്യങ്ങൾ","3. ನಿಮ್ಮ ಗುರಿಗಳು","3. तुमची उद्दिष्टे"],
+["Tap a goal to add it. Goals left closed are not counted.","लक्ष्य जोड़ने के लिए उस पर टैप करें। बंद छोड़े गए लक्ष्य गिने नहीं जाते।","લક્ષ્ય ઉમેરવા તેના પર ટેપ કરો. બંધ રાખેલા લક્ષ્યો ગણાતા નથી.","இலக்கைச் சேர்க்க அதைத் தட்டுங்கள். மூடியிருக்கும் இலக்குகள் கணக்கில் சேராது.","ലക്ഷ്യം ചേർക്കാൻ അതിൽ ടാപ്പ് ചെയ്യുക. അടച്ചിട്ട ലക്ഷ്യങ്ങൾ കണക്കാക്കില്ല.","ಗುರಿ ಸೇರಿಸಲು ಅದರ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ. ಮುಚ್ಚಿರುವ ಗುರಿಗಳನ್ನು ಲೆಕ್ಕಿಸುವುದಿಲ್ಲ.","उद्दिष्ट जोडण्यासाठी त्यावर टॅप करा. बंद ठेवलेली उद्दिष्टे मोजली जात नाहीत."],
+["Add another child","एक और बच्चा जोड़ें","બીજું બાળક ઉમેરો","மற்றொரு குழந்தையைச் சேர்","മറ്റൊരു കുട്ടിയെ ചേർക്കുക","ಇನ್ನೊಂದು ಮಗುವನ್ನು ಸೇರಿಸಿ","आणखी एक मूल जोडा"],
+["Your summary","आपका सारांश","તમારો સારાંશ","உங்கள் சுருக்கம்","നിങ്ങളുടെ സംഗ്രഹം","ನಿಮ್ಮ ಸಾರಾಂಶ","तुमचा सारांश"],
+["Human Life Value (A)","मानव जीवन मूल्य (A)","માનવ જીવન મૂલ્ય (A)","மனித வாழ்க்கை மதிப்பு (A)","ഹ്യൂമൻ ലൈഫ് വാല്യു (A)","ಮಾನವ ಜೀವನ ಮೌಲ್ಯ (A)","मानवी जीवन मूल्य (A)"],
+["Loans and mortgages (B)","कर्ज और गिरवी (B)","લોન અને ગીરો (B)","கடன்கள் மற்றும் அடமானங்கள் (B)","വായ്പകളും ഈടുവായ്പകളും (B)","ಸಾಲ ಮತ್ತು ಅಡಮಾನ (B)","कर्ज आणि तारण (B)"],
+["Savings and investments (C)","बचत और निवेश (C)","બચત અને રોકાણ (C)","சேமிப்பு மற்றும் முதலீடுகள் (C)","സമ്പാദ്യവും നിക്ഷേപങ്ങളും (C)","ಉಳಿತಾಯ ಮತ್ತು ಹೂಡಿಕೆಗಳು (C)","बचत आणि गुंतवणूक (C)"],
+["Existing life cover (D)","मौजूदा जीवन कवर (D)","હાલનું જીવન કવર (D)","தற்போதுள்ள ஆயுள் காப்பீடு (D)","നിലവിലുള്ള ലൈഫ് കവർ (D)","ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಜೀವ ಕವರ್ (D)","सध्याचे जीवन कव्हर (D)"],
+["Cover gap: (A + B) − (C + D)","कवर अंतर: (A + B) − (C + D)","કવર ગેપ: (A + B) − (C + D)","காப்பீட்டு இடைவெளி: (A + B) − (C + D)","കവർ വിടവ്: (A + B) − (C + D)","ಕವರ್ ಅಂತರ: (A + B) − (C + D)","कव्हर तफावत: (A + B) − (C + D)"],
+["Total financial need","कुल वित्तीय आवश्यकता","કુલ નાણાકીય જરૂરિયાત","மொத்த நிதித் தேவை","ആകെ സാമ്പത്തിക ആവശ്യം","ಒಟ್ಟು ಹಣಕಾಸಿನ ಅಗತ್ಯ","एकूण आर्थिक गरज"],
+["Print or save as PDF","प्रिंट करें या PDF सहेजें","પ્રિન્ટ કરો અથવા PDF સાચવો","அச்சிடு அல்லது PDF ஆகச் சேமி","പ്രിന്റ് ചെയ്യുക അല്ലെങ്കിൽ PDF ആയി സേവ് ചെയ്യുക","ಪ್ರಿಂಟ್ ಮಾಡಿ ಅಥವಾ PDF ಆಗಿ ಉಳಿಸಿ","प्रिंट करा किंवा PDF म्हणून जतन करा"],
+["Save summary file","सारांश फ़ाइल सहेजें","સારાંશ ફાઇલ સાચવો","சுருக்கக் கோப்பைச் சேமி","സംഗ്രഹ ഫയൽ സേവ് ചെയ്യുക","ಸಾರಾಂಶ ಫೈಲ್ ಉಳಿಸಿ","सारांश फाइल जतन करा"],
+["Start over","फिर से शुरू करें","ફરીથી શરૂ કરો","மீண்டும் தொடங்கு","വീണ്ടും തുടങ്ങുക","ಮತ್ತೆ ಪ್ರಾರಂಭಿಸಿ","पुन्हा सुरू करा"],
+["If the print window does not open, tap <b>Save summary file</b>, open the saved file, and print or save as PDF from there.","अगर प्रिंट विंडो न खुले, तो <b>सारांश फ़ाइल सहेजें</b> पर टैप करें, सहेजी गई फ़ाइल खोलें और वहाँ से प्रिंट करें या PDF सहेजें।","જો પ્રિન્ટ વિન્ડો ન ખુલે, તો <b>સારાંશ ફાઇલ સાચવો</b> પર ટેપ કરો, સાચવેલી ફાઇલ ખોલો અને ત્યાંથી પ્રિન્ટ કરો અથવા PDF સાચવો.","அச்சு சாளரம் திறக்கவில்லை என்றால், <b>சுருக்கக் கோப்பைச் சேமி</b> என்பதைத் தட்டி, சேமித்த கோப்பைத் திறந்து அங்கிருந்து அச்சிடுங்கள் அல்லது PDF ஆகச் சேமியுங்கள்.","പ്രിന്റ് വിൻഡോ തുറക്കുന്നില്ലെങ്കിൽ, <b>സംഗ്രഹ ഫയൽ സേവ് ചെയ്യുക</b> ടാപ്പ് ചെയ്ത്, സേവ് ചെയ്ത ഫയൽ തുറന്ന് അവിടെ നിന്ന് പ്രിന്റ് ചെയ്യുക അല്ലെങ്കിൽ PDF ആയി സേവ് ചെയ്യുക.","ಪ್ರಿಂಟ್ ವಿಂಡೋ ತೆರೆಯದಿದ್ದರೆ, <b>ಸಾರಾಂಶ ಫೈಲ್ ಉಳಿಸಿ</b> ಟ್ಯಾಪ್ ಮಾಡಿ, ಉಳಿಸಿದ ಫೈಲ್ ತೆರೆದು ಅಲ್ಲಿಂದ ಪ್ರಿಂಟ್ ಮಾಡಿ ಅಥವಾ PDF ಆಗಿ ಉಳಿಸಿ.","प्रिंट विंडो उघडली नाही, तर <b>सारांश फाइल जतन करा</b> वर टॅप करा, जतन केलेली फाइल उघडा आणि तिथून प्रिंट करा किंवा PDF म्हणून जतन करा."],
+["Total need","कुल आवश्यकता","કુલ જરૂરિયાત","மொத்தத் தேவை","ആകെ ആവശ്യം","ಒಟ್ಟು ಅಗತ್ಯ","एकूण गरज"],
+["Cover gap","कवर अंतर","કવર ગેપ","காப்பீட்டு இடைவெளி","കവർ വിടവ്","ಕವರ್ ಅಂತರ","कव्हर तफावत"],
+["View summary","सारांश देखें","સારાંશ જુઓ","சுருக்கத்தைப் பார்","സംഗ്രഹം കാണുക","ಸಾರಾಂಶ ನೋಡಿ","सारांश पहा"],
+["Child education","बच्चे की शिक्षा","બાળકનું શિક્ષણ","குழந்தையின் கல்வி","കുട്ടിയുടെ വിദ്യാഭ്യാസം","ಮಗುವಿನ ಶಿಕ್ಷಣ","मुलाचे शिक्षण"],
+["Child marriage","बच्चे का विवाह","બાળકના લગ્ન","குழந்தையின் திருமணம்","കുട്ടിയുടെ വിവാഹം","ಮಗುವಿನ ಮದುವೆ","मुलाचे लग्न"],
+["Home or Wealth Creation","घर या संपत्ति निर्माण","ઘર અથવા સંપત્તિ સર્જન","வீடு அல்லது செல்வ உருவாக்கம்","വീട് അല്ലെങ്കിൽ സമ്പത്ത് സൃഷ്ടി","ಮನೆ ಅಥವಾ ಸಂಪತ್ತು ಸೃಷ್ಟಿ","घर किंवा संपत्ती निर्मिती"],
+["Passive Income or Retirement","निष्क्रिय आय या सेवानिवृत्ति","નિષ્ક્રિય આવક અથવા નિવૃત્તિ","செயலற்ற வருமானம் அல்லது ஓய்வு","നിഷ്ക്രിയ വരുമാനം അല്ലെങ്കിൽ വിരമിക്കൽ","ನಿಷ್ಕ್ರಿಯ ಆದಾಯ ಅಥವಾ ನಿವೃತ್ತಿ","निष्क्रिय उत्पन्न किंवा निवृत्ती"],
+["Tap to add","जोड़ने के लिए टैप करें","ઉમેરવા ટેપ કરો","சேர்க்கத் தட்டுங்கள்","ചേർക്കാൻ ടാപ്പ് ചെയ്യുക","ಸೇರಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ","जोडण्यासाठी टॅप करा"],
+["Child's age (years)","बच्चे की आयु (वर्ष)","બાળકની ઉંમર (વર્ષ)","குழந்தையின் வயது (ஆண்டுகள்)","കുട്ടിയുടെ പ്രായം (വർഷം)","ಮಗುವಿನ ವಯಸ್ಸು (ವರ್ಷ)","मुलाचे वय (वर्षे)"],
+["Money needed at age","किस आयु पर पैसे चाहिए","કેટલી ઉંમરે પૈસા જોઈએ","எந்த வயதில் பணம் தேவை","ഏത് പ്രായത്തിൽ പണം വേണം","ಯಾವ ವಯಸ್ಸಿನಲ್ಲಿ ಹಣ ಬೇಕು","कोणत्या वयात पैसे हवेत"],
+["In how many years?","कितने वर्षों में?","કેટલા વર્ષમાં?","எத்தனை ஆண்டுகளில்?","എത്ര വർഷത്തിനുള്ളിൽ?","ಎಷ್ಟು ವರ್ಷಗಳಲ್ಲಿ?","किती वर्षांत?"],
+["This goal is counted in the need only if it is 10 years or more away.","यह लक्ष्य तभी गिना जाता है जब यह 10 वर्ष या उससे अधिक दूर हो।","આ લક્ષ્ય ત્યારે જ ગણાય છે જ્યારે તે 10 વર્ષ કે તેથી વધુ દૂર હોય.","இந்த இலக்கு 10 ஆண்டுகள் அல்லது அதற்கு மேல் தொலைவில் இருந்தால் மட்டுமே தேவையில் கணக்கிடப்படும்.","ഈ ലക്ഷ്യം 10 വർഷമോ അതിലധികമോ അകലെയാണെങ്കിൽ മാത്രമേ ആവശ്യത്തിൽ കണക്കാക്കൂ.","ಈ ಗುರಿ 10 ವರ್ಷ ಅಥವಾ ಹೆಚ್ಚು ದೂರವಿದ್ದರೆ ಮಾತ್ರ ಅಗತ್ಯದಲ್ಲಿ ಲೆಕ್ಕಿಸಲಾಗುತ್ತದೆ.","हे उद्दिष्ट 10 वर्षे किंवा त्याहून अधिक दूर असेल तरच गरजेत मोजले जाते."],
+["Years left are worked out from your age and the age you stop working.","बचे वर्ष आपकी आयु और काम बंद करने की आयु से निकाले जाते हैं।","બાકી વર્ષો તમારી ઉંમર અને કામ બંધ કરવાની ઉંમર પરથી ગણાય છે.","மீதமுள்ள ஆண்டுகள் உங்கள் வயது மற்றும் பணியை நிறுத்தும் வயதிலிருந்து கணக்கிடப்படும்.","ശേഷിക്കുന്ന വർഷങ്ങൾ നിങ്ങളുടെ പ്രായത്തിൽ നിന്നും ജോലി നിർത്തുന്ന പ്രായത്തിൽ നിന്നും കണക്കാക്കുന്നു.","ಉಳಿದ ವರ್ಷಗಳನ್ನು ನಿಮ್ಮ ವಯಸ್ಸು ಮತ್ತು ಕೆಲಸ ನಿಲ್ಲಿಸುವ ವಯಸ್ಸಿನಿಂದ ಲೆಕ್ಕ ಹಾಕಲಾಗುತ್ತದೆ.","उरलेली वर्षे तुमचे वय आणि काम थांबवण्याच्या वयावरून काढली जातात."],
+["I know the amount","मुझे रकम पता है","મને રકમ ખબર છે","தொகை தெரியும்","തുക അറിയാം","ಮೊತ್ತ ಗೊತ್ತು","मला रक्कम माहीत आहे"],
+["Help me work it out","हिसाब लगाने में मदद करें","ગણતરી કરવામાં મદદ કરો","கணக்கிட உதவுங்கள்","കണക്കാക്കാൻ സഹായിക്കൂ","ಲೆಕ್ಕ ಹಾಕಲು ಸಹಾಯ ಮಾಡಿ","हिशोब करण्यात मदत करा"],
+["Amount needed (₹)","आवश्यक रकम (₹)","જરૂરી રકમ (₹)","தேவையான தொகை (₹)","ആവശ്യമായ തുക (₹)","ಬೇಕಾದ ಮೊತ್ತ (₹)","आवश्यक रक्कम (₹)"],
+["Cost in today's money (₹)","आज की कीमत में खर्च (₹)","આજના ભાવમાં ખર્ચ (₹)","இன்றைய மதிப்பில் செலவு (₹)","ഇന്നത്തെ മൂല്യത്തിലെ ചെലവ് (₹)","ಇಂದಿನ ಮೌಲ್ಯದಲ್ಲಿ ವೆಚ್ಚ (₹)","आजच्या किमतीतील खर्च (₹)"],
+["Yearly price rise % (optional)","वार्षिक मूल्य वृद्धि % (वैकल्पिक)","વાર્ષિક ભાવ વધારો % (વૈકલ્પિક)","ஆண்டு விலை உயர்வு % (விருப்பம்)","വാർഷിക വിലക്കയറ്റം % (ഓപ്ഷണൽ)","ವಾರ್ಷಿಕ ಬೆಲೆ ಏರಿಕೆ % (ಐಚ್ಛಿಕ)","वार्षिक भाववाढ % (ऐच्छिक)"],
+["Remove","हटाएँ","દૂર કરો","நீக்கு","നീക്കം ചെയ്യുക","ತೆಗೆದುಹಾಕಿ","काढा"],
+["Payout: Lumpsum","भुगतान: एकमुश्त","ચુકવણી: એકસામટી","பணம் வழங்கல்: மொத்தத் தொகை","പേഔട്ട്: ഒറ്റത്തവണ","ಪಾವತಿ: ಒಂದೇ ಬಾರಿ","देय: एकरकमी"],
+["Leave empty to skip","छोड़ने के लिए खाली रखें","છોડવા માટે ખાલી રાખો","தவிர்க்க காலியாக விடுங்கள்","ഒഴിവാക്കാൻ ഒഴിച്ചിടുക","ಬಿಡಲು ಖಾಲಿ ಇಡಿ","वगळण्यासाठी रिकामे ठेवा"],
+["10 or more","10 या अधिक","10 કે વધુ","10 அல்லது அதற்கு மேல்","10 അല്ലെങ്കിൽ അതിൽ കൂടുതൽ","10 ಅಥವಾ ಹೆಚ್ಚು","10 किंवा अधिक"],
+["How do you want the money?","आपको पैसे कैसे चाहिए?","તમને પૈસા કેવી રીતે જોઈએ છે?","பணம் எப்படி வேண்டும்?","പണം എങ്ങനെ വേണം?","ಹಣ ಹೇಗೆ ಬೇಕು?","तुम्हाला पैसे कसे हवेत?"],
+["Lumpsum","एकमुश्त","એકસામટી","மொத்தத் தொகை","ഒറ്റത്തവണ","ಒಂದೇ ಬಾರಿ","एकरकमी"],
+["Income based","आय आधारित","આવક આધારિત","வருமான அடிப்படை","വരുമാന അധിഷ്ഠിതം","ಆದಾಯ ಆಧಾರಿತ","उत्पन्न आधारित"],
+["Both","दोनों","બંને","இரண்டும்","രണ്ടും","ಎರಡೂ","दोन्ही"],
+["Should the money be market based, guaranteed, or based on bonus?","पैसा बाज़ार आधारित हो, गारंटीशुदा हो या बोनस आधारित?","પૈસા બજાર આધારિત, ગેરંટીવાળા કે બોનસ આધારિત હોવા જોઈએ?","பணம் சந்தை அடிப்படையிலானதா, உத்தரவாதமானதா அல்லது போனஸ் அடிப்படையிலானதா?","പണം മാർക്കറ്റ് അധിഷ്ഠിതമോ ഗ്യാരന്റിയുള്ളതോ ബോണസ് അധിഷ്ഠിതമോ ആകണം?","ಹಣ ಮಾರುಕಟ್ಟೆ ಆಧಾರಿತ, ಖಾತರಿ ಅಥವಾ ಬೋನಸ್ ಆಧಾರಿತ ಆಗಿರಬೇಕೇ?","पैसे बाजार आधारित, हमीदार की बोनस आधारित असावेत?"],
+["Market based","बाज़ार आधारित","બજાર આધારિત","சந்தை அடிப்படை","മാർക്കറ്റ് അധിഷ്ഠിതം","ಮಾರುಕಟ್ಟೆ ಆಧಾರಿತ","बाजार आधारित"],
+["Guaranteed","गारंटीशुदा","ગેરંટીવાળું","உத்தரவாதம்","ഗ്യാരന്റി","ಖಾತರಿ","हमीदार"],
+["Based on bonus","बोनस आधारित","બોનસ આધારિત","போனஸ் அடிப்படை","ബോണസ് അധിഷ്ഠിതം","ಬೋನಸ್ ಆಧಾರಿತ","बोनस आधारित"],
+["Should the income be immediate or at a later stage?","आय तुरंत शुरू हो या बाद में?","આવક તરત શરૂ થવી જોઈએ કે પછીના તબક્કે?","வருமானம் உடனடியாகவா அல்லது பிற்காலத்திலா?","വരുമാനം ഉടനടി വേണോ അതോ പിന്നീട് വേണോ?","ಆದಾಯ ತಕ್ಷಣವೇ ಬೇಕೇ ಅಥವಾ ನಂತರದ ಹಂತದಲ್ಲಿಯೇ?","उत्पन्न लगेच हवे की नंतरच्या टप्प्यावर?"],
+["Immediate","तुरंत","તરત","உடனடி","ഉടനടി","ತಕ್ಷಣ","लगेच"],
+["At a later stage","बाद में","પછીના તબક્કે","பிற்காலத்தில்","പിന്നീട്","ನಂತರದ ಹಂತದಲ್ಲಿ","नंतरच्या टप्प्यावर"],
+["Immediate income cannot be offered with market based plans. It is possible only with guaranteed or bonus based plans.","बाज़ार आधारित प्लान के साथ तुरंत आय नहीं दी जा सकती। यह केवल गारंटीशुदा या बोनस आधारित प्लान में संभव है।","બજાર આધારિત પ્લાન સાથે તરત આવક આપી શકાતી નથી. તે ફક્ત ગેરંટીવાળા અથવા બોનસ આધારિત પ્લાનમાં શક્ય છે.","சந்தை அடிப்படையிலான திட்டங்களுடன் உடனடி வருமானத்தை வழங்க முடியாது. இது உத்தரவாத அல்லது போனஸ் அடிப்படையிலான திட்டங்களில் மட்டுமே சாத்தியம்.","മാർക്കറ്റ് അധിഷ്ഠിത പ്ലാനുകളോടൊപ്പം ഉടനടി വരുമാനം നൽകാനാവില്ല. ഗ്യാരന്റി അല്ലെങ്കിൽ ബോണസ് അധിഷ്ഠിത പ്ലാനുകളിൽ മാത്രമേ ഇത് സാധ്യമാകൂ.","ಮಾರುಕಟ್ಟೆ ಆಧಾರಿತ ಯೋಜನೆಗಳೊಂದಿಗೆ ತಕ್ಷಣದ ಆದಾಯವನ್ನು ನೀಡಲಾಗದು. ಇದು ಖಾತರಿ ಅಥವಾ ಬೋನಸ್ ಆಧಾರಿತ ಯೋಜನೆಗಳಲ್ಲಿ ಮಾತ್ರ ಸಾಧ್ಯ.","बाजार आधारित योजनांसोबत लगेच उत्पन्न देता येत नाही. ते फक्त हमीदार किंवा बोनस आधारित योजनांमध्येच शक्य आहे."],
+["Your age is {0} years.","आपकी आयु {0} वर्ष है।","તમારી ઉંમર {0} વર્ષ છે.","உங்கள் வயது {0} ஆண்டுகள்.","നിങ്ങളുടെ പ്രായം {0} വർഷമാണ്.","ನಿಮ್ಮ ವಯಸ್ಸು {0} ವರ್ಷ.","तुमचे वय {0} वर्षे आहे."],
+["Your expenses are more than your income.","आपका खर्च आपकी आय से ज़्यादा है।","તમારો ખર્ચ તમારી આવક કરતાં વધુ છે.","உங்கள் செலவுகள் உங்கள் வருமானத்தை விட அதிகம்.","നിങ്ങളുടെ ചെലവുകൾ വരുമാനത്തേക്കാൾ കൂടുതലാണ്.","ನಿಮ್ಮ ವೆಚ್ಚಗಳು ನಿಮ್ಮ ಆದಾಯಕ್ಕಿಂತ ಹೆಚ್ಚು.","तुमचा खर्च तुमच्या उत्पन्नापेक्षा जास्त आहे."],
+["Good news: your savings and cover are already more than the need. We count the gap as ₹0.","अच्छी खबर: आपकी बचत और कवर पहले से ज़रूरत से ज़्यादा हैं। हम अंतर ₹0 गिनते हैं।","સારા સમાચાર: તમારી બચત અને કવર પહેલેથી જ જરૂરિયાત કરતાં વધુ છે. અમે ગેપ ₹0 ગણીએ છીએ.","நல்ல செய்தி: உங்கள் சேமிப்பும் காப்பீடும் ஏற்கனவே தேவையை விட அதிகம். இடைவெளியை ₹0 எனக் கணக்கிடுகிறோம்.","സന്തോഷവാർത്ത: നിങ്ങളുടെ സമ്പാദ്യവും കവറും ഇതിനകം ആവശ്യത്തേക്കാൾ കൂടുതലാണ്. വിടവ് ₹0 ആയി കണക്കാക്കുന്നു.","ಒಳ್ಳೆಯ ಸುದ್ದಿ: ನಿಮ್ಮ ಉಳಿತಾಯ ಮತ್ತು ಕವರ್ ಈಗಾಗಲೇ ಅಗತ್ಯಕ್ಕಿಂತ ಹೆಚ್ಚಿದೆ. ಅಂತರವನ್ನು ₹0 ಎಂದು ಲೆಕ್ಕಿಸುತ್ತೇವೆ.","चांगली बातमी: तुमची बचत आणि कव्हर आधीच गरजेपेक्षा जास्त आहे. आम्ही तफावत ₹0 मोजतो."],
+["This is the extra life cover your family needs. It is the top priority.","यह वह अतिरिक्त जीवन कवर है जिसकी आपके परिवार को ज़रूरत है। यह सबसे पहली प्राथमिकता है।","આ વધારાનું જીવન કવર છે જેની તમારા પરિવારને જરૂર છે. તે સૌથી પહેલી પ્રાથમિકતા છે.","உங்கள் குடும்பத்திற்குத் தேவையான கூடுதல் ஆயுள் காப்பீடு இது. இதுவே முதன்மை முன்னுரிமை.","നിങ്ങളുടെ കുടുംബത്തിന് ആവശ്യമായ അധിക ലൈഫ് കവർ ആണിത്. ഇതാണ് ഏറ്റവും മുൻഗണന.","ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಬೇಕಾದ ಹೆಚ್ಚುವರಿ ಜೀವ ಕವರ್ ಇದು. ಇದೇ ಮೊದಲ ಆದ್ಯತೆ.","तुमच्या कुटुंबाला लागणारे हे अतिरिक्त जीवन कव्हर आहे. ही सर्वोच्च प्राथमिकता आहे."],
+["Fill in your age and income to see the gap.","अंतर देखने के लिए अपनी आयु और आय भरें।","ગેપ જોવા તમારી ઉંમર અને આવક ભરો.","இடைவெளியைப் பார்க்க உங்கள் வயது மற்றும் வருமானத்தை நிரப்புங்கள்.","വിടവ് കാണാൻ നിങ്ങളുടെ പ്രായവും വരുമാനവും നൽകുക.","ಅಂತರ ನೋಡಲು ನಿಮ್ಮ ವಯಸ್ಸು ಮತ್ತು ಆದಾಯ ತುಂಬಿ.","तफावत पाहण्यासाठी तुमचे वय आणि उत्पन्न भरा."],
+["Enter the child's age first","पहले बच्चे की आयु लिखें","પહેલા બાળકની ઉંમર લખો","முதலில் குழந்தையின் வயதை உள்ளிடுங்கள்","ആദ്യം കുട്ടിയുടെ പ്രായം നൽകുക","ಮೊದಲು ಮಗುವಿನ ವಯಸ್ಸನ್ನು ನಮೂದಿಸಿ","आधी मुलाचे वय लिहा"],
+["Not counted: less than 5 years away","गिना नहीं गया: 5 वर्ष से कम दूर","ગણાયું નથી: 5 વર્ષથી ઓછું દૂર","கணக்கில் இல்லை: 5 ஆண்டுகளுக்குள்","കണക്കാക്കിയില്ല: 5 വർഷത്തിൽ താഴെ മാത്രം","ಲೆಕ್ಕಿಸಿಲ್ಲ: 5 ವರ್ಷಕ್ಕಿಂತ ಕಡಿಮೆ ಅಂತರ","मोजले नाही: 5 वर्षांपेक्षा कमी अंतर"],
+["Enter the amount","रकम लिखें","રકમ લખો","தொகையை உள்ளிடுங்கள்","തുക നൽകുക","ಮೊತ್ತ ನಮೂದಿಸಿ","रक्कम लिहा"],
+["{0} · in {1} yrs","{0} · {1} वर्ष में","{0} · {1} વર્ષમાં","{0} · {1} ஆண்டுகளில்","{0} · {1} വർഷത്തിൽ","{0} · {1} ವರ್ಷಗಳಲ್ಲಿ","{0} · {1} वर्षांत"],
+["Counted only if 10 or more years away","केवल 10 या अधिक वर्ष दूर होने पर गिना जाएगा","ફક્ત 10 કે વધુ વર્ષ દૂર હોય તો જ ગણાશે","10 அல்லது அதற்கு மேற்பட்ட ஆண்டுகள் தொலைவில் இருந்தால் மட்டுமே கணக்கிடப்படும்","10 വർഷമോ അതിലധികമോ അകലെയാണെങ്കിൽ മാത്രം കണക്കാക്കും","10 ಅಥವಾ ಹೆಚ್ಚು ವರ್ಷ ದೂರವಿದ್ದರೆ ಮಾತ್ರ ಲೆಕ್ಕಿಸಲಾಗುತ್ತದೆ","10 किंवा अधिक वर्षे दूर असेल तरच मोजले जाईल"],
+["Enter your age first","पहले अपनी आयु लिखें","પહેલા તમારી ઉંમર લખો","முதலில் உங்கள் வயதை உள்ளிடுங்கள்","ആദ്യം നിങ്ങളുടെ പ്രായം നൽകുക","ಮೊದಲು ನಿಮ್ಮ ವಯಸ್ಸನ್ನು ನಮೂದಿಸಿ","आधी तुमचे वय लिहा"],
+["You will need about {0} in {1} years.","{1} वर्ष में आपको लगभग {0} चाहिए होंगे।","{1} વર્ષમાં તમને લગભગ {0} જોઈશે.","{1} ஆண்டுகளில் உங்களுக்கு சுமார் {0} தேவைப்படும்.","{1} വർഷത്തിൽ നിങ്ങൾക്ക് ഏകദേശം {0} വേണ്ടിവരും.","{1} ವರ್ಷಗಳಲ್ಲಿ ನಿಮಗೆ ಸುಮಾರು {0} ಬೇಕಾಗುತ್ತದೆ.","{1} वर्षांत तुम्हाला सुमारे {0} लागतील."],
+["Amount needed: {0}","आवश्यक रकम: {0}","જરૂરી રકમ: {0}","தேவையான தொகை: {0}","ആവശ്യമായ തുക: {0}","ಬೇಕಾದ ಮೊತ್ತ: {0}","आवश्यक रक्कम: {0}"],
+["Fill in the boxes to see the amount.","रकम देखने के लिए खाने भरें।","રકમ જોવા ખાનાં ભરો.","தொகையைப் பார்க்க கட்டங்களை நிரப்புங்கள்.","തുക കാണാൻ കള്ളികൾ പൂരിപ്പിക്കുക.","ಮೊತ್ತ ನೋಡಲು ಖಾನೆಗಳನ್ನು ತುಂಬಿ.","रक्कम पाहण्यासाठी रकाने भरा."],
+["About {0}","लगभग {0}","લગભગ {0}","சுமார் {0}","ഏകദേശം {0}","ಸುಮಾರು {0}","सुमारे {0}"],
+["Priority order","प्राथमिकता क्रम","પ્રાથમિકતા ક્રમ","முன்னுரிமை வரிசை","മുൻഗണനാ ക്രമം","ಆದ್ಯತೆಯ ಕ್ರಮ","प्राधान्य क्रम"],
+["Plan recommendations","प्लान सुझाव","પ્લાન સૂચનો","திட்டப் பரிந்துரைகள்","പ്ലാൻ ശുപാർശകൾ","ಯೋಜನೆ ಶಿಫಾರಸುಗಳು","प्लॅन शिफारसी"],
+["Hide","छिपाएँ","છુપાવો","மறை","മറയ്ക്കുക","ಮರೆಮಾಡಿ","लपवा"],
+["Show plans","प्लान दिखाएँ","પ્લાન બતાવો","திட்டங்களைக் காட்டு","പ്ലാനുകൾ കാണിക്കുക","ಯೋಜನೆಗಳನ್ನು ತೋರಿಸಿ","प्लॅन दाखवा"],
+["Insurance gap","बीमा अंतर","વીમા ગેપ","காப்பீட்டு இடைவெளி","ഇൻഷുറൻസ് വിടവ്","ವಿಮಾ ಅಂತರ","विमा तफावत"],
+["in {0} yrs","{0} वर्ष में","{0} વર્ષમાં","{0} ஆண்டுகளில்","{0} വർഷത്തിൽ","{0} ವರ್ಷಗಳಲ್ಲಿ","{0} वर्षांत"],
+["due now","अभी देय","હમણાં દેય","இப்போது தேவை","ഇപ്പോൾ വേണ്ടത്","ಈಗ ಬೇಕು","आता देय"],
+["Child {0}","बच्चा {0}","બાળક {0}","குழந்தை {0}","കുട്ടി {0}","ಮಗು {0}","मूल {0}"],
+["Child {0} education","बच्चा {0} की शिक्षा","બાળક {0} નું શિક્ષણ","குழந்தை {0} கல்வி","കുട്ടി {0} വിദ്യാഭ്യാസം","ಮಗು {0} ಶಿಕ್ಷಣ","मूल {0} चे शिक्षण"],
+["Child {0} marriage","बच्चा {0} का विवाह","બાળક {0} ના લગ્ન","குழந்தை {0} திருமணம்","കുട്ടി {0} വിവാഹം","ಮಗು {0} ಮದುವೆ","मूल {0} चे लग्न"],
+["Home / wealth","घर / संपत्ति","ઘર / સંપત્તિ","வீடு / செல்வம்","വീട് / സമ്പത്ത്","ಮನೆ / ಸಂಪತ್ತು","घर / संपत्ती"],
+["Passive income","निष्क्रिय आय","નિષ્ક્રિય આવક","செயலற்ற வருமானம்","നിഷ്ക്രിയ വരുമാനം","ನಿಷ್ಕ್ರಿಯ ಆದಾಯ","निष्क्रिय उत्पन्न"],
+["{0}y","{0} व.","{0} વ.","{0} ஆ.","{0} വ.","{0} ವ.","{0} व."],
+["What you need vs what you have","आपको क्या चाहिए बनाम आपके पास क्या है","તમને શું જોઈએ વિરુદ્ધ તમારી પાસે શું છે","உங்களுக்குத் தேவை vs உங்களிடம் உள்ளது","നിങ്ങൾക്ക് വേണ്ടത് vs നിങ്ങളുടെ പക്കലുള്ളത്","ನಿಮಗೆ ಬೇಕಾದದ್ದು vs ನಿಮ್ಮ ಬಳಿ ಇರುವುದು","तुम्हाला काय हवे विरुद्ध तुमच्याकडे काय आहे"],
+["The shortfall is {0}.","कमी {0} की है।","ઘટ {0} ની છે.","பற்றாக்குறை {0}.","കുറവ് {0} ആണ്.","ಕೊರತೆ {0}.","तूट {0} आहे."],
+["What you have already covers what you need.","आपके पास जो है वह आपकी ज़रूरत पूरी कर देता है।","તમારી પાસે જે છે તે તમારી જરૂરિયાત પૂરી કરે છે.","உங்களிடம் உள்ளது ஏற்கனவே உங்கள் தேவையை ஈடுசெய்கிறது.","നിങ്ങളുടെ പക്കലുള്ളത് ഇതിനകം ആവശ്യം നികത്തുന്നു.","ನಿಮ್ಮ ಬಳಿ ಇರುವುದು ಈಗಾಗಲೇ ನಿಮ್ಮ ಅಗತ್ಯವನ್ನು ಪೂರೈಸುತ್ತದೆ.","तुमच्याकडे जे आहे ते तुमची गरज आधीच भागवते."],
+["What you need","आपको क्या चाहिए","તમને શું જોઈએ","உங்களுக்குத் தேவை","നിങ്ങൾക്ക് വേണ്ടത്","ನಿಮಗೆ ಬೇಕಾದದ್ದು","तुम्हाला काय हवे"],
+["What you already have","आपके पास पहले से क्या है","તમારી પાસે પહેલેથી શું છે","உங்களிடம் ஏற்கனவே உள்ளது","നിങ്ങൾക്ക് ഇതിനകം ഉള്ളത്","ನಿಮ್ಮ ಬಳಿ ಈಗಾಗಲೇ ಇರುವುದು","तुमच्याकडे आधीच काय आहे"],
+["Income value (A)","आय मूल्य (A)","આવક મૂલ્ય (A)","வருமான மதிப்பு (A)","വരുമാന മൂല്യം (A)","ಆದಾಯ ಮೌಲ್ಯ (A)","उत्पन्न मूल्य (A)"],
+["Loans (B)","कर्ज (B)","લોન (B)","கடன்கள் (B)","വായ്പകൾ (B)","ಸಾಲಗಳು (B)","कर्ज (B)"],
+["Savings (C)","बचत (C)","બચત (C)","சேமிப்பு (C)","സമ്പാദ്യം (C)","ಉಳಿತಾಯ (C)","बचत (C)"],
+["Existing cover (D)","मौजूदा कवर (D)","હાલનું કવર (D)","தற்போதைய காப்பீடு (D)","നിലവിലുള്ള കവർ (D)","ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಕವರ್ (D)","सध्याचे कव्हर (D)"],
+["Where the total need goes","कुल आवश्यकता कहाँ जाती है","કુલ જરૂરિયાત ક્યાં જાય છે","மொத்தத் தேவை எங்கே செல்கிறது","ആകെ ആവശ്യം എവിടെ പോകുന്നു","ಒಟ್ಟು ಅಗತ್ಯ ಎಲ್ಲಿಗೆ ಹೋಗುತ್ತದೆ","एकूण गरज कुठे जाते"],
+["Each slice is a share of your total need.","हर हिस्सा आपकी कुल आवश्यकता का एक अंश है।","દરેક ટુકડો તમારી કુલ જરૂરિયાતનો હિસ્સો છે.","ஒவ்வொரு துண்டும் உங்கள் மொத்தத் தேவையின் ஒரு பங்கு.","ഓരോ ഭാഗവും നിങ്ങളുടെ ആകെ ആവശ്യത്തിന്റെ ഒരു വിഹിതമാണ്.","ಪ್ರತಿ ತುಂಡೂ ನಿಮ್ಮ ಒಟ್ಟು ಅಗತ್ಯದ ಒಂದು ಪಾಲು.","प्रत्येक तुकडा तुमच्या एकूण गरजेचा वाटा आहे."],
+["Other goals","अन्य लक्ष्य","અન્ય લક્ષ્યો","பிற இலக்குகள்","മറ്റ് ലക്ഷ്യങ്ങൾ","ಇತರ ಗುರಿಗಳು","इतर उद्दिष्टे"],
+["Priority order, side by side","प्राथमिकता क्रम, साथ-साथ","પ્રાથમિકતા ક્રમ, બાજુ-બાજુમાં","முன்னுரிமை வரிசை, அருகருகே","മുൻഗണനാ ക്രമം, അടുത്തടുത്തായി","ಆದ್ಯತೆಯ ಕ್ರಮ, ಅಕ್ಕಪಕ್ಕ","प्राधान्य क्रम, शेजारी शेजारी"],
+["Bar length shows how big each need is. The years show when it is due.","पट्टी की लंबाई बताती है कि हर ज़रूरत कितनी बड़ी है। वर्ष बताते हैं कि वह कब देय है।","પટ્ટીની લંબાઈ દરેક જરૂરિયાત કેટલી મોટી છે તે બતાવે છે. વર્ષો બતાવે છે કે તે ક્યારે દેય છે.","பட்டையின் நீளம் ஒவ்வொரு தேவையும் எவ்வளவு பெரியது என்பதைக் காட்டுகிறது. ஆண்டுகள் அது எப்போது தேவை என்பதைக் காட்டுகின்றன.","ബാറിന്റെ നീളം ഓരോ ആവശ്യവും എത്ര വലുതാണെന്ന് കാണിക്കുന്നു. വർഷങ്ങൾ അത് എപ്പോൾ വേണമെന്ന് കാണിക്കുന്നു.","ಪಟ್ಟಿಯ ಉದ್ದ ಪ್ರತಿ ಅಗತ್ಯ ಎಷ್ಟು ದೊಡ್ಡದು ಎಂದು ತೋರಿಸುತ್ತದೆ. ವರ್ಷಗಳು ಅದು ಯಾವಾಗ ಬೇಕು ಎಂದು ತೋರಿಸುತ್ತವೆ.","पट्टीची लांबी प्रत्येक गरज किती मोठी आहे ते दाखवते. वर्षे ती कधी लागेल ते दाखवतात."],
+["Cr","करोड़","કરોડ","கோடி","കോടി","ಕೋಟಿ","कोटी"],
+["L","लाख","લાખ","லட்சம்","ലക്ഷം","ಲಕ್ಷ","लाख"],
+["crore","करोड़","કરોડ","கோடி","കോടി","ಕೋಟಿ","कोटी"],
+["lakh","लाख","લાખ","லட்சம்","ലക്ഷം","ಲಕ್ಷ","लाख"],
+["Life cover needs summary","जीवन कवर आवश्यकता सारांश","જીવન કવર જરૂરિયાત સારાંશ","ஆயுள் காப்பீட்டுத் தேவை சுருக்கம்","ലൈഫ് കവർ ആവശ്യകത സംഗ്രഹം","ಜೀವ ಕವರ್ ಅಗತ್ಯ ಸಾರಾಂಶ","जीवन कव्हर गरज सारांश"],
+["Prepared on {0}","तैयार किया गया: {0}","તૈયાર કર્યું: {0}","தயாரிக்கப்பட்டது: {0}","തയ്യാറാക്കിയത്: {0}","ತಯಾರಿಸಿದ ದಿನಾಂಕ: {0}","तयार केले: {0}"],
+["Saving did not work here. Please try again.","यहाँ सहेजना काम नहीं किया। कृपया फिर कोशिश करें।","અહીં સાચવવાનું કામ ન થયું. કૃપા કરીને ફરી પ્રયાસ કરો.","இங்கே சேமிப்பது வேலை செய்யவில்லை. மீண்டும் முயலுங்கள்.","ഇവിടെ സേവ് ചെയ്യൽ പ്രവർത്തിച്ചില്ല. വീണ്ടും ശ്രമിക്കുക.","ಇಲ್ಲಿ ಉಳಿಸುವುದು ಕೆಲಸ ಮಾಡಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.","येथे जतन करणे जमले नाही. कृपया पुन्हा प्रयत्न करा."],
+["The print window is blocked here. Tap Save summary file instead.","यहाँ प्रिंट विंडो रोकी गई है। इसके बजाय सारांश फ़ाइल सहेजें पर टैप करें।","અહીં પ્રિન્ટ વિન્ડો અવરોધિત છે. તેના બદલે સારાંશ ફાઇલ સાચવો પર ટેપ કરો.","இங்கே அச்சு சாளரம் தடுக்கப்பட்டுள்ளது. அதற்குப் பதிலாக சுருக்கக் கோப்பைச் சேமி என்பதைத் தட்டுங்கள்.","ഇവിടെ പ്രിന്റ് വിൻഡോ തടഞ്ഞിരിക്കുന്നു. പകരം സംഗ്രഹ ഫയൽ സേവ് ചെയ്യുക ടാപ്പ് ചെയ്യുക.","ಇಲ್ಲಿ ಪ್ರಿಂಟ್ ವಿಂಡೋ ನಿರ್ಬಂಧಿತವಾಗಿದೆ. ಬದಲಿಗೆ ಸಾರಾಂಶ ಫೈಲ್ ಉಳಿಸಿ ಟ್ಯಾಪ್ ಮಾಡಿ.","येथे प्रिंट विंडो अवरोधित आहे. त्याऐवजी सारांश फाइल जतन करा वर टॅप करा."]
+];
+ROWS.forEach(function(r){TD[r[0]]=r});
+function tx(s){if(LANG==="en")return s;var r=TD[s];return (r&&r[LI[LANG]])||s}
+function fmt(s){var a=arguments;return tx(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1]})}
+var TSEL='h1,h2,header p,p.hint,label:not(.r),legend,.gt,button:not([data-rec]),.bar small,.bar a,label.r span,p.sub,.gap small,.total small:not(#oWords),.line span:first-child';
+function applyTr(){
+  document.querySelectorAll(TSEL).forEach(function(el){
+    if(el.closest("#oGoals,#charts"))return;
+    if(el.dataset.t===undefined){var k=el.innerHTML.trim();el.dataset.t=TD[k]?k:""}
+    if(el.dataset.t)el.innerHTML=tx(el.dataset.t);
+  });
+  document.querySelectorAll("input[placeholder]").forEach(function(el){
+    if(el.dataset.p===undefined){var k=el.getAttribute("placeholder");el.dataset.p=TD[k]?k:""}
+    if(el.dataset.p)el.setAttribute("placeholder",tx(el.dataset.p));
+  });
+}
+function setLang(l){
+  if(!LI[l])l="en";
+  LANG=l;document.documentElement.setAttribute("lang",l);
+  try{localStorage.setItem("ncLang",l)}catch(e){}
+  var s=$("lang");if(s)s.value=l;
+  applyTr();render();
+}
 
 function seg(k,l){return '<div class="seg" role="group" aria-label="'+l+' input type"><button type="button" data-k="'+k+'" data-m="direct" aria-pressed="true">I know the amount</button><button type="button" data-k="'+k+'" data-m="calc" aria-pressed="false">Help me work it out</button></div>'}
 function block(k,title,mid){
@@ -188,7 +334,7 @@ function pref(k){var a=pick(k+"q1"),b=pick(k+"q2"),w=$(k+"q3w");w.hidden=!(a==="
   var im=w.querySelector('input[value="Immediate"]'),nt=$(k+"q3n"),mk=(b==="Market based");
   if(im){im.closest("label").hidden=mk;if(mk&&im.checked)im.checked=false}
   if(nt)nt.hidden=!mk;
-  return [a,b,w.hidden?"":pick(k+"q3")].filter(Boolean).join(" · ")}
+  return [a,b,w.hidden?"":pick(k+"q3")].filter(Boolean).map(tx).join(" · ")}
 function rec0(k,a,it){
   if(!a)return "";
   if(a<18||a>65)return '<div class="recbox"><small class="sub">No plan is available for this age.</small></div>';
@@ -313,53 +459,53 @@ function age(){
 function getAmt(k,y){
   if($(k+"C").hidden)return num($(k+"A").value);
   var t=num($(k+"T").value),r=parseFloat($(k+"R").value)||0,f=(r>0&&y>0)?t*Math.pow(1+r/100,y):t;
-  $(k+"X").textContent=t?((r>0&&y>0)?("You will need about "+rs(f)+" in "+y+" years."):("Amount needed: "+rs(f))):"Fill in the boxes to see the amount.";
+  $(k+"X").textContent=t?((r>0&&y>0)?fmt("You will need about {0} in {1} years.",rs(f),y):fmt("Amount needed: {0}",rs(f))):tx("Fill in the boxes to see the amount.");
   return t?f:0;
 }
 
 function render(){
   var a=age(),inc=num($("inc").value),ret=num($("ret").value)||60;
-  $("dobAge").textContent=(mode==="dob"&&a)?("Your age is "+a+" years."):"";
+  $("dobAge").textContent=(mode==="dob"&&a)?fmt("Your age is {0} years.",a):"";
   var ex=num($("exp").value)*12,sv=inc-ex,st=sv<0?"−"+rs(-sv):rs(sv);
   $("yExp").textContent=rs(ex);$("oExp").textContent=rs(ex);$("ySav").textContent=st;$("oSav").textContent=st;
-  $("savNote").textContent=(inc&&sv<0)?"Your expenses are more than your income.":"";
+  $("savNote").textContent=(inc&&sv<0)?tx("Your expenses are more than your income."):"";
   var A=Math.max(0,ret-a)*inc,B=num($("liab").value),C=num($("assets").value),D=num($("cover").value);
   var raw=(A+B)-(C+D),gap=Math.max(0,raw);
   $("oA").textContent=rs(A);$("oB").textContent=rs(B);$("oC").textContent=rs(C);$("oD").textContent=rs(D);
   $("oGap").textContent=rs(gap);
-  $("gapNote").textContent=(a&&inc)?(raw<0?"Good news: your savings and cover are already more than the need. We count the gap as ₹0.":"This is the extra life cover your family needs. It is the top priority."):"Fill in your age and income to see the gap.";
+  $("gapNote").textContent=(a&&inc)?(raw<0?tx("Good news: your savings and cover are already more than the need. We count the gap as ₹0."):tx("This is the extra life cover your family needs. It is the top priority.")):tx("Fill in your age and income to see the gap.");
   var items=[];
   document.querySelectorAll(".kid").forEach(function(el,i){
     var p="k"+el.dataset.n,ca=$(p+"age").value.trim();
     var nk=document.querySelectorAll(".kid").length;
-    el.querySelector(".kt").textContent="Child "+(i+1);el.querySelector(".rm").hidden=nk<2;
+    el.querySelector(".kt").textContent=fmt("Child {0}",i+1);el.querySelector(".rm").hidden=nk<2;
     [["e","education"],["m","marriage"]].forEach(function(g){
       var kk=p+g[0],on=$(kk+"G").open,raw=ca===""?0:num($(kk+"N").value)-num(ca),y=Math.max(0,raw),v=getAmt(kk,y);
       var ok=raw>=5,pf=pref(kk);
-      if(!on){setSt(kk,"Tap to add");return}
-      setSt(kk,ca===""?"Enter the child's age first":(!ok?"Not counted: less than 5 years away":(!v?"Enter the amount":cr(v)+" · in "+y+" yrs")));
-      if(v&&ca!==""&&ok)items.push({n:"Child "+(i+1)+" "+g[1],y:y,v:v,s:pf,k:p+g[0],t:g[0]==="e"?"edu":"mar",c:num(ca)});
+      if(!on){setSt(kk,tx("Tap to add"));return}
+      setSt(kk,ca===""?tx("Enter the child's age first"):(!ok?tx("Not counted: less than 5 years away"):(!v?tx("Enter the amount"):fmt("{0} · in {1} yrs",cr(v),y))));
+      if(v&&ca!==""&&ok)items.push({n:fmt(g[0]==="e"?"Child {0} education":"Child {0} marriage",i+1),y:y,v:v,s:pf,k:p+g[0],t:g[0]==="e"?"edu":"mar",c:num(ca)});
     });
   });
   var hy=num($("homeY").value),hv=getAmt("home",hy),hp=pref("home"),hon=$("homeG").open;
-  setSt("home",!hon?"Tap to add":(hy<10?"Counted only if 10 or more years away":(!hv?"Enter the amount":cr(hv)+" · in "+hy+" yrs")));
-  if(hon&&hv&&hy>=10)items.push({n:"Home or Wealth Creation",sn:"Home / wealth",y:hy,v:hv,s:hp,k:"home",t:"home"});
+  setSt("home",!hon?tx("Tap to add"):(hy<10?tx("Counted only if 10 or more years away"):(!hv?tx("Enter the amount"):fmt("{0} · in {1} yrs",cr(hv),hy))));
+  if(hon&&hv&&hy>=10)items.push({n:tx("Home or Wealth Creation"),sn:tx("Home / wealth"),y:hy,v:hv,s:hp,k:"home",t:"home"});
   var ry=a?Math.max(0,ret-a):0,rv=getAmt("ret",ry),rp=pref("ret"),ron=$("retG").open;
-  setSt("ret",!ron?"Tap to add":(!a?"Enter your age first":(!rv?"Enter the amount":cr(rv)+" · in "+ry+" yrs")));
-  if(ron&&rv&&a)items.push({n:"Passive Income or Retirement",sn:"Passive income",y:ry,v:rv,s:rp,k:"ret",t:"ret"});
+  setSt("ret",!ron?tx("Tap to add"):(!a?tx("Enter your age first"):(!rv?tx("Enter the amount"):fmt("{0} · in {1} yrs",cr(rv),ry))));
+  if(ron&&rv&&a)items.push({n:tx("Passive Income or Retirement"),sn:tx("Passive income"),y:ry,v:rv,s:rp,k:"ret",t:"ret"});
   items.sort(function(p,q){return p.y-q.y});
-  var yt=(showRec&&a&&gap>0)?gapRec(a,gap):"",tot=gap,tg=a?'<div class="rt"><span class="sub">Plan recommendations</span><div class="seg" role="group" aria-label="Plan recommendations"><button type="button" data-rec="0" aria-pressed="'+(!showRec)+'">Hide</button><button type="button" data-rec="1" aria-pressed="'+showRec+'">Show plans</button></div></div>':'',gh='<h3 class="ph">Priority order</h3>'+tg+'<div class="line"><span>1. Insurance gap</span><b>'+rs(gap)+'</b></div>'+yt;
-  items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?'in '+it.y+' yrs':'due now')+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+(showRec?rec(it.k,a,it):"")});
+  var yt=(showRec&&a&&gap>0)?gapRec(a,gap):"",tot=gap,tg=a?'<div class="rt"><span class="sub">'+tx("Plan recommendations")+'</span><div class="seg" role="group" aria-label="Plan recommendations"><button type="button" data-rec="0" aria-pressed="'+(!showRec)+'">'+tx("Hide")+'</button><button type="button" data-rec="1" aria-pressed="'+showRec+'">'+tx("Show plans")+'</button></div></div>':'',gh='<h3 class="ph">'+tx("Priority order")+'</h3>'+tg+'<div class="line"><span>1. '+tx("Insurance gap")+'</span><b>'+rs(gap)+'</b></div>'+yt;
+  items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?fmt('in {0} yrs',it.y):tx('due now'))+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+(showRec?rec(it.k,a,it):"")});
   var op=[];document.querySelectorAll("#oGoals details").forEach(function(d,i){op[i]=d.open});
   $("oGoals").innerHTML=gh;
   var nd=document.querySelectorAll("#oGoals details");if(nd.length===op.length)nd.forEach(function(d,i){d.open=op[i]});
   $("oTotal").textContent=rs(tot);$("bTot").textContent=cr(tot);$("bGap").textContent=cr(gap);
-  $("oWords").textContent=words(tot)?("About "+words(tot)):"";
+  $("oWords").textContent=words(tot)?fmt("About {0}",words(tot)):"";
   charts(A,B,C,D,gap,raw,items);
   document.querySelectorAll(".words[data-for]").forEach(function(w){var v=num($(w.dataset.for).value);w.textContent=words(v)?("= "+words(v)):""});
 }
 
-function cr(v){v=Math.round(v);if(v>=1e7)return "₹"+(v/1e7).toFixed(2)+" Cr";if(v>=1e5)return "₹"+(v/1e5).toFixed(2)+" L";return rs(v)}
+function cr(v){v=Math.round(v);if(v>=1e7)return "₹"+(v/1e7).toFixed(2)+" "+tx("Cr");if(v>=1e5)return "₹"+(v/1e5).toFixed(2)+" "+tx("L");return rs(v)}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function lg(rows){return '<ul class="lg">'+rows.map(function(r){return '<li><i style="background:var(--'+r.c+')"></i><span>'+esc(r.n)+'</span><b>'+cr(r.v)+'</b>'+(r.p!=null?'<em>'+r.p+'%</em>':'')+'</li>'}).join("")+'</ul>'}
 function charts(A,B,C,D,gap,raw,items){
@@ -367,28 +513,28 @@ function charts(A,B,C,D,gap,raw,items){
   if(!(A+B+C+D)&&!items.length){el.innerHTML="";return}
   var h="",need=A+B,have=C+D,mx=Math.max(need,have,1),W=300;
   function bar(y,segs){var x=0,o="";segs.forEach(function(g){if(g.v<=0)return;var w=Math.max(3,g.v/mx*W);o+='<rect x="'+x.toFixed(1)+'" y="'+y+'" width="'+w.toFixed(1)+'" height="26" rx="4" fill="var(--'+g.c+')" stroke="var(--vs)" stroke-width="2"><title>'+esc(g.n)+': '+rs(g.v)+'</title></rect>';x+=w});return o}
-  var s1=[{n:"Income value (A)",v:A,c:"v1"},{n:"Loans (B)",v:B,c:"v2"}],s2=[{n:"Savings (C)",v:C,c:"v3"},{n:"Existing cover (D)",v:D,c:"v4"}];
-  h+='<div class="cb"><h3>What you need vs what you have</h3><p class="cap">'+(raw>0?"The shortfall is "+cr(raw)+".":"What you have already covers what you need.")+'</p>'+
+  var s1=[{n:tx("Income value (A)"),v:A,c:"v1"},{n:tx("Loans (B)"),v:B,c:"v2"}],s2=[{n:tx("Savings (C)"),v:C,c:"v3"},{n:tx("Existing cover (D)"),v:D,c:"v4"}];
+  h+='<div class="cb"><h3>'+tx("What you need vs what you have")+'</h3><p class="cap">'+(raw>0?fmt("The shortfall is {0}.",cr(raw)):tx("What you have already covers what you need."))+'</p>'+
   '<svg viewBox="0 0 320 84" role="img" aria-label="Bars comparing what you need, '+cr(need)+', with what you have, '+cr(have)+'">'+
-  '<text class="mu" x="0" y="11">What you need</text><text class="big" x="320" y="12" text-anchor="end">'+cr(need)+'</text>'+bar(16,s1)+
-  '<text class="mu" x="0" y="55">What you already have</text><text class="big" x="320" y="56" text-anchor="end">'+cr(have)+'</text>'+bar(60,s2)+'</svg>'+
+  '<text class="mu" x="0" y="11">'+tx("What you need")+'</text><text class="big" x="320" y="12" text-anchor="end">'+cr(need)+'</text>'+bar(16,s1)+
+  '<text class="mu" x="0" y="55">'+tx("What you already have")+'</text><text class="big" x="320" y="56" text-anchor="end">'+cr(have)+'</text>'+bar(60,s2)+'</svg>'+
   lg(s1.concat(s2).filter(function(g){return g.v>0}))+'</div>';
-  var sl=[];if(gap>0)sl.push({n:"Insurance gap",v:gap});
+  var sl=[];if(gap>0)sl.push({n:tx("Insurance gap"),v:gap});
   items.forEach(function(it){if(it.v>0)sl.push({n:it.n,sn:it.sn,v:it.v,y:it.y})});
   if(sl.length>=2){
     var pc=["v1","v2","v3","v4","v5"],ds=sl.slice(0,5).map(function(g,i){return {n:g.n,v:g.v,c:pc[i]}});
-    if(sl.length>5){var ot=0;sl.slice(5).forEach(function(g){ot+=g.v});ds.push({n:"Other goals",v:ot,c:"vo"})}
+    if(sl.length>5){var ot=0;sl.slice(5).forEach(function(g){ot+=g.v});ds.push({n:tx("Other goals"),v:ot,c:"vo"})}
     var sum=0;ds.forEach(function(g){sum+=g.v});
     var R=56,L=2*Math.PI*R,acc=0,arcs="";
     ds.forEach(function(g){g.p=Math.round(g.v/sum*100);var len=g.v/sum*L,dash=Math.max(len-2,1);
       arcs+='<circle cx="80" cy="80" r="'+R+'" fill="none" stroke="var(--'+g.c+')" stroke-width="28" stroke-dasharray="'+dash.toFixed(2)+' '+(L-dash).toFixed(2)+'" stroke-dashoffset="'+(-acc).toFixed(2)+'" transform="rotate(-90 80 80)"><title>'+esc(g.n)+': '+rs(g.v)+' ('+g.p+'%)</title></circle>';acc+=len});
-    h+='<div class="cb"><h3>Where the total need goes</h3><p class="cap">Each slice is a share of your total need.</p>'+
+    h+='<div class="cb"><h3>'+tx("Where the total need goes")+'</h3><p class="cap">'+tx("Each slice is a share of your total need.")+'</p>'+
     '<svg class="dn" viewBox="0 0 160 160" role="img" aria-label="Donut chart of the total need, '+cr(sum)+'">'+arcs+
-    '<text class="mu" x="80" y="76" text-anchor="middle">Total need</text><text class="big" x="80" y="96" text-anchor="middle">'+cr(sum)+'</text></svg>'+lg(ds)+'</div>';
+    '<text class="mu" x="80" y="76" text-anchor="middle">'+tx("Total need")+'</text><text class="big" x="80" y="96" text-anchor="middle">'+cr(sum)+'</text></svg>'+lg(ds)+'</div>';
     var rows=sl.slice(0,8),bm=0;rows.forEach(function(g){bm=Math.max(bm,g.v)});
-    var bs="";rows.forEach(function(g,i){var y=i*28,nm=(g.sn||g.n)+(g.y?" · "+g.y+"y":""),w=Math.max(3,g.v/bm*100);
+    var bs="";rows.forEach(function(g,i){var y=i*28,nm=(g.sn||g.n)+(g.y?" · "+fmt("{0}y",g.y):""),w=Math.max(3,g.v/bm*100);
       bs+='<text class="mu" x="0" y="'+(y+17)+'">'+esc(nm.length>26?nm.slice(0,25)+"…":nm)+'</text><rect x="150" y="'+y+'" width="'+w.toFixed(1)+'" height="22" rx="4" fill="var(--v1)"><title>'+esc(g.n)+': '+rs(g.v)+'</title></rect><text x="'+(150+w+6).toFixed(1)+'" y="'+(y+16)+'">'+cr(g.v)+'</text>'});
-    h+='<div class="cb"><h3>Priority order, side by side</h3><p class="cap">Bar length shows how big each need is. The years show when it is due.</p>'+
+    h+='<div class="cb"><h3>'+tx("Priority order, side by side")+'</h3><p class="cap">'+tx("Bar length shows how big each need is. The years show when it is due.")+'</p>'+
     '<svg viewBox="0 0 320 '+(rows.length*28)+'" role="img" aria-label="Bars of each need in priority order">'+bs+'</svg></div>';
   }
   el.innerHTML=h;
@@ -401,7 +547,7 @@ buildGoals();
 seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));
 $("mAge").onclick=function(){setMode("age")};
 $("mDob").onclick=function(){setMode("dob")};
-$("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));render()};
+$("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));applyTr();render()};
 document.addEventListener("click",function(e){
   var rb=e.target.closest("button[data-rec]");
   if(rb){showRec=rb.dataset.rec==="1";render();return}
@@ -427,7 +573,7 @@ function buildSummary(){
   c.querySelectorAll(".rt").forEach(function(x){x.remove()});
   c.querySelectorAll("details").forEach(function(d){d.setAttribute("open","")});
   var d=new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});
-  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Life cover needs summary</title><style>'+SUM_CSS+'</style></head><body><h1>Life cover needs summary</h1><p class="sub">Prepared on '+d+'</p>'+c.innerHTML+'<button class="pbtn" onclick="window.print()">Print or save as PDF</button></body></html>';
+  return '<!doctype html><html lang="'+LANG+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+tx("Life cover needs summary")+'</title><style>'+SUM_CSS+'</style></head><body><h1>'+tx("Life cover needs summary")+'</h1><p class="sub">'+fmt("Prepared on {0}",d)+'</p>'+c.innerHTML+'<button class="pbtn" onclick="window.print()">'+tx("Print or save as PDF")+'</button></body></html>';
 }
 function dlNote(t){$("dlHint").textContent=t}
 $("dlBtn").onclick=async function(){
@@ -435,17 +581,20 @@ $("dlBtn").onclick=async function(){
   try{
     var dl=(typeof claude!=="undefined"&&claude.use)?await claude.use("downloads"):null;
     if(dl){await dl.save({filename:name,data:html});return}
-  }catch(e){if(e&&e.code==="declined")return;dlNote("Saving did not work here. Please try again.");return}
+  }catch(e){if(e&&e.code==="declined")return;dlNote(tx("Saving did not work here. Please try again."));return}
   var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));a.download=name;document.body.appendChild(a);a.click();a.remove();
 };
-$("printBtn").onclick=function(){try{window.print()}catch(e){dlNote("The print window is blocked here. Tap Save summary file instead.")}};
+$("printBtn").onclick=function(){try{window.print()}catch(e){dlNote(tx("The print window is blocked here. Tap Save summary file instead."))}};
 var reopen=[];
 window.addEventListener("beforeprint",function(){
-  $("pdate").textContent="Prepared on "+new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});
+  $("pdate").textContent=fmt("Prepared on {0}",new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"}));
   reopen=[];document.querySelectorAll("aside details").forEach(function(d){if(!d.open){reopen.push(d);d.open=true}});
 });
 window.addEventListener("afterprint",function(){reopen.forEach(function(d){d.open=false})});
-render();
+LANGS.forEach(function(l){var o=document.createElement("option");o.value=l[0];o.textContent=l[1];$("lang").appendChild(o)});
+$("lang").onchange=function(){setLang(this.value)};
+var savedLang="en";try{savedLang=localStorage.getItem("ncLang")||"en"}catch(e){}
+setLang(savedLang);
 </script>
 </body>
 </html>
