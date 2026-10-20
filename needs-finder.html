@@ -293,6 +293,8 @@ var ROWS=[
 ["The print window is blocked here. Tap Save summary file instead.","यहाँ प्रिंट विंडो रोकी गई है। इसके बजाय सारांश फ़ाइल सहेजें पर टैप करें।","અહીં પ્રિન્ટ વિન્ડો અવરોધિત છે. તેના બદલે સારાંશ ફાઇલ સાચવો પર ટેપ કરો.","இங்கே அச்சு சாளரம் தடுக்கப்பட்டுள்ளது. அதற்குப் பதிலாக சுருக்கக் கோப்பைச் சேமி என்பதைத் தட்டுங்கள்.","ഇവിടെ പ്രിന്റ് വിൻഡോ തടഞ്ഞിരിക്കുന്നു. പകരം സംഗ്രഹ ഫയൽ സേവ് ചെയ്യുക ടാപ്പ് ചെയ്യുക.","ಇಲ್ಲಿ ಪ್ರಿಂಟ್ ವಿಂಡೋ ನಿರ್ಬಂಧಿತವಾಗಿದೆ. ಬದಲಿಗೆ ಸಾರಾಂಶ ಫೈಲ್ ಉಳಿಸಿ ಟ್ಯಾಪ್ ಮಾಡಿ.","येथे प्रिंट विंडो अवरोधित आहे. त्याऐवजी सारांश फाइल जतन करा वर टॅप करा."]
 ];
 ROWS.forEach(function(r){TD[r[0]]=r});
+function AR(a){a.forEach(function(r){TD[r[0]]=r})}
+/*R2*/
 function tx(s){if(LANG==="en")return s;var r=TD[s];return (r&&r[LI[LANG]])||s}
 function fmt(s){var a=arguments;return tx(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1]})}
 var TSEL='h1,h2,header p,p.hint,label:not(.r),legend,.gt,button:not([data-rec]),.bar small,.bar a,label.r span,p.sub,.gap small,.total small:not(#oWords),.line span:first-child';
@@ -307,6 +309,16 @@ function applyTr(){
     if(el.dataset.p)el.setAttribute("placeholder",tx(el.dataset.p));
   });
 }
+function trPat(k){var m=/^(Suggested plans?|Also suggested): (.*)$/.exec(k);
+  if(m)return fmt(m[1]+": {0}",tx(m[2]));
+  m=/^Show (.*) (entry ages, terms and minimum premium|variants)$/.exec(k);
+  if(m)return fmt("Show {0} "+m[2],tx(m[1]));
+  return null}
+var RSEL='#oGoals p.why,#oGoals li,#oGoals span.rec,#oGoals summary,#oGoals .alert,#oGoals small.sub,#oGoals p.disc';
+function trRec(){if(LANG==="en")return;
+  document.querySelectorAll(RSEL).forEach(function(e){
+    if(e.closest(".line")||e.querySelector("ul,details,p,div"))return;
+    var k=e.innerHTML.trim(),r=TD[k]?tx(k):trPat(k);if(r)e.innerHTML=r});}
 function setLang(l){
   if(!LI[l])l="en";
   LANG=l;document.documentElement.setAttribute("lang",l);
@@ -497,7 +509,7 @@ function render(){
   var yt=(showRec&&a&&gap>0)?gapRec(a,gap):"",tot=gap,tg=a?'<div class="rt"><span class="sub">'+tx("Plan recommendations")+'</span><div class="seg" role="group" aria-label="Plan recommendations"><button type="button" data-rec="0" aria-pressed="'+(!showRec)+'">'+tx("Hide")+'</button><button type="button" data-rec="1" aria-pressed="'+showRec+'">'+tx("Show plans")+'</button></div></div>':'',gh='<h3 class="ph">'+tx("Priority order")+'</h3>'+tg+'<div class="line"><span>1. '+tx("Insurance gap")+'</span><b>'+rs(gap)+'</b></div>'+yt;
   items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?fmt('in {0} yrs',it.y):tx('due now'))+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+(showRec?rec(it.k,a,it):"")});
   var op=[];document.querySelectorAll("#oGoals details").forEach(function(d,i){op[i]=d.open});
-  $("oGoals").innerHTML=gh;
+  $("oGoals").innerHTML=gh;trRec();
   var nd=document.querySelectorAll("#oGoals details");if(nd.length===op.length)nd.forEach(function(d,i){d.open=op[i]});
   $("oTotal").textContent=rs(tot);$("bTot").textContent=cr(tot);$("bGap").textContent=cr(gap);
   $("oWords").textContent=words(tot)?fmt("About {0}",words(tot)):"";
