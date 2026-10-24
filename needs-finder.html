@@ -164,7 +164,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
 <div class="bar"><div><small>Total need</small><b id="bTot">₹0</b></div><div><small>Cover gap</small><b id="bGap">₹0</b></div><a class="add" href="#sum">View summary</a></div>
 
 <script>
-var mode="age",seq=0,showRec=false;
+var mode="age",seq=0,showRec=false,PLANS_ON=false;/* PLANS_ON: plan recommendations are switched off for now. Set to true to bring back the Show plans button and the recommendations (all plan details are kept in the code). */
 function $(i){return document.getElementById(i)}
 function num(s){return parseInt(String(s||"").replace(/\D/g,""),10)||0}
 function rs(v){return "₹"+Math.round(v).toLocaleString("en-IN")}
@@ -834,7 +834,7 @@ function render(){
   setSt("ret",!ron?tx("Tap to add"):(!a?tx("Enter your age first"):(!rv?tx("Enter the amount"):fmt("{0} · in {1} yrs",cr(rv),ry))));
   if(ron&&rv&&a)items.push({n:tx("Passive Income or Retirement"),sn:tx("Passive income"),y:ry,v:rv,s:rp,k:"ret",t:"ret"});
   items.sort(function(p,q){return p.y-q.y});
-  var yt=(showRec&&a&&gap>0)?gapRec(a,gap):"",tot=gap,tg=a?'<div class="rt"><span class="sub">'+tx("Plan recommendations")+'</span><div class="seg" role="group" aria-label="Plan recommendations"><button type="button" data-rec="0" aria-pressed="'+(!showRec)+'">'+tx("Hide")+'</button><button type="button" data-rec="1" aria-pressed="'+showRec+'">'+tx("Show plans")+'</button></div></div>':'',gh='<h3 class="ph">'+tx("Priority order")+'</h3>'+tg+'<div class="line"><span>1. '+tx("Insurance gap")+'</span><b>'+rs(gap)+'</b></div>'+yt;
+  var yt=(showRec&&a&&gap>0)?gapRec(a,gap):"",tot=gap,tg=(a&&PLANS_ON)?'<div class="rt"><span class="sub">'+tx("Plan recommendations")+'</span><div class="seg" role="group" aria-label="Plan recommendations"><button type="button" data-rec="0" aria-pressed="'+(!showRec)+'">'+tx("Hide")+'</button><button type="button" data-rec="1" aria-pressed="'+showRec+'">'+tx("Show plans")+'</button></div></div>':'',gh='<h3 class="ph">'+tx("Priority order")+'</h3>'+tg+'<div class="line"><span>1. '+tx("Insurance gap")+'</span><b>'+rs(gap)+'</b></div>'+yt;
   items.forEach(function(it,i){tot+=it.v;gh+='<div class="line"><span>'+(i+2)+'. '+it.n+' ('+(it.y?fmt('in {0} yrs',it.y):tx('due now'))+')'+(it.s?'<br><small class="sub">'+it.s+'</small>':'')+'</span><b>'+rs(it.v)+'</b></div>'+(showRec?rec(it.k,a,it):"")});
   var op=[];document.querySelectorAll("#oGoals details").forEach(function(d,i){op[i]=d.open});
   $("oGoals").innerHTML=gh;trRec();
@@ -890,7 +890,7 @@ $("mDob").onclick=function(){setMode("dob")};
 $("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));applyTr();render()};
 document.addEventListener("click",function(e){
   var rb=e.target.closest("button[data-rec]");
-  if(rb){showRec=rb.dataset.rec==="1";render();return}
+  if(rb){showRec=PLANS_ON&&rb.dataset.rec==="1";render();return}
   var r=e.target.closest("button[data-rm]");
   if(r){r.closest(".kid").remove();render();return}
   var b=e.target.closest("button[data-k]");if(!b)return;
