@@ -664,13 +664,14 @@ function block(k,title,mid){
 }
 function rad(k,q,t,o){return '<fieldset class="q"><legend>'+t+'</legend><div class="opts">'+o.map(function(x){return '<label class="r"><input type="radio" name="'+k+q+'" value="'+x+'"><span>'+x+'</span></label>'}).join('')+'</div></fieldset>'}
 function qs(k){
+  if(!PLANS_ON)return "";/* plan preference questions are hidden while plans are switched off */
   return ((k==="home"||/^k\d+m$/.test(k))?'<input type="radio" name="'+k+'q1" value="Lumpsum" checked hidden><p class="sub">Payout: Lumpsum</p>':rad(k,"q1","How do you want the money?",["Lumpsum","Income based","Both"]))+
   rad(k,"q2","Should the money be market based, guaranteed, or based on bonus?",["Market based","Guaranteed","Based on bonus"])+
   '<div id="'+k+'q3w" hidden>'+rad(k,"q3","Should the income be immediate or at a later stage?",["Immediate","At a later stage"])+'<p class="sub" id="'+k+'q3n" hidden>Immediate income cannot be offered with market based plans. It is possible only with guaranteed or bonus based plans.</p></div>';
 }
 function setSt(k,t){var e=$(k+"S");if(e)e.textContent=t}
 function pick(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:""}
-function pref(k){var a=pick(k+"q1"),b=pick(k+"q2"),w=$(k+"q3w");w.hidden=!(a==="Income based"||a==="Both");
+function pref(k){if(!PLANS_ON)return "";var a=pick(k+"q1"),b=pick(k+"q2"),w=$(k+"q3w");w.hidden=!(a==="Income based"||a==="Both");
   var im=w.querySelector('input[value="Immediate"]'),nt=$(k+"q3n"),mk=(b==="Market based");
   if(im){im.closest("label").hidden=mk;if(mk&&im.checked)im.checked=false}
   if(nt)nt.hidden=!mk;
