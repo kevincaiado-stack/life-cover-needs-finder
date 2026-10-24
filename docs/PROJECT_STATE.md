@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-10-24
+Last updated: 2026-10-24 (translation review sheet added)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## What it is
@@ -28,7 +28,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 7. All 7 languages translated, deployed everywhere. Drive full copy as parts + joiner.
 
 ## Open items
-- Native speakers should review all translations.
+- Native speakers should review all translations. Review sheet: docs/translation-review.csv (197 lines x 6 languages, with a Reviewer notes column). Next: send it to reviewers, then apply their fixes.
 - Check the live site language dropdown on a phone and a laptop.
 - If the app changes, re-make the Drive parts (the joiner check code is for b8304b5).
 
