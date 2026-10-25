@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-10-25 (needs analysis phase 2 built)
+Last updated: 2026-10-25 (needs analysis phase 2 built, Drive copy refreshed)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## What it is
@@ -9,9 +9,9 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## Where everything lives
 - Live site: https://life-cover-needs-finder.vercel.app (Vercel, deploys from GitHub main)
 - GitHub: kevincaiado-stack/life-cover-needs-finder (branch main). Project notes are in the `docs/` folder.
-- Google Drive: folder "Needs Finder" (full app as 14 part files + joiner page, live-link file, these notes)
+- Google Drive: folder "Needs Finder" (full app as 17 part files + joiner page, live-link file, these notes)
 - Claude Project: "Needs Calculator App" (folder `needs-finder/`: this file, rules doc, app copy)
-- Claude artifact: published copy of the app (version 36)
+- Claude artifact: published copy of the app (version 39)
 
 ## Current status (latest milestone)
 - Milestone 9: needs analysis phase 2 (plans stay hidden, flag PLANS_ON=false).
@@ -23,7 +23,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
   - Child education suggested starting cost Rs 12,50,000 = about Rs 9 lakh average 4-year course fee at 9 top IITs (2025 fee lists, studycafe.in) + about Rs 3.4 lakh hostel and mess (IIT Bombay 2026-27: hostel 19,950 + mess 22,500 per semester x 8). Marriage suggested Rs 30,00,000 = middle of the Rs 10-50 lakh range for a traditional wedding (bajajfinserv.in; WedMeGood's 2025 platform average is 39.5 lakh, a higher-end reference). Both are editable and are filled in only when the user opens "Help me work it out".
   - All new text translated into the 6 languages (67 new lines; needs native review).
 - App file: 331018 bytes, SHA-256 4cdd9b95df08eab4b1491645fc94f7780a1bd7e8553ec242c415c16629da0bff
-- Drive: the 14 part files + joiner are for the OLD version b8304b5. Live site, GitHub, Project and artifact are current.
+- Drive: the 17 part files + joiner now match the current app (SHA-256 above). Everything is current: live site, GitHub, Project, artifact and Drive.
 
 ## Milestones
 1. First version: needs calculator (income value, loans, savings, cover, gap).
@@ -39,7 +39,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## Open items
 - Native speakers should review all translations. Review sheet: docs/translation-review.csv (197 lines x 6 languages, with a Reviewer notes column). Automatic check done 2026-10-24: all 197 lines x 6 languages keep their {0} placeholders, bold tags and numbers, and none is left in English. No change to the app was needed. A native speaker still needs to check the wording.
 - Check the live site language dropdown on a phone and a laptop.
-- Drive parts and joiner are still for b8304b5. Re-make them at the next big milestone.
+- Drive parts + joiner re-made on 2026-10-25 for the 331,018-byte version. Re-make at the next big milestone. Old part01 (b8304b5) could not be moved by the Drive connector and may still sit in the Trash or folder; ignore any file marked OLD.
 - User to review the new numbers (education 12.5 lakh and marriage 30 lakh suggestions) and decide the next needs analysis improvements.
 - The 67 new translated lines need native review; docs/translation-review.csv is refreshed.
 
