@@ -39,7 +39,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## Open items
 - Native speakers should review all translations. Review sheet: docs/translation-review.csv (197 lines x 6 languages, with a Reviewer notes column). Automatic check done 2026-10-24: all 197 lines x 6 languages keep their {0} placeholders, bold tags and numbers, and none is left in English. No change to the app was needed. A native speaker still needs to check the wording.
 - Check the live site language dropdown on a phone and a laptop.
-- Drive parts + joiner re-made on 2026-10-25 for the 331,018-byte version. Re-make at the next big milestone. Old part01 (b8304b5) could not be moved by the Drive connector and may still sit in the Trash or folder; ignore any file marked OLD.
+- Drive parts + joiner re-made on 2026-10-25 for the 331,018-byte version. Re-make at the next big milestone. Old parts were moved to the Drive Trash.
 - User to review the new numbers (education 12.5 lakh and marriage 30 lakh suggestions) and decide the next needs analysis improvements.
 - The 67 new translated lines need native review; docs/translation-review.csv is refreshed.
 
