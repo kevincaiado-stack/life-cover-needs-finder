@@ -9,7 +9,7 @@ Rule: this file is updated at every milestone, then copied to GitHub, Google Dri
 - Safe rollback points on GitHub (branches, nothing was deleted):
   - `stable-2026-10-24` = this version. To come back to it later: restore its files into main with `git checkout stable-2026-10-24 -- .`, commit and push.
   - `backup-phase2-2026-10-25` = the full phase 2 work (plans hidden, 331,018 bytes). To bring it back: `git checkout backup-phase2-2026-10-25 -- .`, commit and push.
-- Google Drive part files and the Claude artifact may still hold the phase 2 version until refreshed (see Open items).
+- The Claude artifact (v40), the Project copy and the live site are the rolled-back version. The Google Drive part files and joiner (17 parts, fingerprint 4cdd9b95) still hold the PHASE 2 version; they are a backup of it until re-made.
 
 ## What it is
 A single-file web app (needs-finder.html) that helps advisors work out a customer's life cover gap and goals, and suggests Canara HSBC Life Insurance plans. For internal training use only.
@@ -17,14 +17,14 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## Where everything lives
 - Live site: https://life-cover-needs-finder.vercel.app (Vercel, deploys from GitHub main)
 - GitHub: kevincaiado-stack/life-cover-needs-finder (branch main). Project notes are in the `docs/` folder.
-- Google Drive: folder "Needs Finder" (full app as 14 part files + joiner page, live-link file, these notes)
+- Google Drive: folder "Needs Finder" (full app as 17 part files + joiner page, live-link file, these notes; the parts are the phase 2 backup)
 - Claude Project: "Needs Calculator App" (folder `needs-finder/`: this file, rules doc, app copy)
-- Claude artifact: published copy of the app (version 36)
+- Claude artifact: published copy of the app (version 40, rolled-back version)
 
 ## Current status (latest milestone)
 - Milestone 7: all 7 languages done (English, Hindi, Gujarati, Tamil, Malayalam, Kannada, Marathi), including plan panels. Plan names stay in English.
 - App code is the same as commit b8304b5 / dc571e4. App file: 261,987 bytes, SHA-256 24e60472e014a9ad4939c89a2d069cebbc417c71d0dbbb35cb0ee40a82a5389e
-- Deployed on Vercel (READY), Claude artifact v36, Project copy, Drive full copy (parts + joiner).
+- Deployed on Vercel (READY), Claude artifact v40 and Project copy. Drive full copy is NOT updated (still phase 2).
 
 ## Milestones
 1. First version: needs calculator (income value, loans, savings, cover, gap).
@@ -38,7 +38,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## Open items
 - Native speakers should review all translations. Review sheet: docs/translation-review.csv (197 lines x 6 languages, with a Reviewer notes column). Automatic check done 2026-10-24: all 197 lines x 6 languages keep their {0} placeholders, bold tags and numbers, and none is left in English. No change to the app was needed. A native speaker still needs to check the wording.
 - Check the live site language dropdown on a phone and a laptop.
-- If the app changes, re-make the Drive parts (the joiner check code is for the 24e60472 version).
+- Drive: re-make the 17 parts and joiner for this version when the user asks. If the app changes, re-make the Drive parts (the joiner check code is for the 24e60472 version).
 - Next step: wait for the user's screenshot and instructions for the rework of the look and the maths. Confirm understanding before building anything.
 
 ## Routine after every change
