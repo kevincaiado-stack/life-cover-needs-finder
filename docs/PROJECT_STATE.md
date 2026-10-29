@@ -9,7 +9,7 @@ Rule: this file is updated at every milestone, then copied to GitHub, Google Dri
 - Safe rollback points on GitHub (branches, nothing was deleted):
   - `stable-2026-10-24` = this version. To come back to it later: restore its files into main with `git checkout stable-2026-10-24 -- .`, commit and push.
   - `backup-phase2-2026-10-25` = the full phase 2 work (plans hidden, 331,018 bytes). To bring it back: `git checkout backup-phase2-2026-10-25 -- .`, commit and push.
-- The Claude artifact (v40), the Project copy and the live site are the rolled-back version. The Google Drive part files and joiner (17 parts, fingerprint 4cdd9b95) still hold the PHASE 2 version; they are a backup of it until re-made.
+- The Claude artifact (v40), the Project copy and the live site are the rolled-back version. The Google Drive part files and joiner (17 parts, fingerprint 4f4f0692) now match the redesigned app.
 
 ## What it is
 A single-file web app (needs-finder.html) that helps advisors work out a customer's life cover gap and goals, and suggests Canara HSBC Life Insurance plans. For internal training use only.
@@ -17,7 +17,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## Where everything lives
 - Live site: https://life-cover-needs-finder.vercel.app (Vercel, deploys from GitHub main)
 - GitHub: kevincaiado-stack/life-cover-needs-finder (branch main). Project notes are in the `docs/` folder.
-- Google Drive: folder "Needs Finder" (full app as 17 part files + joiner page, live-link file, these notes; the parts are the phase 2 backup)
+- Google Drive: folder "Needs Finder" (full app as 17 part files + joiner page, live-link file, these notes; the parts and joiner match the redesign, SHA 4f4f0692)
 - Claude Project: "Needs Calculator App" (folder `needs-finder/`: this file, rules doc, app copy)
 - Claude artifact: published copy of the app (updated with the redesign)
 
@@ -29,7 +29,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
   - Rollback: branch stable-2026-10-24 (before the redesign).
 - Milestone 7: all 7 languages done (English, Hindi, Gujarati, Tamil, Malayalam, Kannada, Marathi), including plan panels. Plan names stay in English.
 - Previous (rolled-back) app: commit dc571e4, 261,987 bytes, SHA-256 24e60472e014a9ad4939c89a2d069cebbc417c71d0dbbb35cb0ee40a82a5389e. Current app: see the latest commit on main (redesign).
-- Deployed on Vercel (READY), Claude artifact v40 and Project copy. Drive full copy is NOT updated (still phase 2).
+- Deployed on Vercel (READY), Claude artifact v40 and Project copy. Drive full copy re-made on 2026-10-29 for the redesign (17 parts + joiner, SHA 4f4f0692).
 
 ## Milestones
 1. First version: needs calculator (income value, loans, savings, cover, gap).
@@ -43,8 +43,8 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## Open items
 - Native speakers should review all translations. Review sheet: docs/translation-review.csv (211 lines x 6 languages, with a Reviewer notes column). Automatic check done 2026-10-24: all 197 lines x 6 languages keep their {0} placeholders, bold tags and numbers, and none is left in English. No change to the app was needed. A native speaker still needs to check the wording.
 - Check the live site language dropdown on a phone and a laptop.
-- Drive: re-make the 17 parts and joiner for this version when the user asks. If the app changes, re-make the Drive parts (the joiner check code is for the 24e60472 version).
-- Next step: user checks the redesign on a phone, then asks for changes one at a time. Drive copy is still the phase 2 backup and needs re-making when the user approves the redesign.
+- Drive: done for the redesign (SHA 4f4f0692...152f). If the app changes, re-make the Drive parts and change EXPECT in the joiner.
+- Next step: user checks the redesign on a phone, then asks for changes one at a time. Drive copy now matches the redesign.
 
 ## Routine after every change
 1. Edit the app. 2. Push to GitHub. 3. Deploy to Vercel. 4. Update Google Drive. 5. Republish the Claude artifact. 6. Replace the Project copy. 7. Update this file and the rules doc.
