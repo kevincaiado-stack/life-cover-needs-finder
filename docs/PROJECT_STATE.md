@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-10-29 (bank-style redesign built on the rolled-back version)
+Last updated: 2026-10-30 (retirement moved onto page 1, inflation +/- buttons)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,6 +22,12 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 9 (2026-10-30): Retirement is no longer a separate page. It sits at the bottom of page 1 (About you), under Yearly savings. Steps are now 4: About you, What you owe and have, Your goals, Summary.
+  - Inflation uses a minus / plus control (steps of 0.5). It starts at the latest India CPI (5.54%, Sept 2026) and can never go below it; it can go up to 30%.
+  - The result shows: Monthly expenses today, Years left until you stop working, and the big blue box with the monthly expenses after those years. Also in the Summary.
+  - The latest rate is typed in the code (INFL, INFL_ON); it is not a live feed. Update it when the next CPI is released (about 12 Nov 2026) or when asked.
+  - 3 new translated lines. Rollback: branch stable-2026-10-29-redesign (the 5-step version).
+  - Google Drive part files and joiner are now OUT OF DATE (they hold the 5-step redesign, SHA 4f4f0692). Re-make when asked.
 - Milestone 8 (2026-10-29): bank-style redesign on top of the rolled-back version. NOT the phase 2 work.
   - One step per screen with progress bar and Back/Next: 1 About you, 2 What you owe and have, 3 Retirement, 4 Your goals, 5 Summary. Total need and cover gap stay in a bottom bar. Clean navy/white theme, dark mode follows the phone.
   - New Retirement step: working years left are worked out automatically (age you stop working minus current age). Inflation starts at 5.54% = India retail inflation (CPI) for September 2026, MoSPI, released 12 Oct 2026 (constant INFL / INFL_ON in the code; update when asked). Advisor can change it. Shows monthly expenses after those years = expenses today x (1 + inflation)^years. Example: Rs 75,000, 20 years, 5.54% = Rs 2,20,497 a month. Also shown in the Summary.
