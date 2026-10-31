@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-10-31 (Drive rebuilt for the live-inflation app)
+Last updated: 2026-11-01 (last live inflation rate remembered in the browser)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -9,7 +9,7 @@ Rule: this file is updated at every milestone, then copied to GitHub, Google Dri
 - Safe rollback points on GitHub (branches, nothing was deleted):
   - `stable-2026-10-24` = this version. To come back to it later: restore its files into main with `git checkout stable-2026-10-24 -- .`, commit and push.
   - `backup-phase2-2026-10-25` = the full phase 2 work (plans hidden, 331,018 bytes). To bring it back: `git checkout backup-phase2-2026-10-25 -- .`, commit and push.
-- The Claude artifact (v40), the Project copy and the live site are the rolled-back version. The Google Drive part files and joiner (18 parts, fingerprint ff0c5004) match the current app.
+- The Claude artifact (v40), the Project copy and the live site are the rolled-back version. The Google Drive part files and joiner (18 parts, fingerprint ff0c5004) are one version behind the current app (user chose not to update them on 2026-11-01).
 
 ## What it is
 A single-file web app (needs-finder.html) that helps advisors work out a customer's life cover gap and goals, and suggests Canara HSBC Life Insurance plans. For internal training use only.
@@ -22,6 +22,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 12 (2026-11-01): the app now remembers the last live inflation rate in the browser (key ncInfl). If the helper cannot answer, it shows that remembered rate (if newer than the saved 5.54%, 09/2026) and says "Could not get the live rate". Commit bfb37fd, 282,310 bytes, SHA-256 fd9df18f75eff8f75b0743cd2277aff728f3a461684b07798e2509e7845b6c98. Updated: GitHub, Vercel (auto), Claude artifact, Project copy. NOT updated on purpose (user's choice): Google Drive parts and joiner, which still hold commit e5a2eff (SHA ff0c5004).
 - Milestone 11 (2026-10-31): Google Drive rebuilt. 18 part files (needs-finder.part01.txt to part18.txt, 9,734 bytes each except where shorter) + joiner page (N=18) now match the current app (commit e5a2eff, 281,994 bytes, SHA-256 ff0c50047a2b0937451a4143074c19db2264ffa20bc4057a7919332495d0cf8e). The joiner has not been tested by the user yet.
 - Milestone 10 (2026-10-31): live inflation rate.
   - A small helper on the Vercel site, `api/inflation.js` (URL: /api/inflation), reads the latest India CPI (year on year) from tradingeconomics.com and returns the rate and month. It checks the number is sensible (0 to 25%). Answers are cached for 6 hours.
@@ -57,8 +58,8 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Native speakers should review all translations. Review sheet: docs/translation-review.csv (211 lines x 6 languages, with a Reviewer notes column). Automatic check done 2026-10-24: all 197 lines x 6 languages keep their {0} placeholders, bold tags and numbers, and none is left in English. No change to the app was needed. A native speaker still needs to check the wording.
 - Check the live inflation note on the live site (should say "Live rate").
 - Check the live site language dropdown on a phone and a laptop.
-- Drive: done for commit e5a2eff (SHA ff0c5004...cf8e). If the app changes, re-make the Drive parts and change EXPECT and N in the joiner. User still to test the joiner.
-- Next step: user checks the redesign on a phone, then asks for changes one at a time. Drive copy matches the current app.
+- Drive is one version behind (commit e5a2eff, before the remembered-rate change). Done for commit e5a2eff (SHA ff0c5004...cf8e). If the app changes, re-make the Drive parts and change EXPECT and N in the joiner. User still to test the joiner.
+- Next step: user checks the redesign on a phone, then asks for changes one at a time. Drive copy is one version behind by choice.
 
 ## Routine after every change
 1. Edit the app. 2. Push to GitHub. 3. Deploy to Vercel. 4. Update Google Drive. 5. Republish the Claude artifact. 6. Replace the Project copy. 7. Update this file and the rules doc.
