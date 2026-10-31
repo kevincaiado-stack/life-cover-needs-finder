@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-01 (researched education and wedding costs, inflated with the live rate)
+Last updated: 2026-11-01 (summary shows timing for every line)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,6 +22,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 14 (2026-11-01): Summary page: "1. Insurance gap (immediately)" and "Monthly expenses at retirement (in N yrs)", matching the goals that already show (in N yrs). 1 new translated line ("immediately"). Updated: GitHub, Vercel (auto), artifact, Project. Drive NOT updated (by choice).
 - Milestone 13 (2026-11-01): child education and marriage goals now open in "Help me work it out" with researched defaults: education Rs 24 lakh (average of IIT B.Tech, IIM MBA, top private engineering, MBBS government and private; a Course drop-down lets the advisor pick one), marriage Rs 39.5 lakh (WedMeGood 2025-26). Future cost = cost today x (1 + inflation)^years, using the same live rate and floor as page 1 (read-only in the goal). Sources and numbers are in the rules doc. 8 new translated lines (R8). Rollback: commit bfb37fd. Updated: GitHub, Vercel (auto), artifact, Project. Drive NOT updated (one version behind, by choice, now two changes behind).
 - Milestone 12 (2026-11-01): the app now remembers the last live inflation rate in the browser (key ncInfl). If the helper cannot answer, it shows that remembered rate (if newer than the saved 5.54%, 09/2026) and says "Could not get the live rate". Commit bfb37fd, 282,310 bytes, SHA-256 fd9df18f75eff8f75b0743cd2277aff728f3a461684b07798e2509e7845b6c98. Updated: GitHub, Vercel (auto), Claude artifact, Project copy. NOT updated on purpose (user's choice): Google Drive parts and joiner, which still hold commit e5a2eff (SHA ff0c5004).
 - Milestone 11 (2026-10-31): Google Drive rebuilt. 18 part files (needs-finder.part01.txt to part18.txt, 9,734 bytes each except where shorter) + joiner page (N=18) now match the current app (commit e5a2eff, 281,994 bytes, SHA-256 ff0c50047a2b0937451a4143074c19db2264ffa20bc4057a7919332495d0cf8e). The joiner has not been tested by the user yet.
