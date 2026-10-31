@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-10-30 (retirement moved onto page 1, inflation +/- buttons)
+Last updated: 2026-10-31 (live inflation rate, editable with a floor)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,6 +22,13 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 10 (2026-10-31): live inflation rate.
+  - A small helper on the Vercel site, `api/inflation.js` (URL: /api/inflation), reads the latest India CPI (year on year) from tradingeconomics.com and returns the rate and month. It checks the number is sensible (0 to 25%). Answers are cached for 6 hours.
+  - The app asks the helper when it opens (8 second limit). If it answers, that rate becomes the floor and the starting value. If it cannot (no internet, helper down, page changed), the app shows the last saved rate (5.54%, 09/2026) and says so.
+  - The rate box is now editable: type a number, or use + and - (steps of 0.5). Anything below the floor snaps back to the floor; up to 30% is allowed.
+  - The saved fallback is still typed in the app (INFL, INFL_ON). Refresh it now and then. Test the helper any time by opening /api/inflation?debug=1.
+  - Risk: the helper depends on one public page. If that page changes its wording, the app quietly falls back to the saved rate. Tell me if the note says "Could not get the live rate".
+  - 2 new translated lines. Rollback: branch stable-2026-10-30-onepage (before the live rate).
 - Milestone 9 (2026-10-30): Retirement is no longer a separate page. It sits at the bottom of page 1 (About you), under Yearly savings. Steps are now 4: About you, What you owe and have, Your goals, Summary.
   - Inflation uses a minus / plus control (steps of 0.5). It starts at the latest India CPI (5.54%, Sept 2026) and can never go below it; it can go up to 30%.
   - The result shows: Monthly expenses today, Years left until you stop working, and the big blue box with the monthly expenses after those years. Also in the Summary.
@@ -48,6 +55,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 
 ## Open items
 - Native speakers should review all translations. Review sheet: docs/translation-review.csv (211 lines x 6 languages, with a Reviewer notes column). Automatic check done 2026-10-24: all 197 lines x 6 languages keep their {0} placeholders, bold tags and numbers, and none is left in English. No change to the app was needed. A native speaker still needs to check the wording.
+- Check the live inflation note on the live site (should say "Live rate").
 - Check the live site language dropdown on a phone and a laptop.
 - Drive: done for the redesign (SHA 4f4f0692...152f). If the app changes, re-make the Drive parts and change EXPECT in the joiner.
 - Next step: user checks the redesign on a phone, then asks for changes one at a time. Drive copy now matches the redesign.

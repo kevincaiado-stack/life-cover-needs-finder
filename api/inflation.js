@@ -3,9 +3,7 @@
 // The app falls back to its own saved rate when this helper cannot answer.
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const SOURCES = [
-  { name: "tradingeconomics", url: "https://tradingeconomics.com/india/inflation-cpi" },
-  { name: "ddindia", url: "https://www.google.com/search?q=india+retail+inflation+latest+month+cpi" },
-  { name: "mospi", url: "https://www.mospi.gov.in/" }
+  { name: "tradingeconomics", url: "https://tradingeconomics.com/india/inflation-cpi" }
 ];
 const RX = [
   /(?:to|at|of)\s+(\d{1,2}(?:\.\d{1,2})?)\s*(?:percent|per cent|%)\s+in\s+(January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+of)?\s+(20\d\d)/i,
