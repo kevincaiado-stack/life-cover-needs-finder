@@ -814,9 +814,11 @@ function getAmt(k,y){
 var UI=INFL,LIVE=false,INFL_API="https://life-cover-needs-finder.vercel.app/api/inflation";
 function pnum(t){var v=parseFloat(String(t).replace(",",".").trim());return isFinite(v)?v:INFL}
 function infl(){return Math.max(INFL,Math.min(30,pnum(UI)))}
-function loadInfl(){try{var c=new AbortController(),to=setTimeout(function(){c.abort()},8000);
+function ym(t){var p=String(t).split("/");return (+p[1])*12+(+p[0])}
+function loadInfl(){try{var sv=JSON.parse(localStorage.getItem("ncInfl")||"null");if(sv&&sv.rate>0&&sv.rate<25&&ym(sv.on)>ym(INFL_ON)){INFL=sv.rate;INFL_ON=sv.on;UI=INFL}}catch(e){}
+  try{var c=new AbortController(),to=setTimeout(function(){c.abort()},8000);
   fetch(INFL_API,{signal:c.signal}).then(function(r){return r.json()}).then(function(d){clearTimeout(to);
-    if(d&&d.ok&&d.rate>0&&d.rate<25){var was=(UI===INFL);INFL=d.rate;INFL_ON=d.on;LIVE=true;if(was||pnum(UI)<INFL)UI=INFL;render()}}).catch(function(){})}catch(e){}}
+    if(d&&d.ok&&d.rate>0&&d.rate<25){var was=(UI===INFL);INFL=d.rate;INFL_ON=d.on;LIVE=true;try{localStorage.setItem("ncInfl",JSON.stringify({rate:d.rate,on:d.on}))}catch(e){}if(was||pnum(UI)<INFL)UI=INFL;render()}}).catch(function(){})}catch(e){}}
 function stepInfl(d){UI=Math.max(INFL,Math.min(30,Math.round((infl()+d)*100)/100));render()}
 function renderRet(a,ret){
   var e=num($("exp").value),box=$("retBox"),sm=$("oRet"),i=infl();
