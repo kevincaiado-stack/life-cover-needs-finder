@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-10-31 (live inflation rate, editable with a floor)
+Last updated: 2026-10-31 (Drive rebuilt for the live-inflation app)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -9,7 +9,7 @@ Rule: this file is updated at every milestone, then copied to GitHub, Google Dri
 - Safe rollback points on GitHub (branches, nothing was deleted):
   - `stable-2026-10-24` = this version. To come back to it later: restore its files into main with `git checkout stable-2026-10-24 -- .`, commit and push.
   - `backup-phase2-2026-10-25` = the full phase 2 work (plans hidden, 331,018 bytes). To bring it back: `git checkout backup-phase2-2026-10-25 -- .`, commit and push.
-- The Claude artifact (v40), the Project copy and the live site are the rolled-back version. The Google Drive part files and joiner (17 parts, fingerprint 4f4f0692) now match the redesigned app.
+- The Claude artifact (v40), the Project copy and the live site are the rolled-back version. The Google Drive part files and joiner (18 parts, fingerprint ff0c5004) match the current app.
 
 ## What it is
 A single-file web app (needs-finder.html) that helps advisors work out a customer's life cover gap and goals, and suggests Canara HSBC Life Insurance plans. For internal training use only.
@@ -17,11 +17,12 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## Where everything lives
 - Live site: https://life-cover-needs-finder.vercel.app (Vercel, deploys from GitHub main)
 - GitHub: kevincaiado-stack/life-cover-needs-finder (branch main). Project notes are in the `docs/` folder.
-- Google Drive: folder "Needs Finder" (full app as 17 part files + joiner page, live-link file, these notes; the parts and joiner match the redesign, SHA 4f4f0692)
+- Google Drive: folder "Needs Finder" (full app as 18 part files + joiner page, these notes; the parts and joiner match commit e5a2eff, SHA ff0c5004...cf8e)
 - Claude Project: "Needs Calculator App" (folder `needs-finder/`: this file, rules doc, app copy)
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 11 (2026-10-31): Google Drive rebuilt. 18 part files (needs-finder.part01.txt to part18.txt, 9,734 bytes each except where shorter) + joiner page (N=18) now match the current app (commit e5a2eff, 281,994 bytes, SHA-256 ff0c50047a2b0937451a4143074c19db2264ffa20bc4057a7919332495d0cf8e). The joiner has not been tested by the user yet.
 - Milestone 10 (2026-10-31): live inflation rate.
   - A small helper on the Vercel site, `api/inflation.js` (URL: /api/inflation), reads the latest India CPI (year on year) from tradingeconomics.com and returns the rate and month. It checks the number is sensible (0 to 25%). Answers are cached for 6 hours.
   - The app asks the helper when it opens (8 second limit). If it answers, that rate becomes the floor and the starting value. If it cannot (no internet, helper down, page changed), the app shows the last saved rate (5.54%, 09/2026) and says so.
@@ -34,7 +35,6 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
   - The result shows: Monthly expenses today, Years left until you stop working, and the big blue box with the monthly expenses after those years. Also in the Summary.
   - The latest rate is typed in the code (INFL, INFL_ON); it is not a live feed. Update it when the next CPI is released (about 12 Nov 2026) or when asked.
   - 3 new translated lines. Rollback: branch stable-2026-10-29-redesign (the 5-step version).
-  - Google Drive part files and joiner are now OUT OF DATE (they hold the 5-step redesign, SHA 4f4f0692). Re-make when asked.
 - Milestone 8 (2026-10-29): bank-style redesign on top of the rolled-back version. NOT the phase 2 work.
   - One step per screen with progress bar and Back/Next: 1 About you, 2 What you owe and have, 3 Retirement, 4 Your goals, 5 Summary. Total need and cover gap stay in a bottom bar. Clean navy/white theme, dark mode follows the phone.
   - New Retirement step: working years left are worked out automatically (age you stop working minus current age). Inflation starts at 5.54% = India retail inflation (CPI) for September 2026, MoSPI, released 12 Oct 2026 (constant INFL / INFL_ON in the code; update when asked). Advisor can change it. Shows monthly expenses after those years = expenses today x (1 + inflation)^years. Example: Rs 75,000, 20 years, 5.54% = Rs 2,20,497 a month. Also shown in the Summary.
@@ -57,8 +57,8 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Native speakers should review all translations. Review sheet: docs/translation-review.csv (211 lines x 6 languages, with a Reviewer notes column). Automatic check done 2026-10-24: all 197 lines x 6 languages keep their {0} placeholders, bold tags and numbers, and none is left in English. No change to the app was needed. A native speaker still needs to check the wording.
 - Check the live inflation note on the live site (should say "Live rate").
 - Check the live site language dropdown on a phone and a laptop.
-- Drive: done for the redesign (SHA 4f4f0692...152f). If the app changes, re-make the Drive parts and change EXPECT in the joiner.
-- Next step: user checks the redesign on a phone, then asks for changes one at a time. Drive copy now matches the redesign.
+- Drive: done for commit e5a2eff (SHA ff0c5004...cf8e). If the app changes, re-make the Drive parts and change EXPECT and N in the joiner. User still to test the joiner.
+- Next step: user checks the redesign on a phone, then asks for changes one at a time. Drive copy matches the current app.
 
 ## Routine after every change
 1. Edit the app. 2. Push to GitHub. 3. Deploy to Vercel. 4. Update Google Drive. 5. Republish the Claude artifact. 6. Replace the Project copy. 7. Update this file and the rules doc.
