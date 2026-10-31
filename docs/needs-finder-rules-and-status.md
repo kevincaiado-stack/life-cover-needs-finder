@@ -70,6 +70,13 @@ Last updated: 2026-10-21. Build: GitHub commit b8304b5 (main). Live: https://lif
 - Promise4Life: Forever Income, Century Milestone, Assured Term Income all 0 to 65 (Assured Term Income pays in arrears, max 30 yrs). Minimum premium Rs 50,000.
 - Promise4Future: Savings4Future 0 to 60 (max term 70). Income4Future 0 to 55 (max term 70). Minimum premium Rs 24,000.
 
+## Child education and marriage cost defaults (researched 2026-11-01)
+How it works: the goal opens in "Help me work it out". Cost today x (1 + inflation)^years, where inflation is the same live rate and floor as page 1 (shown read-only in the goal). Years = money-needed age minus child's age. The advisor can edit the cost.
+- Education (India, fees only, whole course, today): IIT B.Tech about Rs 8.7 lakh (4 yrs; Careers360 lists Rs 8.55 to 8.93 lakh tuition), IIM MBA about Rs 22 lakh (2 yrs; Rs 17 to 27.5 lakh, Careers360 2025-27/2026-28), top private engineering about Rs 15.5 lakh (BITS 11.44, VIT 7.8, SRM 19, Amrita 24 lakh, Vedantu), MBBS government up to Rs 10 lakh, MBBS private Rs 65 lakh (merit seats Rs 45 to 85 lakh; management quota Rs 80 lakh to 1.4 crore, GradRight 2026). Default "Average of top courses" = Rs 24 lakh (simple average of these five). Hostel and living costs are NOT included.
+- Marriage: Rs 39.5 lakh average Indian wedding (WedMeGood Annual Wedding Industry Report 2025-26, +8% on last year; 2024 was Rs 36.5 lakh). WedMeGood is urban and online-skewed; other surveys give lower averages (about Rs 12 lakh per family in one wider survey).
+- Caveats: the source pages disagree in places (for example some IIT fee tables show Rs 1 lakh total for older fee structures). Treat as planning averages. Education fees have usually risen faster than general inflation; the app uses the page 1 rate by design.
+- Update the defaults in code: EDU_AVG, WED_AVG and the course list in initKid.
+
 ## Routine after every change
 1. Edit `needs-finder.html` and test it.
 2. Push to GitHub (main).

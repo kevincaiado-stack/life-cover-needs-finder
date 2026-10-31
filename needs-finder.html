@@ -23,6 +23,7 @@ section.card,aside.card{background:var(--card);border:1px solid var(--line);bord
 h2{font-size:22px;margin:0 0 6px;font-weight:600}
 .hint{color:var(--mute);font-size:15px;margin:0 0 16px}
 label{display:block;font-weight:500;font-size:15px;margin:20px 0 8px}
+select.pre{width:100%;min-height:54px;padding:14px;font:inherit;font-size:17px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:12px;margin-bottom:10px}
 input[type=text],input[type=date]{width:100%;min-height:54px;padding:14px;font:inherit;font-size:17px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:12px}
 input:focus-visible,button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
 .words{font-size:14px;color:var(--teal);min-height:20px;margin-top:6px}
@@ -630,10 +631,12 @@ AR([["Monthly expenses today","आज का मासिक खर्च","આ�
 AR([["Retirement", "सेवानिवृत्ति", "નિવૃત્તિ", "ஓய்வு", "വിരമിക്കൽ", "ನಿವೃತ್ತಿ", "निवृत्ती"], ["3. Your goals", "3. आपके लक्ष्य", "3. તમારા લક્ષ્યો", "3. உங்கள் இலக்குகள்", "3. നിങ്ങളുടെ ലക്ഷ്യങ്ങൾ", "3. ನಿಮ್ಮ ಗುರಿಗಳು", "3. तुमची उद्दिष्टे"], ["Latest India retail inflation (CPI) is {0}%, for {1}. Source: Ministry of Statistics (MoSPI). You can raise it, but not lower it.", "भारत की ताज़ा खुदरा महँगाई (CPI) {1} के लिए {0}% है। स्रोत: सांख्यिकी मंत्रालय (MoSPI)। आप इसे बढ़ा सकते हैं, घटा नहीं सकते।", "ભારતની તાજેતરની છૂટક મોંઘવારી (CPI) {1} માટે {0}% છે. સ્રોત: સાંખ્યિકી મંત્રાલય (MoSPI). તમે તેને વધારી શકો છો, ઘટાડી શકતા નથી.", "இந்தியாவின் சமீபத்திய சில்லறை பணவீக்கம் (CPI) {1}-க்கு {0}% ஆகும். ஆதாரம்: புள்ளியியல் அமைச்சகம் (MoSPI). இதை உயர்த்தலாம், குறைக்க முடியாது.", "ഇന്ത്യയിലെ ഏറ്റവും പുതിയ ചില്ലറ വിലക്കയറ്റം (CPI) {1}-ൽ {0}% ആണ്. ഉറവിടം: സ്ഥിതിവിവര മന്ത്രാലയം (MoSPI). നിങ്ങൾക്ക് ഇത് കൂട്ടാം, കുറയ്ക്കാൻ കഴിയില്ല.", "ಭಾರತದ ಇತ್ತೀಚಿನ ಚಿಲ್ಲರೆ ಹಣದುಬ್ಬರ (CPI) {1} ಕ್ಕೆ {0}% ಆಗಿದೆ. ಮೂಲ: ಅಂಕಿಅಂಶ ಸಚಿವಾಲಯ (MoSPI). ನೀವು ಇದನ್ನು ಹೆಚ್ಚಿಸಬಹುದು, ಕಡಿಮೆ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.", "भारताची ताजी किरकोळ महागाई (CPI) {1} साठी {0}% आहे. स्रोत: सांख्यिकी मंत्रालय (MoSPI). तुम्ही ती वाढवू शकता, कमी करू शकत नाही."]]);
 /*R7: live inflation notes*/
 AR([["Live rate: latest India retail inflation (CPI) is {0}%, for {1}. Source: Ministry of Statistics (MoSPI). You can raise it, but not lower it.", "लाइव दर: भारत की ताज़ा खुदरा महँगाई (CPI) {1} के लिए {0}% है। स्रोत: सांख्यिकी मंत्रालय (MoSPI)। आप इसे बढ़ा सकते हैं, घटा नहीं सकते।", "લાઇવ દર: ભારતની તાજેતરની છૂટક મોંઘવારી (CPI) {1} માટે {0}% છે. સ્રોત: સાંખ્યિકી મંત્રાલય (MoSPI). તમે તેને વધારી શકો છો, ઘટાડી શકતા નથી.", "நேரடி விகிதம்: இந்தியாவின் சமீபத்திய சில்லறை பணவீக்கம் (CPI) {1}-க்கு {0}% ஆகும். ஆதாரம்: புள்ளியியல் அமைச்சகம் (MoSPI). இதை உயர்த்தலாம், குறைக்க முடியாது.", "തത്സമയ നിരക്ക്: ഇന്ത്യയിലെ ഏറ്റവും പുതിയ ചില്ലറ വിലക്കയറ്റം (CPI) {1}-ൽ {0}% ആണ്. ഉറവിടം: സ്ഥിതിവിവര മന്ത്രാലയം (MoSPI). നിങ്ങൾക്ക് ഇത് കൂട്ടാം, കുറയ്ക്കാൻ കഴിയില്ല.", "ಲೈವ್ ದರ: ಭಾರತದ ಇತ್ತೀಚಿನ ಚಿಲ್ಲರೆ ಹಣದುಬ್ಬರ (CPI) {1} ಕ್ಕೆ {0}% ಆಗಿದೆ. ಮೂಲ: ಅಂಕಿಅಂಶ ಸಚಿವಾಲಯ (MoSPI). ನೀವು ಇದನ್ನು ಹೆಚ್ಚಿಸಬಹುದು, ಕಡಿಮೆ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.", "लाइव्ह दर: भारताची ताजी किरकोळ महागाई (CPI) {1} साठी {0}% आहे. स्रोत: सांख्यिकी मंत्रालय (MoSPI). तुम्ही ती वाढवू शकता, कमी करू शकत नाही."], ["Could not get the live rate. Showing the last saved rate: {0}%, for {1}. You can raise it, but not lower it.", "लाइव दर नहीं मिल सका। आखिरी सहेजी गई दर दिख रही है: {1} के लिए {0}%। आप इसे बढ़ा सकते हैं, घटा नहीं सकते।", "લાઇવ દર મળી શક્યો નહીં. છેલ્લો સાચવેલો દર બતાવાય છે: {1} માટે {0}%. તમે તેને વધારી શકો છો, ઘટાડી શકતા નથી.", "நேரடி விகிதம் கிடைக்கவில்லை. கடைசியாகச் சேமித்த விகிதம் காட்டப்படுகிறது: {1}-க்கு {0}%. இதை உயர்த்தலாம், குறைக்க முடியாது.", "തത്സമയ നിരക്ക് ലഭിച്ചില്ല. അവസാനം സേവ് ചെയ്ത നിരക്ക് കാണിക്കുന്നു: {1}-ൽ {0}%. നിങ്ങൾക്ക് ഇത് കൂട്ടാം, കുറയ്ക്കാൻ കഴിയില്ല.", "ಲೈವ್ ದರ ಸಿಗಲಿಲ್ಲ. ಕೊನೆಯ ಉಳಿಸಿದ ದರವನ್ನು ತೋರಿಸಲಾಗಿದೆ: {1} ಕ್ಕೆ {0}%. ನೀವು ಇದನ್ನು ಹೆಚ್ಚಿಸಬಹುದು, ಕಡಿಮೆ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.", "लाइव्ह दर मिळाला नाही. शेवटचा जतन केलेला दर दाखवला आहे: {1} साठी {0}%. तुम्ही तो वाढवू शकता, कमी करू शकत नाही."]]);
+/*R8: researched education and wedding costs*/
+AR([["Course", "पाठ्यक्रम", "અભ્યાસક્રમ", "படிப்பு", "കോഴ്സ്", "ಕೋರ್ಸ್", "अभ्यासक्रम"], ["Average of top courses", "शीर्ष पाठ्यक्रमों का औसत", "ટોચના અભ્યાસક્રમોની સરેરાશ", "சிறந்த படிப்புகளின் சராசரி", "മികച്ച കോഴ്സുകളുടെ ശരാശരി", "ಉನ್ನತ ಕೋರ್ಸ್‌ಗಳ ಸರಾಸರಿ", "अव्वल अभ्यासक्रमांची सरासरी"], ["Top private engineering", "शीर्ष निजी इंजीनियरिंग", "ટોચની ખાનગી એન્જિનિયરિંગ", "சிறந்த தனியார் பொறியியல்", "മികച്ച സ്വകാര്യ എൻജിനീയറിങ്", "ಉನ್ನತ ಖಾಸಗಿ ಎಂಜಿನಿಯರಿಂಗ್", "अव्वल खासगी अभियांत्रिकी"], ["MBBS (government)", "MBBS (सरकारी)", "MBBS (સરકારી)", "MBBS (அரசு)", "MBBS (സർക്കാർ)", "MBBS (ಸರ್ಕಾರಿ)", "MBBS (सरकारी)"], ["MBBS (private)", "MBBS (निजी)", "MBBS (ખાનગી)", "MBBS (தனியார்)", "MBBS (സ്വകാര്യ)", "MBBS (ಖಾಸಗಿ)", "MBBS (खासगी)"], ["Yearly price rise (inflation) %. Uses the rate from page 1.", "वार्षिक मूल्य वृद्धि (महँगाई) %। पेज 1 की दर का उपयोग होता है।", "વાર્ષિક ભાવવધારો (મોંઘવારી) %. પેજ 1 નો દર વપરાય છે.", "ஆண்டு விலை உயர்வு (பணவீக்கம்) %. பக்கம் 1-ல் உள்ள விகிதம் பயன்படுத்தப்படும்.", "വാർഷിക വിലക്കയറ്റം (പണപ്പെരുപ്പം) %. പേജ് 1-ലെ നിരക്ക് ഉപയോഗിക്കുന്നു.", "ವಾರ್ಷಿಕ ಬೆಲೆ ಏರಿಕೆ (ಹಣದುಬ್ಬರ) %. ಪುಟ 1 ರ ದರವನ್ನು ಬಳಸಲಾಗುತ್ತದೆ.", "वार्षिक भाववाढ (महागाई) %. पान 1 वरील दर वापरला जातो."], ["Average cost today of a full course at top Indian institutions (IIT, IIM, top private engineering, MBBS): about ₹24 lakh. Fees only, hostel and living are extra. You can change it.", "भारत के शीर्ष संस्थानों (IIT, IIM, शीर्ष निजी इंजीनियरिंग, MBBS) में पूरे पाठ्यक्रम की आज की औसत लागत: लगभग ₹24 लाख। केवल फीस, हॉस्टल और रहना अलग। आप इसे बदल सकते हैं।", "ભારતની ટોચની સંસ્થાઓ (IIT, IIM, ટોચની ખાનગી એન્જિનિયરિંગ, MBBS) માં આખા અભ્યાસક્રમનો આજનો સરેરાશ ખર્ચ: આશરે ₹24 લાખ. ફક્ત ફી, હોસ્ટેલ અને રહેવાનો ખર્ચ અલગ. તમે તેને બદલી શકો છો.", "இந்தியாவின் முன்னணி கல்வி நிறுவனங்களில் (IIT, IIM, சிறந்த தனியார் பொறியியல், MBBS) முழு படிப்புக்கான இன்றைய சராசரி செலவு: சுமார் ₹24 லட்சம். கட்டணம் மட்டும்; விடுதி மற்றும் வாழ்க்கைச் செலவு தனி. இதை மாற்றலாம்.", "ഇന്ത്യയിലെ മുൻനിര സ്ഥാപനങ്ങളിൽ (IIT, IIM, മികച്ച സ്വകാര്യ എൻജിനീയറിങ്, MBBS) മുഴുവൻ കോഴ്സിനുള്ള ഇന്നത്തെ ശരാശരി ചെലവ്: ഏകദേശം ₹24 ലക്ഷം. ഫീസ് മാത്രം; ഹോസ്റ്റലും താമസച്ചെലവും വേറെ. നിങ്ങൾക്ക് ഇത് മാറ്റാം.", "ಭಾರತದ ಉನ್ನತ ಸಂಸ್ಥೆಗಳಲ್ಲಿ (IIT, IIM, ಉನ್ನತ ಖಾಸಗಿ ಎಂಜಿನಿಯರಿಂಗ್, MBBS) ಪೂರ್ಣ ಕೋರ್ಸ್‌ನ ಇಂದಿನ ಸರಾಸರಿ ವೆಚ್ಚ: ಸುಮಾರು ₹24 ಲಕ್ಷ. ಶುಲ್ಕ ಮಾತ್ರ; ಹಾಸ್ಟೆಲ್ ಮತ್ತು ವಾಸದ ವೆಚ್ಚ ಬೇರೆ. ನೀವು ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು.", "भारतातील अव्वल संस्थांमध्ये (IIT, IIM, अव्वल खासगी अभियांत्रिकी, MBBS) संपूर्ण अभ्यासक्रमाचा आजचा सरासरी खर्च: सुमारे ₹24 लाख. फक्त फी; वसतिगृह आणि राहण्याचा खर्च वेगळा. तुम्ही तो बदलू शकता."], ["Average cost of an Indian wedding today: about ₹39.5 lakh (WedMeGood, 2025-26). You can change it.", "आज एक भारतीय शादी की औसत लागत: लगभग ₹39.5 लाख (WedMeGood, 2025-26)। आप इसे बदल सकते हैं।", "આજે ભારતીય લગ્નનો સરેરાશ ખર્ચ: આશરે ₹39.5 લાખ (WedMeGood, 2025-26). તમે તેને બદલી શકો છો.", "இன்று ஒரு இந்தியத் திருமணத்தின் சராசரி செலவு: சுமார் ₹39.5 லட்சம் (WedMeGood, 2025-26). இதை மாற்றலாம்.", "ഇന്ന് ഒരു ഇന്ത്യൻ വിവാഹത്തിന്റെ ശരാശരി ചെലവ്: ഏകദേശം ₹39.5 ലക്ഷം (WedMeGood, 2025-26). നിങ്ങൾക്ക് ഇത് മാറ്റാം.", "ಇಂದು ಭಾರತೀಯ ಮದುವೆಯ ಸರಾಸರಿ ವೆಚ್ಚ: ಸುಮಾರು ₹39.5 ಲಕ್ಷ (WedMeGood, 2025-26). ನೀವು ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು.", "आज भारतीय लग्नाचा सरासरी खर्च: सुमारे ₹39.5 लाख (WedMeGood, 2025-26). तुम्ही तो बदलू शकता."]]);
 /*R3*/
 function tx(s){if(LANG==="en")return s;var r=TD[s];return (r&&r[LI[LANG]])||s}
 function fmt(s){var a=arguments;return tx(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1]})}
-var TSEL='h1,h2,#s1 h3.ph,header p,p.hint,label:not(.r),legend,.gt,button:not([data-rec]),.dock small,label.r span,p.sub,.gap small,.total small:not(#oWords),.line span:first-child';
+var TSEL='h1,h2,#s1 h3.ph,header p,p.hint,label:not(.r),legend,.gt,button:not([data-rec]),.dock small,label.r span,select.pre option,p.sub,.gap small,.total small:not(#oWords),.line span:first-child';
 function applyTr(){
   document.querySelectorAll(TSEL).forEach(function(el){
     if(el.closest("#oGoals,#charts"))return;
@@ -788,6 +791,18 @@ function kidHtml(n){var p="k"+n;
   block(p+"e","Child education",'<label for="'+p+'eN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'eN" value="18">')+
   block(p+"m","Child marriage",'<label for="'+p+'mN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'mN" value="25">')+'</div>';
 }
+var EDU_AVG=2400000,WED_AVG=3950000;
+function initKid(n){var p="k"+n;
+  ["e","m"].forEach(function(g){var k=p+g,C=$(k+"C"),edu=g==="e";
+    $(k+"D").hidden=true;C.hidden=false;
+    document.querySelectorAll('button[data-k="'+k+'"]').forEach(function(x){x.setAttribute("aria-pressed",x.dataset.m==="calc")});
+    var T=$(k+"T");T.value=(edu?EDU_AVG:WED_AVG).toLocaleString("en-IN");
+    var R=$(k+"R");R.readOnly=true;R.removeAttribute("placeholder");
+    var rl=C.querySelector('label[for="'+k+'R"]');rl.textContent="Yearly price rise (inflation) %. Uses the rate from page 1.";
+    C.insertAdjacentHTML("afterbegin",(edu?'<label for="'+k+'P">Course</label><select class="pre" id="'+k+'P"><option value="2400000">Average of top courses</option><option value="870000">IIT B.Tech</option><option value="2200000">IIM MBA</option><option value="1550000">Top private engineering</option><option value="1000000">MBBS (government)</option><option value="6500000">MBBS (private)</option></select>':'')+'<p class="hint">'+(edu?"Average cost today of a full course at top Indian institutions (IIT, IIM, top private engineering, MBBS): about ₹24 lakh. Fees only, hostel and living are extra. You can change it.":"Average cost of an Indian wedding today: about ₹39.5 lakh (WedMeGood, 2025-26). You can change it.")+'</p>');
+    if(edu)$(k+"P").onchange=function(){T.value=(+this.value).toLocaleString("en-IN");render()};
+  });
+}
 function buildGoals(){
   $("goals").innerHTML=
   block("home","Home or Wealth Creation",'<label for="homeY">In how many years?</label><input type="text" inputmode="numeric" id="homeY" placeholder="10 or more"><p class="hint">This goal is counted in the need only if it is 10 years or more away.</p>')+
@@ -806,7 +821,9 @@ function age(){
 
 function getAmt(k,y){
   if($(k+"C").hidden)return num($(k+"A").value);
-  var t=num($(k+"T").value),r=parseFloat($(k+"R").value)||0,f=(r>0&&y>0)?t*Math.pow(1+r/100,y):t;
+  var kidg=/^k\d+[em]$/.test(k),t=num($(k+"T").value),r=kidg?infl():(parseFloat($(k+"R").value)||0);
+  if(kidg)$(k+"R").value=r.toFixed(2);
+  var f=(r>0&&y>0)?t*Math.pow(1+r/100,y):t;
   $(k+"X").textContent=t?((r>0&&y>0)?fmt("You will need about {0} in {1} years.",rs(f),y):fmt("Amount needed: {0}",rs(f))):tx("Fill in the boxes to see the amount.");
   return t?f:0;
 }
@@ -925,10 +942,10 @@ loadInfl();
 $("inflDn").onclick=function(){stepInfl(-0.5)};$("inflUp").onclick=function(){stepInfl(0.5)};
 $("bBack").onclick=function(){go(cur-1)};
 $("bNext").onclick=function(){go(cur+1)};
-seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));
+seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));initKid(seq);
 $("mAge").onclick=function(){setMode("age")};
 $("mDob").onclick=function(){setMode("dob")};
-$("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));applyTr();render()};
+$("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));initKid(seq);applyTr();render()};
 document.addEventListener("click",function(e){
   var rb=e.target.closest("button[data-rec]");
   if(rb){showRec=rb.dataset.rec==="1";render();return}
