@@ -25,7 +25,8 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Milestone 19 (2026-11-01): the last two engagement ideas.
   1. Today's price vs the future: "What costs Rs 100 today will cost about Rs 294 in 20 years." Uses the same live inflation rate and the years until retirement. Shown under the retirement result on page 1 and in the Summary's Retirement view.
   2. The cost of waiting (Summary, after the what-if slider): for each goal more than the waiting time away, "Start now: Rs X a month. Start in N yrs: Rs Y a month." Waiting time is chosen with 1 / 3 / 5 yrs buttons (default 3). Simple saving, no returns (same rule as the slider): monthly = goal / (12 x years left). The buttons are not in the saved summary.
-  7 new translated lines (R11, R12). Rollback: commit 82529ba. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
+  7 new translated lines (R11, R12). Rollback: commit 82529ba (names to happy finish) or the branch above. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
+- ROLLBACK POINT for milestones 15 to 19 (education/wedding costs, summary timing, names, timeline, what-if, happy finish, cost of waiting, price example): branch `stable-2026-11-01-engage`. Restore with `git checkout stable-2026-11-01-engage -- .`, then commit and push. Earlier points: stable-2026-10-31-liveinfl (live inflation, before cost research), stable-2026-10-30-onepage, stable-2026-10-29-redesign, stable-2026-10-24.
 - Milestone 18 (2026-11-01): four engagement features, chosen by the user from my suggestions.
   1. Names: optional "Your name" on page 1 and optional child name in each child card. Goals read "Aarav: education"; the finish says "Great start, Ravi!". Names are limited to 20 characters and < > & " are removed.
   2. Life timeline on the Summary: Now (insurance gap), each goal "in N yrs", and Retirement with the monthly expense needed. Also in the saved/printed summary.
