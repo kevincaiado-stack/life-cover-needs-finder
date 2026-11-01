@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-01 (cost of waiting and today's-price example added)
+Last updated: 2026-11-02 (family protection meter added)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,6 +22,8 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 20 (2026-11-02): Family protection meter at the top of the Summary. A ring and text: "Your family is X% protected today" = (savings C + existing cover D) / (income value A + loans B), rounded down, capped at 100. A positive line by band: under 25% "A good time to start", 25 to 74% "You are on your way", 75 to 99% "Almost there", 100% "Well done". Hidden until age and income are filled. Included in the saved/printed summary. 6 new translated lines (R13). Rollback: branch stable-2026-11-01-engage (before the meter). Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
+  Still on the ideas list (not built): emergency fund check, money already set aside per goal, income growth, partner's cover, compare two choices, advisor details on the summary.
 - Milestone 19 (2026-11-01): the last two engagement ideas.
   1. Today's price vs the future: "What costs Rs 100 today will cost about Rs 294 in 20 years." Uses the same live inflation rate and the years until retirement. Shown under the retirement result on page 1 and in the Summary's Retirement view.
   2. The cost of waiting (Summary, after the what-if slider): for each goal more than the waiting time away, "Start now: Rs X a month. Start in N yrs: Rs Y a month." Waiting time is chosen with 1 / 3 / 5 yrs buttons (default 3). Simple saving, no returns (same rule as the slider): monthly = goal / (12 x years left). The buttons are not in the saved summary.
