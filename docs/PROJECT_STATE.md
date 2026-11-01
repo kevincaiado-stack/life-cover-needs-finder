@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-02 (family protection meter added)
+Last updated: 2026-11-02 (family protection meter and family runway added)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,6 +22,8 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 21 (2026-11-02): "How long could your family manage?" card under the protection meter on the Summary. Years = (savings C + existing cover D) / yearly expenses, shown as months if under 1 year, one decimal otherwise, "more than 50 years" at 50 or more. If the person still plans to work N years, a bar and "That covers X% of the N years you plan to keep working." Uses today's expenses, no price rise or returns (stated on the card). Hidden until age and expenses are filled. In the saved summary. 7 new translated lines (R14). Rollback: commit 7fc5e3a (meter only). Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
+  More ideas offered but not chosen yet: letter from the future, everyday price examples, read aloud in own language, who-are-you-planning-for first screen, bigger text option, save and resume, picture card for WhatsApp, last 5 customers on the phone.
 - Milestone 20 (2026-11-02): Family protection meter at the top of the Summary. A ring and text: "Your family is X% protected today" = (savings C + existing cover D) / (income value A + loans B), rounded down, capped at 100. A positive line by band: under 25% "A good time to start", 25 to 74% "You are on your way", 75 to 99% "Almost there", 100% "Well done". Hidden until age and income are filled. Included in the saved/printed summary. 6 new translated lines (R13). Rollback: branch stable-2026-11-01-engage (before the meter). Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
   Still on the ideas list (not built): emergency fund check, money already set aside per goal, income growth, partner's cover, compare two choices, advisor details on the summary.
 - Milestone 19 (2026-11-01): the last two engagement ideas.
