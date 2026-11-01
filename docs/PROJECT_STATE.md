@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-01 (summary shows timing for every line)
+Last updated: 2026-11-01 (everything synced except Drive)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,6 +22,7 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Sync check (2026-11-01): GitHub main = commit 362f643 and later notes commit, Claude artifact v49, Project copy (app, state, rules, translation review sheet) all match the current app (SHA-256 fe600396...a940, 291,xxx bytes). Vercel deploys from GitHub by itself; I could not read the live deployment from here to confirm. Google Drive NOT updated (by choice): it still holds commit e5a2eff. Translation review sheet now has 226 lines (15 new lines added).
 - Milestone 17 (2026-11-01): every course in the Course drop-down shows its range (Average of top courses Rs 8 lakh to 1.58 crore, IIT Rs 8 to 10 lakh, IIM Rs 17 to 27.5 lakh, top private engineering Rs 7.8 to 24 lakh, MBBS government up to Rs 10 lakh, MBBS private Rs 54 lakh to 1.58 crore), translated. Selecting a course fills the typical cost, editable. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
 - Milestone 16 (2026-11-01): the Course drop-down now shows the range for private MBBS: "MBBS (private): Rs 54 lakh to Rs 1.58 crore" (translated). Selecting it fills Rs 1 crore, which can be edited. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
 - Milestone 15 (2026-11-01): education and wedding costs re-checked against the latest 2026 sources. Education default now Rs 31 lakh (IIT 9 lakh, IIM 22, top private engineering 15.5, MBBS government 10, MBBS private 1 crore because 2026 deemed-college fees rose); wedding stays Rs 39.5 lakh (no newer all-India figure). The hints now say "Checked Nov 2026". These costs are fixed numbers: re-check them whenever the goals are touched. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
