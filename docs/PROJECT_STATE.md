@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-01 (engagement features: names, timeline, what-if slider, happy finish)
+Last updated: 2026-11-01 (cost of waiting and today's-price example added)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,6 +22,10 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 19 (2026-11-01): the last two engagement ideas.
+  1. Today's price vs the future: "What costs Rs 100 today will cost about Rs 294 in 20 years." Uses the same live inflation rate and the years until retirement. Shown under the retirement result on page 1 and in the Summary's Retirement view.
+  2. The cost of waiting (Summary, after the what-if slider): for each goal more than the waiting time away, "Start now: Rs X a month. Start in N yrs: Rs Y a month." Waiting time is chosen with 1 / 3 / 5 yrs buttons (default 3). Simple saving, no returns (same rule as the slider): monthly = goal / (12 x years left). The buttons are not in the saved summary.
+  7 new translated lines (R11, R12). Rollback: commit 82529ba. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
 - Milestone 18 (2026-11-01): four engagement features, chosen by the user from my suggestions.
   1. Names: optional "Your name" on page 1 and optional child name in each child card. Goals read "Aarav: education"; the finish says "Great start, Ravi!". Names are limited to 20 characters and < > & " are removed.
   2. Life timeline on the Summary: Now (insurance gap), each goal "in N yrs", and Retirement with the monthly expense needed. Also in the saved/printed summary.
