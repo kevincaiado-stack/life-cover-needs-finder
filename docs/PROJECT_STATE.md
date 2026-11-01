@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-01 (everything synced except Drive)
+Last updated: 2026-11-01 (engagement features: names, timeline, what-if slider, happy finish)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,6 +22,12 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
+- Milestone 18 (2026-11-01): four engagement features, chosen by the user from my suggestions.
+  1. Names: optional "Your name" on page 1 and optional child name in each child card. Goals read "Aarav: education"; the finish says "Great start, Ravi!". Names are limited to 20 characters and < > & " are removed.
+  2. Life timeline on the Summary: Now (insurance gap), each goal "in N yrs", and Retirement with the monthly expense needed. Also in the saved/printed summary.
+  3. What-if slider (Rs 0 to 50,000 a month, steps of 1,000): each goal shows "Extra saving by then" and the share of the goal it covers. Simple saving, NO returns counted (on purpose, no return assumptions). The slider is not in the saved summary.
+  4. Happy finish card: "Great start!" with 3 next steps (talk to the advisor about the gap, pick the key goal, review every year) and a Share with family button (phone share sheet, else WhatsApp link) that sends only the gap, total need and the internal-training disclaimer.
+  20 new translated lines (R10). Rollback: commit 40bdac6. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
 - Sync check (2026-11-01): GitHub main = commit 362f643 and later notes commit, Claude artifact v49, Project copy (app, state, rules, translation review sheet) all match the current app (SHA-256 fe600396...a940, 291,xxx bytes). Vercel deploys from GitHub by itself; I could not read the live deployment from here to confirm. Google Drive NOT updated (by choice): it still holds commit e5a2eff. Translation review sheet now has 226 lines (15 new lines added).
 - Milestone 17 (2026-11-01): every course in the Course drop-down shows its range (Average of top courses Rs 8 lakh to 1.58 crore, IIT Rs 8 to 10 lakh, IIM Rs 17 to 27.5 lakh, top private engineering Rs 7.8 to 24 lakh, MBBS government up to Rs 10 lakh, MBBS private Rs 54 lakh to 1.58 crore), translated. Selecting a course fills the typical cost, editable. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
 - Milestone 16 (2026-11-01): the Course drop-down now shows the range for private MBBS: "MBBS (private): Rs 54 lakh to Rs 1.58 crore" (translated). Selecting it fills Rs 1 crore, which can be edited. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).

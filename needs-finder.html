@@ -23,6 +23,14 @@ section.card,aside.card{background:var(--card);border:1px solid var(--line);bord
 h2{font-size:22px;margin:0 0 6px;font-weight:600}
 .hint{color:var(--mute);font-size:15px;margin:0 0 16px}
 label{display:block;font-weight:500;font-size:15px;margin:20px 0 8px}
+.tlist{margin:12px 0 0;padding:0 0 0 8px}
+.tls{position:relative;border-left:3px solid var(--teal);padding:0 0 16px 18px;margin-left:6px}
+.tls:last-child{border-left-color:transparent;padding-bottom:4px}
+.tls:before{content:"";position:absolute;left:-9px;top:3px;width:15px;height:15px;border-radius:50%;background:var(--teal);border:3px solid var(--card)}
+.tls .tw{font-size:13px;color:var(--teal);font-weight:600}.tls .tn{font-weight:600}.tls .tv{color:var(--ink)}.tls .ts{font-size:13px;color:var(--mute);margin-top:2px}
+.wic{margin-top:14px;padding-top:6px;border-top:1px dashed var(--line)}
+input[type=range]{width:100%;accent-color:var(--teal);min-height:36px}
+.fin{background:var(--tealbg);border-radius:12px;padding:16px;margin-top:16px}.fin h3{margin:0 0 6px;font-size:18px}.fin ol{margin:8px 0 12px;padding-left:20px}.fin li{margin:6px 0}
 select.pre{width:100%;min-height:54px;padding:14px;font:inherit;font-size:17px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:12px;margin-bottom:10px}
 input[type=text],input[type=date]{width:100%;min-height:54px;padding:14px;font:inherit;font-size:17px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:12px}
 input:focus-visible,button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
@@ -83,7 +91,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   :root{--bg:#fff;--card:#fff;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body{background:#fff}
-  .prog,.dock,.steps>section,.acts,#dlHint,.rt,.lang{display:none!important}
+  .prog,.dock,.steps>section,.acts,#dlHint,.rt,.lang,#wiCtl,#shareBtn{display:none!important}
   header{background:#fff;color:#14213D;padding:0 0 8px}h1{color:#14213D}
   .wrap{display:block;padding:0}
   aside.card{display:block!important;border:0;padding:0;margin:0;box-shadow:none}
@@ -102,6 +110,8 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   <section class="card" id="s1">
     <h2>1. About you</h2>
     <p class="hint">We use your age and yearly income to find your Human Life Value.</p>
+    <label for="uname">Your name (optional)</label>
+    <input type="text" id="uname" maxlength="20" placeholder="e.g. Ravi" autocomplete="given-name">
     <div class="seg" role="group" aria-label="Enter age or date of birth">
       <button type="button" id="mAge" aria-pressed="true">I know my age</button>
       <button type="button" id="mDob" aria-pressed="false">Use date of birth</button>
@@ -158,7 +168,9 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   <div id="oRet"></div>
   <div id="oGoals"></div>
   <div class="total"><small>Total financial need</small><strong id="oTotal">₹0</strong><small id="oWords"></small></div>
+  <div id="tlBox" hidden><h3 class="ph" id="tlH"></h3><p class="hint" id="tlHint"></p><div class="tlist" id="tlList"></div><div class="wic" id="wiCtl"><label for="wiR" id="wiL"></label><input type="range" id="wiR" min="0" max="50000" step="1000" value="0"><div class="words" id="wiV"></div><p class="hint" id="wiN"></p></div></div>
   <div class="viz" id="charts"></div>
+  <div class="fin" id="finBox" hidden></div>
   <p class="pdate" id="pdate"></p>
   <div class="acts"><button type="button" class="add" id="printBtn">Print or save as PDF</button> <button type="button" class="add" id="dlBtn">Save summary file</button> <button type="button" class="add" id="resetBtn">Start over</button></div>
   <p class="hint" id="dlHint">If the print window does not open, tap <b>Save summary file</b>, open the saved file, and print or save as PDF from there.</p>
@@ -635,6 +647,8 @@ AR([["Live rate: latest India retail inflation (CPI) is {0}%, for {1}. Source: M
 AR([["Course", "पाठ्यक्रम", "અભ્યાસક્રમ", "படிப்பு", "കോഴ്സ്", "ಕೋರ್ಸ್", "अभ्यासक्रम"], ["IIT B.Tech: ₹8 lakh to ₹10 lakh", "IIT B.Tech: ₹8 लाख से ₹10 लाख", "IIT B.Tech: ₹8 લાખથી ₹10 લાખ", "IIT B.Tech: ₹8 லட்சம் முதல் ₹10 லட்சம்", "IIT B.Tech: ₹8 ലക്ഷം മുതൽ ₹10 ലക്ഷം", "IIT B.Tech: ₹8 ಲಕ್ಷದಿಂದ ₹10 ಲಕ್ಷ", "IIT B.Tech: ₹8 लाख ते ₹10 लाख"], ["IIM MBA: ₹17 lakh to ₹27.5 lakh", "IIM MBA: ₹17 लाख से ₹27.5 लाख", "IIM MBA: ₹17 લાખથી ₹27.5 લાખ", "IIM MBA: ₹17 லட்சம் முதல் ₹27.5 லட்சம்", "IIM MBA: ₹17 ലക്ഷം മുതൽ ₹27.5 ലക്ഷം", "IIM MBA: ₹17 ಲಕ್ಷದಿಂದ ₹27.5 ಲಕ್ಷ", "IIM MBA: ₹17 लाख ते ₹27.5 लाख"], ["Average of top courses: ₹8 lakh to ₹1.58 crore", "शीर्ष पाठ्यक्रमों का औसत: ₹8 लाख से ₹1.58 करोड़", "ટોચના અભ્યાસક્રમોની સરેરાશ: ₹8 લાખથી ₹1.58 કરોડ", "சிறந்த படிப்புகளின் சராசரி: ₹8 லட்சம் முதல் ₹1.58 கோடி", "മികച്ച കോഴ്സുകളുടെ ശരാശരി: ₹8 ലക്ഷം മുതൽ ₹1.58 കോടി", "ಉನ್ನತ ಕೋರ್ಸ್‌ಗಳ ಸರಾಸರಿ: ₹8 ಲಕ್ಷದಿಂದ ₹1.58 ಕೋಟಿ", "अव्वल अभ्यासक्रमांची सरासरी: ₹8 लाख ते ₹1.58 कोटी"], ["Top private engineering: ₹7.8 lakh to ₹24 lakh", "शीर्ष निजी इंजीनियरिंग: ₹7.8 लाख से ₹24 लाख", "ટોચની ખાનગી એન્જિનિયરિંગ: ₹7.8 લાખથી ₹24 લાખ", "சிறந்த தனியார் பொறியியல்: ₹7.8 லட்சம் முதல் ₹24 லட்சம்", "മികച്ച സ്വകാര്യ എൻജിനീയറിങ്: ₹7.8 ലക്ഷം മുതൽ ₹24 ലക്ഷം", "ಉನ್ನತ ಖಾಸಗಿ ಎಂಜಿನಿಯರಿಂಗ್: ₹7.8 ಲಕ್ಷದಿಂದ ₹24 ಲಕ್ಷ", "अव्वल खासगी अभियांत्रिकी: ₹7.8 लाख ते ₹24 लाख"], ["MBBS (government): up to ₹10 lakh", "MBBS (सरकारी): ₹10 लाख तक", "MBBS (સરકારી): ₹10 લાખ સુધી", "MBBS (அரசு): ₹10 லட்சம் வரை", "MBBS (സർക്കാർ): ₹10 ലക്ഷം വരെ", "MBBS (ಸರ್ಕಾರಿ): ₹10 ಲಕ್ಷದವರೆಗೆ", "MBBS (सरकारी): ₹10 लाख पर्यंत"], ["MBBS (private): ₹54 lakh to ₹1.58 crore", "MBBS (निजी): ₹54 लाख से ₹1.58 करोड़", "MBBS (ખાનગી): ₹54 લાખથી ₹1.58 કરોડ", "MBBS (தனியார்): ₹54 லட்சம் முதல் ₹1.58 கோடி", "MBBS (സ്വകാര്യ): ₹54 ലക്ഷം മുതൽ ₹1.58 കോടി", "MBBS (ಖಾಸಗಿ): ₹54 ಲಕ್ಷದಿಂದ ₹1.58 ಕೋಟಿ", "MBBS (खासगी): ₹54 लाख ते ₹1.58 कोटी"], ["Yearly price rise (inflation) %. Uses the rate from page 1.", "वार्षिक मूल्य वृद्धि (महँगाई) %। पेज 1 की दर का उपयोग होता है।", "વાર્ષિક ભાવવધારો (મોંઘવારી) %. પેજ 1 નો દર વપરાય છે.", "ஆண்டு விலை உயர்வு (பணவீக்கம்) %. பக்கம் 1-ல் உள்ள விகிதம் பயன்படுத்தப்படும்.", "വാർഷിക വിലക്കയറ്റം (പണപ്പെരുപ്പം) %. പേജ് 1-ലെ നിരക്ക് ഉപയോഗിക്കുന്നു.", "ವಾರ್ಷಿಕ ಬೆಲೆ ಏರಿಕೆ (ಹಣದುಬ್ಬರ) %. ಪುಟ 1 ರ ದರವನ್ನು ಬಳಸಲಾಗುತ್ತದೆ.", "वार्षिक भाववाढ (महागाई) %. पान 1 वरील दर वापरला जातो."], ["Average cost today of a full course at top Indian institutions (IIT, IIM, top private engineering, MBBS): about ₹31 lakh. Fees only, hostel and living are extra. You can change it. Checked Nov 2026.", "भारत के शीर्ष संस्थानों (IIT, IIM, शीर्ष निजी इंजीनियरिंग, MBBS) में पूरे पाठ्यक्रम की आज की औसत लागत: लगभग ₹31 लाख। केवल फीस, हॉस्टल और रहना अलग। आप इसे बदल सकते हैं। नवंबर 2026 में जाँचा गया।", "ભારતની ટોચની સંસ્થાઓ (IIT, IIM, ટોચની ખાનગી એન્જિનિયરિંગ, MBBS) માં આખા અભ્યાસક્રમનો આજનો સરેરાશ ખર્ચ: આશરે ₹31 લાખ. ફક્ત ફી, હોસ્ટેલ અને રહેવાનો ખર્ચ અલગ. તમે તેને બદલી શકો છો. નવેમ્બર 2026 માં ચકાસેલ.", "இந்தியாவின் முன்னணி கல்வி நிறுவனங்களில் (IIT, IIM, சிறந்த தனியார் பொறியியல், MBBS) முழு படிப்புக்கான இன்றைய சராசரி செலவு: சுமார் ₹31 லட்சம். கட்டணம் மட்டும்; விடுதி மற்றும் வாழ்க்கைச் செலவு தனி. இதை மாற்றலாம். நவம்பர் 2026-ல் சரிபார்க்கப்பட்டது.", "ഇന്ത്യയിലെ മുൻനിര സ്ഥാപനങ്ങളിൽ (IIT, IIM, മികച്ച സ്വകാര്യ എൻജിനീയറിങ്, MBBS) മുഴുവൻ കോഴ്സിനുള്ള ഇന്നത്തെ ശരാശരി ചെലവ്: ഏകദേശം ₹31 ലക്ഷം. ഫീസ് മാത്രം; ഹോസ്റ്റലും താമസച്ചെലവും വേറെ. നിങ്ങൾക്ക് ഇത് മാറ്റാം. 2026 നവംബറിൽ പരിശോധിച്ചത്.", "ಭಾರತದ ಉನ್ನತ ಸಂಸ್ಥೆಗಳಲ್ಲಿ (IIT, IIM, ಉನ್ನತ ಖಾಸಗಿ ಎಂಜಿನಿಯರಿಂಗ್, MBBS) ಪೂರ್ಣ ಕೋರ್ಸ್‌ನ ಇಂದಿನ ಸರಾಸರಿ ವೆಚ್ಚ: ಸುಮಾರು ₹31 ಲಕ್ಷ. ಶುಲ್ಕ ಮಾತ್ರ; ಹಾಸ್ಟೆಲ್ ಮತ್ತು ವಾಸದ ವೆಚ್ಚ ಬೇರೆ. ನೀವು ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು. ನವೆಂಬರ್ 2026 ರಲ್ಲಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ.", "भारतातील अव्वल संस्थांमध्ये (IIT, IIM, अव्वल खासगी अभियांत्रिकी, MBBS) संपूर्ण अभ्यासक्रमाचा आजचा सरासरी खर्च: सुमारे ₹31 लाख. फक्त फी; वसतिगृह आणि राहण्याचा खर्च वेगळा. तुम्ही तो बदलू शकता. नोव्हेंबर 2026 मध्ये तपासले."], ["Average cost of an Indian wedding today: about ₹39.5 lakh (WedMeGood, 2025-26). You can change it. Checked Nov 2026.", "आज एक भारतीय शादी की औसत लागत: लगभग ₹39.5 लाख (WedMeGood, 2025-26)। आप इसे बदल सकते हैं। नवंबर 2026 में जाँचा गया।", "આજે ભારતીય લગ્નનો સરેરાશ ખર્ચ: આશરે ₹39.5 લાખ (WedMeGood, 2025-26). તમે તેને બદલી શકો છો. નવેમ્બર 2026 માં ચકાસેલ.", "இன்று ஒரு இந்தியத் திருமணத்தின் சராசரி செலவு: சுமார் ₹39.5 லட்சம் (WedMeGood, 2025-26). இதை மாற்றலாம். நவம்பர் 2026-ல் சரிபார்க்கப்பட்டது.", "ഇന്ന് ഒരു ഇന്ത്യൻ വിവാഹത്തിന്റെ ശരാശരി ചെലവ്: ഏകദേശം ₹39.5 ലക്ഷം (WedMeGood, 2025-26). നിങ്ങൾക്ക് ഇത് മാറ്റാം. 2026 നവംബറിൽ പരിശോധിച്ചത്.", "ಇಂದು ಭಾರತೀಯ ಮದುವೆಯ ಸರಾಸರಿ ವೆಚ್ಚ: ಸುಮಾರು ₹39.5 ಲಕ್ಷ (WedMeGood, 2025-26). ನೀವು ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು. ನವೆಂಬರ್ 2026 ರಲ್ಲಿ ಪರಿಶೀಲಿಸಲಾಗಿದೆ.", "आज भारतीय लग्नाचा सरासरी खर्च: सुमारे ₹39.5 लाख (WedMeGood, 2025-26). तुम्ही तो बदलू शकता. नोव्हेंबर 2026 मध्ये तपासले."]]);
 /*R9: immediately*/
 AR([["immediately","तुरंत","તરત","உடனடியாக","ഉടൻ","ತಕ್ಷಣ","त्वरित"]]);
+/*R10: names, timeline, what-if, happy finish*/
+AR([["Your name (optional)", "आपका नाम (वैकल्पिक)", "તમારું નામ (વૈકલ્પિક)", "உங்கள் பெயர் (விருப்பம்)", "നിങ്ങളുടെ പേര് (ഓപ്ഷണൽ)", "ನಿಮ್ಮ ಹೆಸರು (ಐಚ್ಛಿಕ)", "तुमचे नाव (ऐच्छिक)"], ["Child's name (optional)", "बच्चे का नाम (वैकल्पिक)", "બાળકનું નામ (વૈકલ્પિક)", "குழந்தையின் பெயர் (விருப்பம்)", "കുട്ടിയുടെ പേര് (ഓപ്ഷണൽ)", "ಮಗುವಿನ ಹೆಸರು (ಐಚ್ಛಿಕ)", "मुलाचे नाव (ऐच्छिक)"], ["{0}: education", "{0}: शिक्षा", "{0}: શિક્ષણ", "{0}: கல்வி", "{0}: വിദ്യാഭ്യാസം", "{0}: ಶಿಕ್ಷಣ", "{0}: शिक्षण"], ["{0}: marriage", "{0}: विवाह", "{0}: લગ્ન", "{0}: திருமணம்", "{0}: വിവാഹം", "{0}: ಮದುವೆ", "{0}: लग्न"], ["Your life timeline", "आपकी जीवन समयरेखा", "તમારી જીવન સમયરેખા", "உங்கள் வாழ்க்கை காலவரிசை", "നിങ്ങളുടെ ജീവിത സമയരേഖ", "ನಿಮ್ಮ ಜೀವನ ಕಾಲರೇಖೆ", "तुमची जीवन कालरेषा"], ["A simple picture of the years ahead.", "आने वाले वर्षों की एक सरल तस्वीर।", "આગામી વર્ષોનું એક સરળ ચિત્ર.", "வரும் ஆண்டுகளின் எளிய படம்.", "വരാനിരിക്കുന്ന വർഷങ്ങളുടെ ലളിതമായ ചിത്രം.", "ಮುಂದಿನ ವರ್ಷಗಳ ಸರಳ ಚಿತ್ರ.", "पुढील वर्षांचे साधे चित्र."], ["Now", "अभी", "અત્યારે", "இப்போது", "ഇപ്പോൾ", "ಈಗ", "आत्ता"], ["{0} a month needed", "प्रति माह {0} चाहिए", "દર મહિને {0} જોઈએ", "மாதம் {0} தேவை", "മാസം {0} വേണം", "ತಿಂಗಳಿಗೆ {0} ಬೇಕು", "दरमहा {0} लागतील"], ["What if you save more each month?", "अगर आप हर महीने ज़्यादा बचत करें तो?", "જો તમે દર મહિને વધુ બચત કરો તો?", "ஒவ்வொரு மாதமும் அதிகம் சேமித்தால் என்ன ஆகும்?", "എല്ലാ മാസവും കൂടുതൽ സമ്പാദിച്ചാൽ എന്ത് സംഭവിക്കും?", "ಪ್ರತಿ ತಿಂಗಳು ಹೆಚ್ಚು ಉಳಿಸಿದರೆ ಏನಾಗುತ್ತದೆ?", "दर महिन्याला जास्त बचत केली तर?"], ["Slide to try it. Simple saving, no returns counted.", "स्लाइड करके देखें। सामान्य बचत, कोई रिटर्न नहीं जोड़ा गया।", "સ્લાઇડ કરીને જુઓ. સાદી બચત, કોઈ વળતર ગણ્યું નથી.", "நகர்த்திப் பாருங்கள். எளிய சேமிப்பு, வருமானம் சேர்க்கப்படவில்லை.", "സ്ലൈഡ് ചെയ്ത് നോക്കൂ. ലളിതമായ സമ്പാദ്യം, വരുമാനം ചേർത്തിട്ടില്ല.", "ಸ್ಲೈಡ್ ಮಾಡಿ ನೋಡಿ. ಸರಳ ಉಳಿತಾಯ, ಯಾವುದೇ ರಿಟರ್ನ್ ಸೇರಿಸಿಲ್ಲ.", "स्लाइड करून पहा. साधी बचत, कोणताही परतावा गृहीत धरलेला नाही."], ["Extra saving: {0} a month", "अतिरिक्त बचत: {0} प्रति माह", "વધારાની બચત: દર મહિને {0}", "கூடுதல் சேமிப்பு: மாதம் {0}", "അധിക സമ്പാദ്യം: മാസം {0}", "ಹೆಚ್ಚುವರಿ ಉಳಿತಾಯ: ತಿಂಗಳಿಗೆ {0}", "अतिरिक्त बचत: दरमहा {0}"], ["Extra saving by then: {0} ({1}% of this goal)", "तब तक अतिरिक्त बचत: {0} (इस लक्ष्य का {1}%)", "ત્યાં સુધીની વધારાની બચત: {0} (આ લક્ષ્યના {1}%)", "அதற்குள் கூடுதல் சேமிப்பு: {0} (இந்த இலக்கில் {1}%)", "അതുവരെയുള്ള അധിക സമ്പാദ്യം: {0} (ഈ ലക്ഷ്യത്തിന്റെ {1}%)", "ಅಷ್ಟರೊಳಗೆ ಹೆಚ್ಚುವರಿ ಉಳಿತಾಯ: {0} (ಈ ಗುರಿಯ {1}%)", "तोपर्यंत अतिरिक्त बचत: {0} (या उद्दिष्टाच्या {1}%)"], ["Great start!", "बढ़िया शुरुआत!", "સરસ શરૂઆત!", "நல்ல தொடக்கம்!", "നല്ല തുടക്കം!", "ಉತ್ತಮ ಆರಂಭ!", "छान सुरुवात!"], ["Great start, {0}!", "बढ़िया शुरुआत, {0}!", "સરસ શરૂઆત, {0}!", "நல்ல தொடக்கம், {0}!", "നല്ല തുടക്കം, {0}!", "ಉತ್ತಮ ಆರಂಭ, {0}!", "छान सुरुवात, {0}!"], ["You have looked at your family's future. That is a big step. Here are 3 next steps:", "आपने अपने परिवार के भविष्य पर नज़र डाली। यह एक बड़ा कदम है। ये हैं अगले 3 कदम:", "તમે તમારા પરિવારના ભવિષ્ય પર નજર નાખી. આ એક મોટું પગલું છે. આગળનાં 3 પગલાં આ રહ્યાં:", "உங்கள் குடும்பத்தின் எதிர்காலத்தைப் பார்த்துவிட்டீர்கள். இது ஒரு பெரிய படி. அடுத்த 3 படிகள் இதோ:", "നിങ്ങളുടെ കുടുംബത്തിന്റെ ഭാവി നിങ്ങൾ പരിശോധിച്ചു. ഇത് ഒരു വലിയ ചുവടാണ്. അടുത്ത 3 ചുവടുകൾ ഇതാ:", "ನೀವು ನಿಮ್ಮ ಕುಟುಂಬದ ಭವಿಷ್ಯವನ್ನು ನೋಡಿದ್ದೀರಿ. ಇದು ದೊಡ್ಡ ಹೆಜ್ಜೆ. ಮುಂದಿನ 3 ಹೆಜ್ಜೆಗಳು ಇಲ್ಲಿವೆ:", "तुम्ही तुमच्या कुटुंबाच्या भविष्याकडे पाहिले. हे एक मोठे पाऊल आहे. पुढची 3 पावले अशी:"], ["Talk to your advisor about closing the cover gap of {0}.", "अपने सलाहकार से {0} के कवर अंतर को भरने के बारे में बात करें।", "તમારા સલાહકાર સાથે {0} ના કવર અંતરને ભરવા વિશે વાત કરો.", "{0} காப்பீட்டு இடைவெளியை நிரப்புவது பற்றி உங்கள் ஆலோசகருடன் பேசுங்கள்.", "{0} കവർ വിടവ് നികത്തുന്നതിനെക്കുറിച്ച് നിങ്ങളുടെ ഉപദേശകനോട് സംസാരിക്കുക.", "{0} ಕವರ್ ಅಂತರವನ್ನು ತುಂಬುವ ಬಗ್ಗೆ ನಿಮ್ಮ ಸಲಹೆಗಾರರೊಂದಿಗೆ ಮಾತನಾಡಿ.", "{0} चे कव्हर अंतर भरून काढण्याबद्दल तुमच्या सल्लागाराशी बोला."], ["Your cover already meets your family's needs. Keep it, and review it every year.", "आपका कवर पहले से आपके परिवार की ज़रूरतें पूरी करता है। इसे बनाए रखें और हर साल जाँचें।", "તમારું કવર પહેલેથી તમારા પરિવારની જરૂરિયાતો પૂરી કરે છે. તેને જાળવી રાખો અને દર વર્ષે તપાસો.", "உங்கள் காப்பீடு ஏற்கெனவே உங்கள் குடும்பத்தின் தேவைகளைப் பூர்த்தி செய்கிறது. அதைத் தொடருங்கள், ஆண்டுதோறும் சரிபாருங்கள்.", "നിങ്ങളുടെ കവർ ഇതിനകം കുടുംബത്തിന്റെ ആവശ്യങ്ങൾ നിറവേറ്റുന്നു. അത് നിലനിർത്തുക, എല്ലാ വർഷവും പരിശോധിക്കുക.", "ನಿಮ್ಮ ಕವರ್ ಈಗಾಗಲೇ ನಿಮ್ಮ ಕುಟುಂಬದ ಅಗತ್ಯಗಳನ್ನು ಪೂರೈಸುತ್ತದೆ. ಅದನ್ನು ಉಳಿಸಿಕೊಳ್ಳಿ ಮತ್ತು ಪ್ರತಿ ವರ್ಷ ಪರಿಶೀಲಿಸಿ.", "तुमचे कव्हर आधीच तुमच्या कुटुंबाच्या गरजा पूर्ण करते. ते तसेच ठेवा आणि दरवर्षी तपासा."], ["Pick the goal that matters most and plan how to reach it.", "सबसे ज़रूरी लक्ष्य चुनें और उसे पाने की योजना बनाएँ।", "સૌથી મહત્ત્વનું લક્ષ્ય પસંદ કરો અને તેને મેળવવાની યોજના બનાવો.", "மிக முக்கியமான இலக்கைத் தேர்ந்தெடுத்து, அதை அடைய திட்டமிடுங்கள்.", "ഏറ്റവും പ്രധാനപ്പെട്ട ലക്ഷ്യം തിരഞ്ഞെടുത്ത് അത് നേടാൻ പദ്ധതിയിടുക.", "ಅತ್ಯಂತ ಮುಖ್ಯವಾದ ಗುರಿಯನ್ನು ಆರಿಸಿ ಮತ್ತು ಅದನ್ನು ತಲುಪಲು ಯೋಜಿಸಿ.", "सर्वात महत्त्वाचे उद्दिष्ट निवडा आणि ते गाठण्याची योजना करा."], ["Review this plan every year, and after big events like a new baby or a new job.", "इस योजना को हर साल और बड़े बदलावों, जैसे नया बच्चा या नई नौकरी, के बाद जाँचें।", "આ યોજનાને દર વર્ષે અને મોટા ફેરફારો, જેમ કે નવું બાળક કે નવી નોકરી, પછી તપાસો.", "இந்தத் திட்டத்தை ஆண்டுதோறும், புதிய குழந்தை அல்லது புதிய வேலை போன்ற பெரிய மாற்றங்களுக்குப் பிறகும் சரிபாருங்கள்.", "ഈ പദ്ധതി എല്ലാ വർഷവും, പുതിയ കുഞ്ഞ് അല്ലെങ്കിൽ പുതിയ ജോലി പോലുള്ള വലിയ മാറ്റങ്ങൾക്ക് ശേഷവും പരിശോധിക്കുക.", "ಈ ಯೋಜನೆಯನ್ನು ಪ್ರತಿ ವರ್ಷ, ಹಾಗೂ ಹೊಸ ಮಗು ಅಥವಾ ಹೊಸ ಕೆಲಸದಂತಹ ದೊಡ್ಡ ಬದಲಾವಣೆಗಳ ನಂತರ ಪರಿಶೀಲಿಸಿ.", "ही योजना दरवर्षी आणि नवे बाळ किंवा नवी नोकरी यांसारख्या मोठ्या बदलांनंतर तपासा."], ["Share with family", "परिवार के साथ साझा करें", "પરિવાર સાથે શેર કરો", "குடும்பத்துடன் பகிருங்கள்", "കുടുംബവുമായി പങ്കിടുക", "ಕುಟುಂಬದೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಿ", "कुटुंबासोबत शेअर करा"]]);
 /*R3*/
 function tx(s){if(LANG==="en")return s;var r=TD[s];return (r&&r[LI[LANG]])||s}
 function fmt(s){var a=arguments;return tx(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1]})}
@@ -789,6 +803,7 @@ function gapRec0(a,gap){
 }
 function kidHtml(n){var p="k"+n;
   return '<div class="kid" data-n="'+n+'"><div class="kh"><h3 class="kt"></h3><button type="button" class="rm" data-rm="1">Remove</button></div>'+
+  '<label for="'+p+'name">Child\'s name (optional)</label><input type="text" id="'+p+'name" maxlength="20" placeholder="e.g. Aarav">'+
   '<label for="'+p+'age">Child\'s age (years)</label><input type="text" inputmode="numeric" id="'+p+'age" placeholder="e.g. 5">'+
   block(p+"e","Child education",'<label for="'+p+'eN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'eN" value="18">')+
   block(p+"m","Child marriage",'<label for="'+p+'mN">Money needed at age</label><input type="text" inputmode="numeric" id="'+p+'mN" value="25">')+'</div>';
@@ -857,6 +872,30 @@ function navUi(){
   $("bBack").hidden=cur===0;$("bNext").hidden=cur===STEPS.length-1;
 }
 function go(n){cur=Math.max(0,Math.min(STEPS.length-1,n));render();try{window.scrollTo(0,0)}catch(e){}}
+var WI=0;
+function nmOf(el){return String(el&&el.value||"").replace(/[<>&"]/g,"").trim().slice(0,20)}
+function renderTl(a,ret,gap,items){
+  var box=$("tlBox"),e=num($("exp").value),L=[],wi=+$("wiR").value||0;WI=wi;
+  if(gap>0)L.push({y:-1,w:tx("Now"),n:tx("Insurance gap"),v:rs(gap)});
+  items.forEach(function(it){L.push({y:it.y,w:it.y?fmt("in {0} yrs",it.y):tx("Now"),n:it.n,v:rs(it.v),s:(wi>0&&it.y>0)?fmt("Extra saving by then: {0} ({1}% of this goal)",rs(wi*12*it.y),Math.min(100,Math.round(wi*12*it.y/it.v*100))):""})});
+  if(a&&e&&ret>a){var y=ret-a,f=e*Math.pow(1+infl()/100,y);L.push({y:y,w:fmt("in {0} yrs",y),n:tx("Retirement"),v:fmt("{0} a month needed",rs(f))})}
+  L.sort(function(p,q){return p.y-q.y});
+  box.hidden=!L.length;
+  $("tlH").textContent=tx("Your life timeline");$("tlHint").textContent=tx("A simple picture of the years ahead.");
+  $("tlList").innerHTML=L.map(function(t){return '<div class="tls"><div class="tw">'+esc(t.w)+'</div><div class="tn">'+esc(t.n)+'</div><div class="tv">'+esc(t.v)+'</div>'+(t.s?'<div class="ts">'+esc(t.s)+'</div>':'')+'</div>'}).join("");
+  $("wiCtl").hidden=!items.length;
+  $("wiL").textContent=tx("What if you save more each month?");$("wiV").textContent=wi?fmt("Extra saving: {0} a month",rs(wi)):"";$("wiN").textContent=tx("Slide to try it. Simple saving, no returns counted.");
+}
+function renderFin(a,inc,gap){
+  var b=$("finBox");if(!(a&&inc)){b.hidden=true;return}b.hidden=false;
+  var nm=nmOf($("uname")),st=[gap>0?fmt("Talk to your advisor about closing the cover gap of {0}.",rs(gap)):tx("Your cover already meets your family's needs. Keep it, and review it every year."),tx("Pick the goal that matters most and plan how to reach it."),tx("Review this plan every year, and after big events like a new baby or a new job.")];
+  b.innerHTML='<h3>'+(nm?fmt("Great start, {0}!",nm):tx("Great start!"))+'</h3><p class="why">'+tx("You have looked at your family's future. That is a big step. Here are 3 next steps:")+'</p><ol>'+st.map(function(t){return '<li>'+esc(t)+'</li>'}).join("")+'</ol><button type="button" class="add" id="shareBtn">'+tx("Share with family")+'</button>';
+}
+function shareSum(){
+  var t=tx("Life cover needs summary")+"\n"+tx("Insurance gap")+": "+$("oGap").textContent+"\n"+tx("Total financial need")+": "+$("oTotal").textContent+"\n\nThis is Strictly for Internal Training Purposes only. These are purely illustrative values and not for Sale";
+  try{if(navigator.share){navigator.share({text:t}).catch(function(){});return}}catch(e){}
+  try{window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank")}catch(e){}
+}
 function render(){
   var a=age(),inc=num($("inc").value),ret=num($("ret").value)||60;
   renderRet(a,ret);navUi();
@@ -873,13 +912,13 @@ function render(){
   document.querySelectorAll(".kid").forEach(function(el,i){
     var p="k"+el.dataset.n,ca=$(p+"age").value.trim();
     var nk=document.querySelectorAll(".kid").length;
-    el.querySelector(".kt").textContent=fmt("Child {0}",i+1);el.querySelector(".rm").hidden=nk<2;
+    var nm=nmOf($(p+"name"));el.querySelector(".kt").textContent=nm||fmt("Child {0}",i+1);el.querySelector(".rm").hidden=nk<2;
     [["e","education"],["m","marriage"]].forEach(function(g){
       var kk=p+g[0],on=$(kk+"G").open,raw=ca===""?0:num($(kk+"N").value)-num(ca),y=Math.max(0,raw),v=getAmt(kk,y);
       var ok=raw>=5,pf=pref(kk);
       if(!on){setSt(kk,tx("Tap to add"));return}
       setSt(kk,ca===""?tx("Enter the child's age first"):(!ok?tx("Not counted: less than 5 years away"):(!v?tx("Enter the amount"):fmt("{0} · in {1} yrs",cr(v),y))));
-      if(v&&ca!==""&&ok)items.push({n:fmt(g[0]==="e"?"Child {0} education":"Child {0} marriage",i+1),y:y,v:v,s:pf,k:p+g[0],t:g[0]==="e"?"edu":"mar",c:num(ca)});
+      if(v&&ca!==""&&ok)items.push({n:nm?fmt(g[0]==="e"?"{0}: education":"{0}: marriage",nm):fmt(g[0]==="e"?"Child {0} education":"Child {0} marriage",i+1),y:y,v:v,s:pf,k:p+g[0],t:g[0]==="e"?"edu":"mar",c:num(ca)});
     });
   });
   var hy=num($("homeY").value),hv=getAmt("home",hy),hp=pref("home"),hon=$("homeG").open;
@@ -896,7 +935,7 @@ function render(){
   var nd=document.querySelectorAll("#oGoals details");if(nd.length===op.length)nd.forEach(function(d,i){d.open=op[i]});
   $("oTotal").textContent=rs(tot);$("bTot").textContent=cr(tot);$("bGap").textContent=cr(gap);
   $("oWords").textContent=words(tot)?fmt("About {0}",words(tot)):"";
-  charts(A,B,C,D,gap,raw,items);
+  charts(A,B,C,D,gap,raw,items);renderTl(a,ret,gap,items);renderFin(a,inc,gap);
   document.querySelectorAll(".words[data-for]").forEach(function(w){var v=num($(w.dataset.for).value);w.textContent=words(v)?("= "+words(v)):""});
 }
 
@@ -949,6 +988,7 @@ $("mAge").onclick=function(){setMode("age")};
 $("mDob").onclick=function(){setMode("dob")};
 $("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));initKid(seq);applyTr();render()};
 document.addEventListener("click",function(e){
+  if(e.target.closest("#shareBtn")){shareSum();return}
   var rb=e.target.closest("button[data-rec]");
   if(rb){showRec=rb.dataset.rec==="1";render();return}
   var r=e.target.closest("button[data-rm]");
@@ -965,10 +1005,10 @@ document.addEventListener("input",function(e){
   if(e.target.classList.contains("money"))money(e.target);
   render();
 });
-var SUM_CSS="body{font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#14213D;max-width:720px;margin:24px auto;padding:0 16px}h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:12px 0 4px}.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #D9E0E7}.line span:first-child{color:#5B6778}.gap{background:#FDF1DC;border-radius:10px;padding:14px;margin:14px 0}.gap small{color:#B45309;font-weight:600;display:block}.gap strong{font-size:30px;color:#B45309}.gap p{margin:4px 0 0;font-size:13px;color:#5B6778}.total{background:#0F766E;color:#fff;border-radius:10px;padding:16px;margin-top:14px}.total small{display:block}.total strong{font-size:32px}.recbox{padding:6px 0 8px;border-bottom:1px solid #D9E0E7;font-size:14px}.rec{font-weight:600;color:#0F766E}.alert{margin-top:6px;background:#FDF1DC;color:#B45309;border:1px solid #B45309;border-radius:8px;padding:6px 10px;font-weight:600}.sub{color:#5B6778;font-size:13px}.alert.red{background:#FDE8E8;color:#B42318;border-color:#B42318}.why{margin:6px 0 0;font-size:14px}.disc{margin:8px 0 0;font-size:12px;font-weight:600;color:#5B6778;border-top:1px dashed #D9E0E7;padding-top:6px}.vl{margin:4px 0 0;padding-left:18px}.ph{font-size:15px;margin:14px 0 0}.pbtn{margin-top:16px;padding:10px 16px;font:inherit;border:1px solid #0F766E;background:#fff;color:#0F766E;border-radius:8px;cursor:pointer}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.viz{--v1:#2a78d6;--v2:#eb6834;--v3:#1baf7a;--v4:#eda100;--v5:#e87ba4;--vo:#898781;--vs:#fff;--ink:#14213D;--mute:#5B6778}.viz h3{font-size:15px;margin:18px 0 2px}.viz .cap{margin:2px 0 6px;font-size:13px;color:#5B6778}.viz svg{width:100%;height:auto;display:block;max-width:420px}.viz svg.dn{max-width:180px;margin:4px auto}.viz svg text{fill:#14213D;font:12px system-ui,Arial,sans-serif}.viz svg text.mu{fill:#5B6778}.viz svg text.big{font-weight:600;font-size:15px}.lg{list-style:none;margin:6px 0 0;padding:0;font-size:13px}.lg li{display:flex;align-items:center;gap:8px;padding:3px 0}.lg i{width:12px;height:12px;border-radius:3px;flex:none}.lg span{flex:1}.lg em{font-style:normal;color:#5B6778;min-width:36px;text-align:right}.cb{break-inside:avoid}.line,.recbox,.gap,.total{break-inside:avoid}@media print{.pbtn{display:none}}";
+var SUM_CSS="body{font:15px/1.5 system-ui,Segoe UI,Arial,sans-serif;color:#14213D;max-width:720px;margin:24px auto;padding:0 16px}h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:12px 0 4px}.line{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #D9E0E7}.line span:first-child{color:#5B6778}.gap{background:#FDF1DC;border-radius:10px;padding:14px;margin:14px 0}.gap small{color:#B45309;font-weight:600;display:block}.gap strong{font-size:30px;color:#B45309}.gap p{margin:4px 0 0;font-size:13px;color:#5B6778}.total{background:#0F766E;color:#fff;border-radius:10px;padding:16px;margin-top:14px}.total small{display:block}.total strong{font-size:32px}.recbox{padding:6px 0 8px;border-bottom:1px solid #D9E0E7;font-size:14px}.rec{font-weight:600;color:#0F766E}.alert{margin-top:6px;background:#FDF1DC;color:#B45309;border:1px solid #B45309;border-radius:8px;padding:6px 10px;font-weight:600}.sub{color:#5B6778;font-size:13px}.alert.red{background:#FDE8E8;color:#B42318;border-color:#B42318}.why{margin:6px 0 0;font-size:14px}.disc{margin:8px 0 0;font-size:12px;font-weight:600;color:#5B6778;border-top:1px dashed #D9E0E7;padding-top:6px}.vl{margin:4px 0 0;padding-left:18px}.ph{font-size:15px;margin:14px 0 0}.pbtn{margin-top:16px;padding:10px 16px;font:inherit;border:1px solid #0F766E;background:#fff;color:#0F766E;border-radius:8px;cursor:pointer}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.viz{--v1:#2a78d6;--v2:#eb6834;--v3:#1baf7a;--v4:#eda100;--v5:#e87ba4;--vo:#898781;--vs:#fff;--ink:#14213D;--mute:#5B6778}.viz h3{font-size:15px;margin:18px 0 2px}.viz .cap{margin:2px 0 6px;font-size:13px;color:#5B6778}.viz svg{width:100%;height:auto;display:block;max-width:420px}.viz svg.dn{max-width:180px;margin:4px auto}.viz svg text{fill:#14213D;font:12px system-ui,Arial,sans-serif}.viz svg text.mu{fill:#5B6778}.viz svg text.big{font-weight:600;font-size:15px}.lg{list-style:none;margin:6px 0 0;padding:0;font-size:13px}.lg li{display:flex;align-items:center;gap:8px;padding:3px 0}.lg i{width:12px;height:12px;border-radius:3px;flex:none}.lg span{flex:1}.lg em{font-style:normal;color:#5B6778;min-width:36px;text-align:right}.cb{break-inside:avoid}.line,.recbox,.gap,.total{break-inside:avoid}.tls{border-left:3px solid #0F766E;padding:0 0 12px 14px;margin-left:6px}.tls .tw{font-size:12px;color:#0F766E;font-weight:600}.tls .tn{font-weight:600}.tls .ts{font-size:12px;color:#5B6778}.fin{background:#E3F3F1;border-radius:10px;padding:14px;margin-top:16px}.fin h3{margin:0 0 6px;font-size:17px}@media print{.pbtn{display:none}}";
 function buildSummary(){
   var c=document.querySelector("aside").cloneNode(true);
-  ["printBtn","dlBtn","resetBtn","dlHint","pdate"].forEach(function(id){var e=c.querySelector("#"+id);if(e)e.remove()});
+  ["printBtn","dlBtn","resetBtn","dlHint","pdate","wiCtl","shareBtn"].forEach(function(id){var e=c.querySelector("#"+id);if(e)e.remove()});
   var ac=c.querySelector(".acts");if(ac)ac.remove();
   c.querySelectorAll(".rt").forEach(function(x){x.remove()});
   c.querySelectorAll("details").forEach(function(d){d.setAttribute("open","")});
