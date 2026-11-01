@@ -36,6 +36,10 @@ input[type=range]{width:100%;accent-color:var(--teal);min-height:36px}
 .pm .pt{font-weight:600;font-size:16px;line-height:1.3}.pm .pc{font-size:13px;color:var(--mute);margin-top:4px}.pm .pn{font-size:14px;margin-top:6px}
 .rw{padding:14px;border-radius:14px;background:var(--tealbg);margin:0 0 14px;break-inside:avoid}.rw h3{margin:0 0 6px;font-size:16px}.rw p{margin:6px 0 0;font-size:14px}.rw .sub{font-size:13px;color:var(--mute)}
 .rwb{height:10px;border-radius:5px;background:var(--line);margin:10px 0 4px}.rwb i{display:block;height:100%;border-radius:5px;background:var(--teal)}
+.hr{display:flex;align-items:center;gap:10px}
+.bg{font:600 16px "IBM Plex Sans",system-ui,sans-serif;min-width:46px;min-height:42px;padding:0 10px;border-radius:10px;border:1.5px solid rgba(255,255,255,.6);background:transparent;color:#fff;cursor:pointer}.bg[aria-pressed=true]{background:#fff;color:#0B3C7D}
+html.big body{zoom:1.25}
+.who{display:grid;gap:12px;margin-top:8px}.wh{display:block;width:100%;text-align:left;font:inherit;padding:16px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);cursor:pointer}.wh b{display:block;font-size:17px;font-weight:600}.wh span{display:block;font-size:14px;color:var(--mute);margin-top:4px}.wh:hover,.wh:focus-visible{border-color:var(--teal);background:var(--tealbg)}
 select.pre{width:100%;min-height:54px;padding:14px;font:inherit;font-size:17px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:12px;margin-bottom:10px}
 input[type=text],input[type=date]{width:100%;min-height:54px;padding:14px;font:inherit;font-size:17px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:12px}
 input:focus-visible,button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
@@ -93,6 +97,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
 .lg span{flex:1}.lg b{font-weight:600;white-space:nowrap}
 .lg em{font-style:normal;color:var(--mute);min-width:36px;text-align:right}
 @media print{
+  html.big body{zoom:1}
   :root{--bg:#fff;--card:#fff;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body{background:#fff}
@@ -108,15 +113,26 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
 <body>
 <header>
   <div class="hd"><h1>Life cover needs finder</h1>
-  <div class="lang"><label for="lang">Language</label><select id="lang"></select></div></div>
+  <div class="hr"><button type="button" id="bigBtn" class="bg" aria-pressed="false" aria-label="Bigger text">A+</button><div class="lang"><label for="lang">Language</label><select id="lang"></select></div></div></div>
 </header>
 <div class="prog"><div class="t" id="stepTxt"></div><div class="pbar" id="pbar"><i></i><i></i><i></i><i></i></div></div>
 <div class="wrap steps">
-  <section class="card" id="s1">
+  <section class="card" id="s0">
+    <h2>Who are you planning for?</h2>
+    <p class="hint">Pick one. We will only ask what fits your family.</p>
+    <div class="who">
+      <button type="button" class="wh" data-who="1"><b>Just me</b><span>Plan for my own needs.</span></button>
+      <button type="button" class="wh" data-who="2"><b>Me and my partner</b><span>Plan for the two of us.</span></button>
+      <button type="button" class="wh" data-who="3"><b>Me, my partner and children</b><span>Plan for the whole family, with each child's goals.</span></button>
+    </div>
+  </section>
+
+  <section class="card" id="s1" hidden>
     <h2>1. About you</h2>
     <p class="hint">We use your age and yearly income to find your Human Life Value.</p>
     <label for="uname">Your name (optional)</label>
     <input type="text" id="uname" maxlength="20" placeholder="e.g. Ravi" autocomplete="given-name">
+    <div id="pbox" hidden><label for="pname">Partner's name (optional)</label><input type="text" id="pname" maxlength="20" placeholder="e.g. Meera"></div>
     <div class="seg" role="group" aria-label="Enter age or date of birth">
       <button type="button" id="mAge" aria-pressed="true">I know my age</button>
       <button type="button" id="mDob" aria-pressed="false">Use date of birth</button>
@@ -665,10 +681,12 @@ AR([["1 yr","1 वर्ष","1 વર્ષ","1 ஆண்டு","1 വർഷ�
 AR([["Your family is {0}% protected today", "आपका परिवार आज {0}% सुरक्षित है", "તમારો પરિવાર આજે {0}% સુરક્ષિત છે", "உங்கள் குடும்பம் இன்று {0}% பாதுகாப்புடன் உள்ளது", "നിങ്ങളുടെ കുടുംബം ഇന്ന് {0}% സുരക്ഷിതമാണ്", "ನಿಮ್ಮ ಕುಟುಂಬ ಇಂದು {0}% ಸುರಕ್ಷಿತವಾಗಿದೆ", "तुमचे कुटुंब आज {0}% सुरक्षित आहे"], ["You have {0} in savings and cover, against {1} needed.", "आपके पास बचत और कवर में {0} हैं, जबकि {1} की ज़रूरत है।", "તમારી પાસે બચત અને કવરમાં {0} છે, જ્યારે {1} ની જરૂર છે.", "உங்களிடம் சேமிப்பு மற்றும் காப்பீட்டில் {0} உள்ளது; தேவை {1}.", "സമ്പാദ്യത്തിലും കവറിലുമായി നിങ്ങൾക്ക് {0} ഉണ്ട്; ആവശ്യം {1}.", "ಉಳಿತಾಯ ಮತ್ತು ಕವರ್‌ನಲ್ಲಿ ನಿಮ್ಮ ಬಳಿ {0} ಇದೆ; ಅಗತ್ಯ {1}.", "बचत आणि कव्हर मिळून तुमच्याकडे {0} आहेत; गरज {1} ची आहे."], ["A good time to start. Every step counts.", "शुरू करने का अच्छा समय। हर कदम मायने रखता है।", "શરૂ કરવાનો સારો સમય. દરેક પગલું મહત્ત્વનું છે.", "தொடங்க இது நல்ல நேரம். ஒவ்வொரு படியும் முக்கியம்.", "തുടങ്ങാൻ നല്ല സമയം. ഓരോ ചുവടും പ്രധാനമാണ്.", "ಪ್ರಾರಂಭಿಸಲು ಒಳ್ಳೆಯ ಸಮಯ. ಪ್ರತಿ ಹೆಜ್ಜೆಯೂ ಮುಖ್ಯ.", "सुरुवात करायला चांगली वेळ. प्रत्येक पाऊल महत्त्वाचे."], ["You are on your way. Keep going.", "आप सही राह पर हैं। आगे बढ़ते रहें।", "તમે સાચા રસ્તે છો. આગળ વધતા રહો.", "நீங்கள் சரியான பாதையில் இருக்கிறீர்கள். தொடருங்கள்.", "നിങ്ങൾ ശരിയായ വഴിയിലാണ്. മുന്നോട്ട് പോകൂ.", "ನೀವು ಸರಿಯಾದ ಹಾದಿಯಲ್ಲಿದ್ದೀರಿ. ಮುಂದುವರಿಸಿ.", "तुम्ही योग्य मार्गावर आहात. पुढे चालू ठेवा."], ["Almost there. A little more will close the gap.", "लगभग पहुँच गए। थोड़ा और अंतर को भर देगा।", "લગભગ પહોંચી ગયા. થોડું વધુ અંતર ભરી દેશે.", "கிட்டத்தட்ட வந்துவிட்டீர்கள். இன்னும் கொஞ்சம் இடைவெளியை நிரப்பும்.", "ഏതാണ്ട് എത്തി. അല്പം കൂടി വിടവ് നികത്തും.", "ಬಹುತೇಕ ತಲುಪಿದ್ದೀರಿ. ಸ್ವಲ್ಪ ಹೆಚ್ಚು ಅಂತರವನ್ನು ತುಂಬುತ್ತದೆ.", "जवळजवळ पोहोचलात. थोडे अधिक अंतर भरून काढेल."], ["Well done. Your family's need is fully covered.", "शाबाश। आपके परिवार की ज़रूरत पूरी तरह सुरक्षित है।", "શાબાશ. તમારા પરિવારની જરૂરિયાત પૂરેપૂરી સુરક્ષિત છે.", "நன்று. உங்கள் குடும்பத்தின் தேவை முழுமையாகப் பாதுகாக்கப்பட்டுள்ளது.", "അഭിനന്ദനങ്ങൾ. നിങ്ങളുടെ കുടുംബത്തിന്റെ ആവശ്യം പൂർണ്ണമായി സുരക്ഷിതമാണ്.", "ಶಹಬ್ಬಾಸ್. ನಿಮ್ಮ ಕುಟುಂಬದ ಅಗತ್ಯ ಸಂಪೂರ್ಣವಾಗಿ ಸುರಕ್ಷಿತವಾಗಿದೆ.", "शाबास. तुमच्या कुटुंबाची गरज पूर्णपणे सुरक्षित आहे."]]);
 /*R14: family runway*/
 AR([["How long could your family manage?", "आपका परिवार कितने समय तक संभल सकता है?", "તમારો પરિવાર કેટલો સમય ચલાવી શકે?", "உங்கள் குடும்பம் எவ்வளவு காலம் சமாளிக்க முடியும்?", "നിങ്ങളുടെ കുടുംബത്തിന് എത്ര കാലം പിടിച്ചുനിൽക്കാനാകും?", "ನಿಮ್ಮ ಕುಟುಂಬ ಎಷ್ಟು ಕಾಲ ನಿಭಾಯಿಸಬಹುದು?", "तुमचे कुटुंब किती काळ निभावू शकते?"], ["If something happened to you, your savings and cover could run your family's expenses for {0}.", "अगर आपको कुछ हो जाए, तो आपकी बचत और कवर आपके परिवार का खर्च {0} तक चला सकते हैं।", "જો તમને કંઈ થાય, તો તમારી બચત અને કવર તમારા પરિવારનો ખર્ચ {0} સુધી ચલાવી શકે.", "உங்களுக்கு ஏதேனும் நேர்ந்தால், உங்கள் சேமிப்பும் காப்பீடும் உங்கள் குடும்பச் செலவுகளை {0} வரை சமாளிக்கும்.", "നിങ്ങൾക്ക് എന്തെങ്കിലും സംഭവിച്ചാൽ, നിങ്ങളുടെ സമ്പാദ്യവും കവറും കുടുംബച്ചെലവുകൾ {0} നടത്താൻ സഹായിക്കും.", "ನಿಮಗೆ ಏನಾದರೂ ಆದರೆ, ನಿಮ್ಮ ಉಳಿತಾಯ ಮತ್ತು ಕವರ್ ಕುಟುಂಬದ ಖರ್ಚನ್ನು {0} ಕಾಲ ನಡೆಸಬಹುದು.", "तुम्हाला काही झाले, तर तुमची बचत आणि कव्हर कुटुंबाचा खर्च {0} चालवू शकतात."], ["about {0} years", "लगभग {0} वर्ष", "લગભગ {0} વર્ષ", "சுமார் {0} ஆண்டுகள்", "ഏകദേശം {0} വർഷം", "ಸುಮಾರು {0} ವರ್ಷ", "सुमारे {0} वर्षे"], ["about {0} months", "लगभग {0} महीने", "લગભગ {0} મહિના", "சுமார் {0} மாதங்கள்", "ഏകദേശം {0} മാസം", "ಸುಮಾರು {0} ತಿಂಗಳು", "सुमारे {0} महिने"], ["more than {0} years", "{0} वर्ष से अधिक", "{0} વર્ષથી વધુ", "{0} ஆண்டுகளுக்கு மேல்", "{0} വർഷത്തിലധികം", "{0} ವರ್ಷಕ್ಕಿಂತ ಹೆಚ್ಚು", "{0} वर्षांपेक्षा जास्त"], ["That covers {0}% of the {1} years you plan to keep working.", "यह काम के बचे {1} वर्षों का {0}% है।", "આ કામના બાકી {1} વર્ષના {0}% છે.", "இது நீங்கள் தொடர்ந்து வேலை செய்ய திட்டமிட்ட {1} ஆண்டுகளில் {0}% ஆகும்.", "ഇത് ജോലി തുടരാൻ ഉദ്ദേശിക്കുന്ന {1} വർഷത്തിന്റെ {0}% ആണ്.", "ಇದು ನೀವು ಕೆಲಸ ಮುಂದುವರಿಸಲು ಯೋಜಿಸಿರುವ {1} ವರ್ಷಗಳ {0}% ಆಗಿದೆ.", "हे तुम्ही काम करण्याचे ठरवलेल्या {1} वर्षांच्या {0}% आहे."], ["Based on today's expenses. No price rise or returns counted.", "आज के खर्च पर आधारित। कोई महँगाई या रिटर्न नहीं जोड़ा गया।", "આજના ખર્ચ પર આધારિત. કોઈ ભાવવધારો કે વળતર ગણ્યું નથી.", "இன்றைய செலவுகளின் அடிப்படையில். விலை உயர்வு அல்லது வருமானம் சேர்க்கப்படவில்லை.", "ഇന്നത്തെ ചെലവുകളെ അടിസ്ഥാനമാക്കി. വിലക്കയറ്റമോ വരുമാനമോ ചേർത്തിട്ടില്ല.", "ಇಂದಿನ ವೆಚ್ಚಗಳ ಆಧಾರದ ಮೇಲೆ. ಬೆಲೆ ಏರಿಕೆ ಅಥವಾ ರಿಟರ್ನ್ ಸೇರಿಸಿಲ್ಲ.", "आजच्या खर्चावर आधारित. भाववाढ किंवा परतावा गृहीत धरलेला नाही."]]);
+/*R15: who are you planning for*/
+AR([["Who are you planning for?", "आप किसके लिए योजना बना रहे हैं?", "તમે કોના માટે આયોજન કરી રહ્યા છો?", "நீங்கள் யாருக்காகத் திட்டமிடுகிறீர்கள்?", "നിങ്ങൾ ആർക്കുവേണ്ടിയാണ് പദ്ധതിയിടുന്നത്?", "ನೀವು ಯಾರಿಗಾಗಿ ಯೋಜಿಸುತ್ತಿದ್ದೀರಿ?", "तुम्ही कोणासाठी नियोजन करत आहात?"], ["Pick one. We will only ask what fits your family.", "एक चुनें। हम केवल वही पूछेंगे जो आपके परिवार पर लागू होता है।", "એક પસંદ કરો. અમે ફક્ત તમારા પરિવારને લાગુ પડે તે જ પૂછીશું.", "ஒன்றைத் தேர்ந்தெடுங்கள். உங்கள் குடும்பத்துக்குப் பொருந்துவதை மட்டும் கேட்போம்.", "ഒന്ന് തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ കുടുംബത്തിന് ബാധകമായത് മാത്രം ചോദിക്കും.", "ಒಂದನ್ನು ಆರಿಸಿ. ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಹೊಂದುವುದನ್ನು ಮಾತ್ರ ಕೇಳುತ್ತೇವೆ.", "एक निवडा. तुमच्या कुटुंबाला लागू होते तेच विचारू."], ["Just me", "सिर्फ़ मैं", "ફક્ત હું", "நான் மட்டும்", "ഞാൻ മാത്രം", "ನಾನು ಮಾತ್ರ", "फक्त मी"], ["Plan for my own needs.", "मेरी अपनी ज़रूरतों की योजना।", "મારી પોતાની જરૂરિયાતો માટે આયોજન.", "என் சொந்த தேவைகளுக்கான திட்டம்.", "എന്റെ സ്വന്തം ആവശ്യങ്ങൾക്കുള്ള പദ്ധതി.", "ನನ್ನ ಸ್ವಂತ ಅಗತ್ಯಗಳ ಯೋಜನೆ.", "माझ्या स्वतःच्या गरजांचे नियोजन."], ["Me and my partner", "मैं और मेरा साथी", "હું અને મારા જીવનસાથી", "நானும் என் துணையும்", "ഞാനും എന്റെ പങ്കാളിയും", "ನಾನು ಮತ್ತು ನನ್ನ ಸಂಗಾತಿ", "मी आणि माझा जोडीदार"], ["Plan for the two of us.", "हम दोनों की योजना।", "અમારા બંને માટે આયોજન.", "எங்கள் இருவருக்கான திட்டம்.", "ഞങ്ങൾ രണ്ടുപേർക്കുമുള്ള പദ്ധതി.", "ನಮ್ಮಿಬ್ಬರ ಯೋಜನೆ.", "आम्हा दोघांचे नियोजन."], ["Me, my partner and children", "मैं, मेरा साथी और बच्चे", "હું, મારા જીવનસાથી અને બાળકો", "நான், என் துணை மற்றும் குழந்தைகள்", "ഞാൻ, എന്റെ പങ്കാളി, കുട്ടികൾ", "ನಾನು, ನನ್ನ ಸಂಗಾತಿ ಮತ್ತು ಮಕ್ಕಳು", "मी, माझा जोडीदार आणि मुले"], ["Plan for the whole family, with each child's goals.", "पूरे परिवार की योजना, हर बच्चे के लक्ष्यों के साथ।", "આખા પરિવાર માટે આયોજન, દરેક બાળકના લક્ષ્યો સાથે.", "ஒவ்வொரு குழந்தையின் இலக்குகளுடன் முழு குடும்பத்துக்கான திட்டம்.", "ഓരോ കുട്ടിയുടെയും ലക്ഷ്യങ്ങളോടൊപ്പം മുഴുവൻ കുടുംബത്തിനുമുള്ള പദ്ധതി.", "ಪ್ರತಿ ಮಗುವಿನ ಗುರಿಗಳೊಂದಿಗೆ ಇಡೀ ಕುಟುಂಬದ ಯೋಜನೆ.", "प्रत्येक मुलाच्या उद्दिष्टांसह संपूर्ण कुटुंबाचे नियोजन."], ["Partner's name (optional)", "साथी का नाम (वैकल्पिक)", "જીવનસાથીનું નામ (વૈકલ્પિક)", "துணையின் பெயர் (விருப்பம்)", "പങ്കാളിയുടെ പേര് (ഓപ്ഷണൽ)", "ಸಂಗಾತಿಯ ಹೆಸರು (ಐಚ್ಛಿಕ)", "जोडीदाराचे नाव (ऐच्छिक)"]]);
 /*R3*/
 function tx(s){if(LANG==="en")return s;var r=TD[s];return (r&&r[LI[LANG]])||s}
 function fmt(s){var a=arguments;return tx(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1]})}
-var TSEL='h1,h2,#s1 h3.ph,header p,p.hint,label:not(.r),legend,.gt,button:not([data-rec]),.dock small,label.r span,select.pre option,p.sub,.gap small,.total small:not(#oWords),.line span:first-child';
+var TSEL='h1,h2,#s1 h3.ph,header p,p.hint,label:not(.r),legend,.gt,button:not([data-rec]):not(.wh):not(.bg),.wh b,.wh span,.dock small,label.r span,select.pre option,p.sub,.gap small,.total small:not(#oWords),.line span:first-child';
 function applyTr(){
   document.querySelectorAll(TSEL).forEach(function(el){
     if(el.closest("#oGoals,#charts"))return;
@@ -880,11 +898,12 @@ function renderRet(a,ret){
   box.innerHTML='<div class="calcbox">'+L(tx("Monthly expenses today"),rs(e))+L(tx("Years left until you stop working"),y)+'</div><div class="total"><small>'+fmt("Monthly expenses after {0} years, with prices rising {1}% a year",y,i)+'</small><strong>'+rs(f)+'</strong></div>'+(y>0?'<p class="hint">'+fmt("What costs {0} today will cost about {1} in {2} years.",rs(100),rs(100*Math.pow(1+i/100,y)),y)+'</p>':'');
   sm.innerHTML='<h3 class="ph">'+tx("Retirement view")+'</h3>'+L(tx("Monthly expenses today"),rs(e))+L(tx("Monthly expenses at retirement")+" ("+(y?fmt("in {0} yrs",y):tx("due now"))+")",rs(f))+(y>0?'<p class="sub">'+fmt("What costs {0} today will cost about {1} in {2} years.",rs(100),rs(100*Math.pow(1+i/100,y)),y)+'</p>':'');
 }
-var STEPS=["s1","s2","s4","sum"];
+var STEPS=["s0","s1","s2","s4","sum"],WHO=0;
 function navUi(){
   STEPS.forEach(function(id,i){$(id).hidden=(i!==cur)});
-  document.querySelectorAll("#pbar i").forEach(function(x,i){x.className=i<=cur?"on":""});
-  $("stepTxt").textContent=fmt("Step {0} of {1}",cur+1,STEPS.length);
+  document.querySelectorAll("#pbar i").forEach(function(x,i){x.className=i<cur?"on":""});
+  $("stepTxt").textContent=cur?fmt("Step {0} of {1}",cur,STEPS.length-1):"";
+  document.querySelector(".prog").hidden=cur===0;document.querySelector(".dock").hidden=cur===0;
   $("bBack").hidden=cur===0;$("bNext").hidden=cur===STEPS.length-1;
 }
 function go(n){cur=Math.max(0,Math.min(STEPS.length-1,n));render();try{window.scrollTo(0,0)}catch(e){}}
@@ -926,7 +945,8 @@ function renderMeter(a,inc,A,B,C,D){
 }
 function renderFin(a,inc,gap){
   var b=$("finBox");if(!(a&&inc)){b.hidden=true;return}b.hidden=false;
-  var nm=nmOf($("uname")),st=[gap>0?fmt("Talk to your advisor about closing the cover gap of {0}.",rs(gap)):tx("Your cover already meets your family's needs. Keep it, and review it every year."),tx("Pick the goal that matters most and plan how to reach it."),tx("Review this plan every year, and after big events like a new baby or a new job.")];
+  var nm=nmOf($("uname")),pn=WHO>=2?nmOf($("pname")):"";if(pn)nm=nm?nm+" &amp; "+pn:pn;
+  var st=[gap>0?fmt("Talk to your advisor about closing the cover gap of {0}.",rs(gap)):tx("Your cover already meets your family's needs. Keep it, and review it every year."),tx("Pick the goal that matters most and plan how to reach it."),tx("Review this plan every year, and after big events like a new baby or a new job.")];
   b.innerHTML='<h3>'+(nm?fmt("Great start, {0}!",nm):tx("Great start!"))+'</h3><p class="why">'+tx("You have looked at your family's future. That is a big step. Here are 3 next steps:")+'</p><ol>'+st.map(function(t){return '<li>'+esc(t)+'</li>'}).join("")+'</ol><button type="button" class="add" id="shareBtn">'+tx("Share with family")+'</button>';
 }
 function shareSum(){
@@ -934,6 +954,8 @@ function shareSum(){
   try{if(navigator.share){navigator.share({text:t}).catch(function(){});return}}catch(e){}
   try{window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank")}catch(e){}
 }
+function applyWho(){$("kids").hidden=$("addKid").hidden=WHO<3;$("pbox").hidden=WHO<2}
+function setBig(on){document.documentElement.classList.toggle("big",on);var b=$("bigBtn");b.setAttribute("aria-pressed",on);b.textContent=on?"A\u2212":"A+";b.setAttribute("aria-label",on?"Normal text":"Bigger text");try{localStorage.setItem("ncBig",on?"1":"0")}catch(e){}}
 function render(){
   var a=age(),inc=num($("inc").value),ret=num($("ret").value)||60;
   renderRet(a,ret);navUi();
@@ -948,6 +970,7 @@ function render(){
   $("gapNote").textContent=(a&&inc)?(raw<0?tx("Good news: your savings and cover are already more than the need. We count the gap as ₹0."):tx("This is the extra life cover your family needs. It is the top priority.")):tx("Fill in your age and income to see the gap.");
   var items=[];
   document.querySelectorAll(".kid").forEach(function(el,i){
+    if(WHO<3)return;
     var p="k"+el.dataset.n,ca=$(p+"age").value.trim();
     var nk=document.querySelectorAll(".kid").length;
     var nm=nmOf($(p+"name"));el.querySelector(".kt").textContent=nm||fmt("Child {0}",i+1);el.querySelector(".rm").hidden=nk<2;
@@ -1027,6 +1050,7 @@ $("mDob").onclick=function(){setMode("dob")};
 $("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));initKid(seq);applyTr();render()};
 document.addEventListener("click",function(e){
   if(e.target.closest("#shareBtn")){shareSum();return}
+  var wh=e.target.closest("button[data-who]");if(wh){WHO=+wh.dataset.who;applyWho();go(1);return}
   var wb=e.target.closest("button[data-wt]");if(wb){WT=+wb.dataset.wt;render();return}
   var rb=e.target.closest("button[data-rec]");
   if(rb){showRec=rb.dataset.rec==="1";render();return}
@@ -1070,6 +1094,8 @@ window.addEventListener("beforeprint",function(){
   reopen=[];document.querySelectorAll("aside details").forEach(function(d){if(!d.open){reopen.push(d);d.open=true}});
 });
 window.addEventListener("afterprint",function(){reopen.forEach(function(d){d.open=false})});
+$("bigBtn").onclick=function(){setBig(!document.documentElement.classList.contains("big"))};
+try{if(localStorage.getItem("ncBig")==="1")setBig(true)}catch(e){}
 LANGS.forEach(function(l){var o=document.createElement("option");o.value=l[0];o.textContent=l[1];$("lang").appendChild(o)});
 $("lang").onchange=function(){setLang(this.value)};
 var savedLang="en";try{savedLang=localStorage.getItem("ncLang")||"en"}catch(e){}
