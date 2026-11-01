@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-02 (who are you planning for, bigger text)
+Last updated: 2026-11-02 (LATEST MILESTONE 22: who are you planning for, bigger text)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,10 +22,10 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
-- Milestone 22 (2026-11-02): two ideas the user chose.
+- Milestone 22 (2026-11-02) = LATEST. Current app: commit 4c335d6, 340,079 bytes, SHA-256 3d1e9169c1777f2a... (see GitHub). ROLLBACK POINT for this milestone: branch `stable-2026-11-02-who` (restore with `git checkout stable-2026-11-02-who -- .`, commit, push). Everything is in sync except Google Drive, which is NOT updated (by choice; it still holds commit e5a2eff from 31 Oct). Two ideas the user chose:
   1. New first screen "Who are you planning for?": Just me / Me and my partner / Me, my partner and children. Tapping one goes to step 1. Just me: no child cards, no partner field. Partner options: optional "Partner's name" on page 1 (finish says "Great start, Ravi & Meera!"). Family option: child cards and "Add another child". Children goals are ignored in the totals when children are not chosen. The first screen has no progress bar or bottom bar; steps are now counted from About you ("Step 1 of 4"). Back on page 1 returns to the first screen. The choice is not saved after a reload.
   2. Bigger text: an A+ / A- button in the header makes everything about 25% larger (CSS zoom). It is remembered on that device (key ncBig) and is switched off when printing.
-  9 new translated lines (R15). Rollback: branch stable-2026-11-02-runway (before this milestone). Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
+  9 new translated lines (R15). Rollback to just before this milestone: branch stable-2026-11-02-runway. Other points: stable-2026-11-01-engage (before the protection meter), stable-2026-10-31-liveinfl, stable-2026-10-30-onepage, stable-2026-10-29-redesign, stable-2026-10-24. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
 - Milestone 21 (2026-11-02): "How long could your family manage?" card under the protection meter on the Summary. Years = (savings C + existing cover D) / yearly expenses, shown as months if under 1 year, one decimal otherwise, "more than 50 years" at 50 or more. If the person still plans to work N years, a bar and "That covers X% of the N years you plan to keep working." Uses today's expenses, no price rise or returns (stated on the card). Hidden until age and expenses are filled. In the saved summary. 7 new translated lines (R14). Rollback: commit 7fc5e3a (meter only). Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
   More ideas offered but not chosen yet: letter from the future, everyday price examples, read aloud in own language, save and resume, picture card for WhatsApp, last 5 customers on the phone.
 - Milestone 20 (2026-11-02): Family protection meter at the top of the Summary. A ring and text: "Your family is X% protected today" = (savings C + existing cover D) / (income value A + loans B), rounded down, capped at 100. A positive line by band: under 25% "A good time to start", 25 to 74% "You are on your way", 75 to 99% "Almost there", 100% "Well done". Hidden until age and income are filled. Included in the saved/printed summary. 6 new translated lines (R13). Rollback: branch stable-2026-11-01-engage (before the meter). Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
