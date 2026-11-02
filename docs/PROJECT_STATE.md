@@ -1,6 +1,6 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-02 (LATEST MILESTONE 22: who are you planning for, bigger text)
+Last updated: 2026-11-02 (LATEST MILESTONE 23: try an example family)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
 ## ROLLED BACK on 2026-10-28 (read this first)
@@ -22,7 +22,9 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Claude artifact: published copy of the app (updated with the redesign)
 
 ## Current status (latest milestone)
-- Milestone 22 (2026-11-02) = LATEST. Current app: commit 4c335d6, 340,079 bytes, SHA-256 3d1e9169c1777f2a... (see GitHub). ROLLBACK POINT for this milestone: branch `stable-2026-11-02-who` (restore with `git checkout stable-2026-11-02-who -- .`, commit, push). Everything is in sync except Google Drive, which is NOT updated (by choice; it still holds commit e5a2eff from 31 Oct). Two ideas the user chose:
+- Milestone 23 (2026-11-02) = LATEST. "Try an example family" button on the first screen ("Who are you planning for?"), for training and demos. One tap fills a sample family and goes to page 1: Ravi (38) and Meera, income Rs 15,00,000 a year, expenses Rs 60,000 a month, loans Rs 30,00,000, savings Rs 10,00,000, existing cover Rs 50,00,000, two children (Aarav 6 and Anaya 3) with education goals (both) and Anaya's marriage goal open. A note "This is an example family. Change anything you like." shows on page 1. Tapping it again does not add more children. All values can be edited. 3 new translated lines (R16). ROLLBACK POINT: branch `stable-2026-11-02-who` (state just before this milestone). Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).
+  Ideas still not built: How we worked this out page, parents' care goal, install on home screen, friendly warnings, talking points, quick estimate mode, gentle motion.
+- Milestone 22 (2026-11-02). Current app: commit 4c335d6, 340,079 bytes, SHA-256 3d1e9169c1777f2a... (see GitHub). ROLLBACK POINT for this milestone: branch `stable-2026-11-02-who` (restore with `git checkout stable-2026-11-02-who -- .`, commit, push). Everything is in sync except Google Drive, which is NOT updated (by choice; it still holds commit e5a2eff from 31 Oct). Two ideas the user chose:
   1. New first screen "Who are you planning for?": Just me / Me and my partner / Me, my partner and children. Tapping one goes to step 1. Just me: no child cards, no partner field. Partner options: optional "Partner's name" on page 1 (finish says "Great start, Ravi & Meera!"). Family option: child cards and "Add another child". Children goals are ignored in the totals when children are not chosen. The first screen has no progress bar or bottom bar; steps are now counted from About you ("Step 1 of 4"). Back on page 1 returns to the first screen. The choice is not saved after a reload.
   2. Bigger text: an A+ / A- button in the header makes everything about 25% larger (CSS zoom). It is remembered on that device (key ncBig) and is switched off when printing.
   9 new translated lines (R15). Rollback to just before this milestone: branch stable-2026-11-02-runway. Other points: stable-2026-11-01-engage (before the protection meter), stable-2026-10-31-liveinfl, stable-2026-10-30-onepage, stable-2026-10-29-redesign, stable-2026-10-24. Updated: GitHub, Vercel, artifact, Project. Drive NOT updated (by choice).

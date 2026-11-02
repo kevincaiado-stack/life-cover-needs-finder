@@ -125,11 +125,14 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
       <button type="button" class="wh" data-who="2"><b>Me and my partner</b><span>Plan for the two of us.</span></button>
       <button type="button" class="wh" data-who="3"><b>Me, my partner and children</b><span>Plan for the whole family, with each child's goals.</span></button>
     </div>
+    <p class="hint" style="margin:20px 0 8px">See a full result in seconds, using a sample family.</p>
+    <button type="button" class="add" id="exBtn">Try an example family</button>
   </section>
 
   <section class="card" id="s1" hidden>
     <h2>1. About you</h2>
     <p class="hint">We use your age and yearly income to find your Human Life Value.</p>
+    <p class="sub" id="exNote" hidden>This is an example family. Change anything you like.</p>
     <label for="uname">Your name (optional)</label>
     <input type="text" id="uname" maxlength="20" placeholder="e.g. Ravi" autocomplete="given-name">
     <div id="pbox" hidden><label for="pname">Partner's name (optional)</label><input type="text" id="pname" maxlength="20" placeholder="e.g. Meera"></div>
@@ -683,6 +686,8 @@ AR([["Your family is {0}% protected today", "आपका परिवार आ
 AR([["How long could your family manage?", "आपका परिवार कितने समय तक संभल सकता है?", "તમારો પરિવાર કેટલો સમય ચલાવી શકે?", "உங்கள் குடும்பம் எவ்வளவு காலம் சமாளிக்க முடியும்?", "നിങ്ങളുടെ കുടുംബത്തിന് എത്ര കാലം പിടിച്ചുനിൽക്കാനാകും?", "ನಿಮ್ಮ ಕುಟುಂಬ ಎಷ್ಟು ಕಾಲ ನಿಭಾಯಿಸಬಹುದು?", "तुमचे कुटुंब किती काळ निभावू शकते?"], ["If something happened to you, your savings and cover could run your family's expenses for {0}.", "अगर आपको कुछ हो जाए, तो आपकी बचत और कवर आपके परिवार का खर्च {0} तक चला सकते हैं।", "જો તમને કંઈ થાય, તો તમારી બચત અને કવર તમારા પરિવારનો ખર્ચ {0} સુધી ચલાવી શકે.", "உங்களுக்கு ஏதேனும் நேர்ந்தால், உங்கள் சேமிப்பும் காப்பீடும் உங்கள் குடும்பச் செலவுகளை {0} வரை சமாளிக்கும்.", "നിങ്ങൾക്ക് എന്തെങ്കിലും സംഭവിച്ചാൽ, നിങ്ങളുടെ സമ്പാദ്യവും കവറും കുടുംബച്ചെലവുകൾ {0} നടത്താൻ സഹായിക്കും.", "ನಿಮಗೆ ಏನಾದರೂ ಆದರೆ, ನಿಮ್ಮ ಉಳಿತಾಯ ಮತ್ತು ಕವರ್ ಕುಟುಂಬದ ಖರ್ಚನ್ನು {0} ಕಾಲ ನಡೆಸಬಹುದು.", "तुम्हाला काही झाले, तर तुमची बचत आणि कव्हर कुटुंबाचा खर्च {0} चालवू शकतात."], ["about {0} years", "लगभग {0} वर्ष", "લગભગ {0} વર્ષ", "சுமார் {0} ஆண்டுகள்", "ഏകദേശം {0} വർഷം", "ಸುಮಾರು {0} ವರ್ಷ", "सुमारे {0} वर्षे"], ["about {0} months", "लगभग {0} महीने", "લગભગ {0} મહિના", "சுமார் {0} மாதங்கள்", "ഏകദേശം {0} മാസം", "ಸುಮಾರು {0} ತಿಂಗಳು", "सुमारे {0} महिने"], ["more than {0} years", "{0} वर्ष से अधिक", "{0} વર્ષથી વધુ", "{0} ஆண்டுகளுக்கு மேல்", "{0} വർഷത്തിലധികം", "{0} ವರ್ಷಕ್ಕಿಂತ ಹೆಚ್ಚು", "{0} वर्षांपेक्षा जास्त"], ["That covers {0}% of the {1} years you plan to keep working.", "यह काम के बचे {1} वर्षों का {0}% है।", "આ કામના બાકી {1} વર્ષના {0}% છે.", "இது நீங்கள் தொடர்ந்து வேலை செய்ய திட்டமிட்ட {1} ஆண்டுகளில் {0}% ஆகும்.", "ഇത് ജോലി തുടരാൻ ഉദ്ദേശിക്കുന്ന {1} വർഷത്തിന്റെ {0}% ആണ്.", "ಇದು ನೀವು ಕೆಲಸ ಮುಂದುವರಿಸಲು ಯೋಜಿಸಿರುವ {1} ವರ್ಷಗಳ {0}% ಆಗಿದೆ.", "हे तुम्ही काम करण्याचे ठरवलेल्या {1} वर्षांच्या {0}% आहे."], ["Based on today's expenses. No price rise or returns counted.", "आज के खर्च पर आधारित। कोई महँगाई या रिटर्न नहीं जोड़ा गया।", "આજના ખર્ચ પર આધારિત. કોઈ ભાવવધારો કે વળતર ગણ્યું નથી.", "இன்றைய செலவுகளின் அடிப்படையில். விலை உயர்வு அல்லது வருமானம் சேர்க்கப்படவில்லை.", "ഇന്നത്തെ ചെലവുകളെ അടിസ്ഥാനമാക്കി. വിലക്കയറ്റമോ വരുമാനമോ ചേർത്തിട്ടില്ല.", "ಇಂದಿನ ವೆಚ್ಚಗಳ ಆಧಾರದ ಮೇಲೆ. ಬೆಲೆ ಏರಿಕೆ ಅಥವಾ ರಿಟರ್ನ್ ಸೇರಿಸಿಲ್ಲ.", "आजच्या खर्चावर आधारित. भाववाढ किंवा परतावा गृहीत धरलेला नाही."]]);
 /*R15: who are you planning for*/
 AR([["Who are you planning for?", "आप किसके लिए योजना बना रहे हैं?", "તમે કોના માટે આયોજન કરી રહ્યા છો?", "நீங்கள் யாருக்காகத் திட்டமிடுகிறீர்கள்?", "നിങ്ങൾ ആർക്കുവേണ്ടിയാണ് പദ്ധതിയിടുന്നത്?", "ನೀವು ಯಾರಿಗಾಗಿ ಯೋಜಿಸುತ್ತಿದ್ದೀರಿ?", "तुम्ही कोणासाठी नियोजन करत आहात?"], ["Pick one. We will only ask what fits your family.", "एक चुनें। हम केवल वही पूछेंगे जो आपके परिवार पर लागू होता है।", "એક પસંદ કરો. અમે ફક્ત તમારા પરિવારને લાગુ પડે તે જ પૂછીશું.", "ஒன்றைத் தேர்ந்தெடுங்கள். உங்கள் குடும்பத்துக்குப் பொருந்துவதை மட்டும் கேட்போம்.", "ഒന്ന് തിരഞ്ഞെടുക്കുക. നിങ്ങളുടെ കുടുംബത്തിന് ബാധകമായത് മാത്രം ചോദിക്കും.", "ಒಂದನ್ನು ಆರಿಸಿ. ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಹೊಂದುವುದನ್ನು ಮಾತ್ರ ಕೇಳುತ್ತೇವೆ.", "एक निवडा. तुमच्या कुटुंबाला लागू होते तेच विचारू."], ["Just me", "सिर्फ़ मैं", "ફક્ત હું", "நான் மட்டும்", "ഞാൻ മാത്രം", "ನಾನು ಮಾತ್ರ", "फक्त मी"], ["Plan for my own needs.", "मेरी अपनी ज़रूरतों की योजना।", "મારી પોતાની જરૂરિયાતો માટે આયોજન.", "என் சொந்த தேவைகளுக்கான திட்டம்.", "എന്റെ സ്വന്തം ആവശ്യങ്ങൾക്കുള്ള പദ്ധതി.", "ನನ್ನ ಸ್ವಂತ ಅಗತ್ಯಗಳ ಯೋಜನೆ.", "माझ्या स्वतःच्या गरजांचे नियोजन."], ["Me and my partner", "मैं और मेरा साथी", "હું અને મારા જીવનસાથી", "நானும் என் துணையும்", "ഞാനും എന്റെ പങ്കാളിയും", "ನಾನು ಮತ್ತು ನನ್ನ ಸಂಗಾತಿ", "मी आणि माझा जोडीदार"], ["Plan for the two of us.", "हम दोनों की योजना।", "અમારા બંને માટે આયોજન.", "எங்கள் இருவருக்கான திட்டம்.", "ഞങ്ങൾ രണ്ടുപേർക്കുമുള്ള പദ്ധതി.", "ನಮ್ಮಿಬ್ಬರ ಯೋಜನೆ.", "आम्हा दोघांचे नियोजन."], ["Me, my partner and children", "मैं, मेरा साथी और बच्चे", "હું, મારા જીવનસાથી અને બાળકો", "நான், என் துணை மற்றும் குழந்தைகள்", "ഞാൻ, എന്റെ പങ്കാളി, കുട്ടികൾ", "ನಾನು, ನನ್ನ ಸಂಗಾತಿ ಮತ್ತು ಮಕ್ಕಳು", "मी, माझा जोडीदार आणि मुले"], ["Plan for the whole family, with each child's goals.", "पूरे परिवार की योजना, हर बच्चे के लक्ष्यों के साथ।", "આખા પરિવાર માટે આયોજન, દરેક બાળકના લક્ષ્યો સાથે.", "ஒவ்வொரு குழந்தையின் இலக்குகளுடன் முழு குடும்பத்துக்கான திட்டம்.", "ഓരോ കുട്ടിയുടെയും ലക്ഷ്യങ്ങളോടൊപ്പം മുഴുവൻ കുടുംബത്തിനുമുള്ള പദ്ധതി.", "ಪ್ರತಿ ಮಗುವಿನ ಗುರಿಗಳೊಂದಿಗೆ ಇಡೀ ಕುಟುಂಬದ ಯೋಜನೆ.", "प्रत्येक मुलाच्या उद्दिष्टांसह संपूर्ण कुटुंबाचे नियोजन."], ["Partner's name (optional)", "साथी का नाम (वैकल्पिक)", "જીવનસાથીનું નામ (વૈકલ્પિક)", "துணையின் பெயர் (விருப்பம்)", "പങ്കാളിയുടെ പേര് (ഓപ്ഷണൽ)", "ಸಂಗಾತಿಯ ಹೆಸರು (ಐಚ್ಛಿಕ)", "जोडीदाराचे नाव (ऐच्छिक)"]]);
+/*R16: example family*/
+AR([["Try an example family", "एक उदाहरण परिवार आज़माएँ", "એક ઉદાહરણ પરિવાર અજમાવો", "ஒரு மாதிரிக் குடும்பத்தை முயற்சிக்கவும்", "ഒരു ഉദാഹരണ കുടുംബം പരീക്ഷിക്കുക", "ಒಂದು ಉದಾಹರಣೆ ಕುಟುಂಬವನ್ನು ಪ್ರಯತ್ನಿಸಿ", "एक उदाहरण कुटुंब वापरून पहा"], ["See a full result in seconds, using a sample family.", "एक नमूना परिवार के साथ कुछ ही सेकंड में पूरा परिणाम देखें।", "નમૂનારૂપ પરિવાર સાથે થોડી સેકન્ડોમાં સંપૂર્ણ પરિણામ જુઓ.", "மாதிரிக் குடும்பத்துடன் சில விநாடிகளில் முழு முடிவைப் பாருங்கள்.", "ഒരു മാതൃകാ കുടുംബത്തോടൊപ്പം നിമിഷങ്ങൾക്കുള്ളിൽ പൂർണ്ണ ഫലം കാണുക.", "ಮಾದರಿ ಕುಟುಂಬದೊಂದಿಗೆ ಕೆಲವೇ ಸೆಕೆಂಡುಗಳಲ್ಲಿ ಪೂರ್ಣ ಫಲಿತಾಂಶ ನೋಡಿ.", "नमुना कुटुंबासह काही सेकंदांत पूर्ण निकाल पहा."], ["This is an example family. Change anything you like.", "यह एक उदाहरण परिवार है। जो चाहें बदलें।", "આ એક ઉદાહરણ પરિવાર છે. તમે જે ઇચ્છો તે બદલો.", "இது ஒரு மாதிரிக் குடும்பம். எதை வேண்டுமானாலும் மாற்றலாம்.", "ഇത് ഒരു ഉദാഹരണ കുടുംബമാണ്. എന്തും മാറ്റാം.", "ಇದು ಒಂದು ಉದಾಹರಣೆ ಕುಟುಂಬ. ನಿಮಗೆ ಬೇಕಾದದ್ದನ್ನು ಬದಲಾಯಿಸಿ.", "हे एक उदाहरण कुटुंब आहे. हवे ते बदला."]]);
 /*R3*/
 function tx(s){if(LANG==="en")return s;var r=TD[s];return (r&&r[LI[LANG]])||s}
 function fmt(s){var a=arguments;return tx(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1]})}
@@ -954,6 +959,16 @@ function shareSum(){
   try{if(navigator.share){navigator.share({text:t}).catch(function(){});return}}catch(e){}
   try{window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank")}catch(e){}
 }
+function loadExample(){
+  WHO=3;applyWho();
+  var set=function(id,v){var e=$(id);e.value=v;if(e.classList.contains("money"))money(e)};
+  set("uname","Ravi");set("pname","Meera");setMode("age");set("age","38");set("inc","1500000");set("exp","60000");set("liab","3000000");set("assets","1000000");set("cover","5000000");
+  while(document.querySelectorAll(".kid").length<2){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));initKid(seq)}
+  var ks=document.querySelectorAll(".kid"),a=ks[0].dataset.n,b=ks[1].dataset.n;
+  set("k"+a+"name","Aarav");set("k"+a+"age","6");set("k"+b+"name","Anaya");set("k"+b+"age","3");
+  ["k"+a+"eG","k"+b+"eG","k"+b+"mG"].forEach(function(id){$(id).open=true});
+  $("exNote").hidden=false;applyTr();go(1);
+}
 function applyWho(){$("kids").hidden=$("addKid").hidden=WHO<3;$("pbox").hidden=WHO<2}
 function setBig(on){document.documentElement.classList.toggle("big",on);var b=$("bigBtn");b.setAttribute("aria-pressed",on);b.textContent=on?"A\u2212":"A+";b.setAttribute("aria-label",on?"Normal text":"Bigger text");try{localStorage.setItem("ncBig",on?"1":"0")}catch(e){}}
 function render(){
@@ -1050,6 +1065,7 @@ $("mDob").onclick=function(){setMode("dob")};
 $("addKid").onclick=function(){seq++;$("kids").insertAdjacentHTML("beforeend",kidHtml(seq));initKid(seq);applyTr();render()};
 document.addEventListener("click",function(e){
   if(e.target.closest("#shareBtn")){shareSum();return}
+  if(e.target.closest("#exBtn")){loadExample();return}
   var wh=e.target.closest("button[data-who]");if(wh){WHO=+wh.dataset.who;applyWho();go(1);return}
   var wb=e.target.closest("button[data-wt]");if(wb){WT=+wb.dataset.wt;render();return}
   var rb=e.target.closest("button[data-rec]");
