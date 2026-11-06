@@ -3,6 +3,12 @@
 Last updated: 2026-11-06 (LATEST MILESTONE 38: family runway = (savings + cover - loans) divided by monthly expenses; before it m34 Customer card removed, m33 product-type suggestions, m32 Simple view fixes, m31 claim ratio box, m30 multi-select objections)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
+## Phase 3 browser regression automation — 2026-11-07
+- Added tests/mobile-smoke.test.cjs and .github/workflows/mobile-smoke.yml. Automated mobile-sized Chromium checks cover viewport overflow, seven language switching, M38 runway and standalone saved-summary HTML, and Simple view runway visibility.
+- Browser checks run against local repository HTML with external requests blocked, so they are deterministic; they do **not** establish production Safari behavior, external font loading, actual PDF print rendering, or physical iPhone compatibility.
+- First workflow run failed at the Playwright browser dependency installation step before tests could execute; changed workflow to install Chromium without system apt dependencies. Verify latest run outcome and fix any actual test failures before declaring Phase 3 complete.
+- No production application code or financial rules changed in this phase. Follow-up: test actual iOS Safari and full customer navigation/print/WhatsApp flows.
+
 ## Inflation source attribution follow-up — 2026-11-07
 - Verified official MoSPI/PIB September 2026 all-India combined CPI inflation: 5.54% (published 12 October 2026). October 2026 CPI is scheduled for release on 12 November 2026. Official reference: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3
 - Updated all seven existing live-rate labels to identify **Trading Economics (MoSPI CPI data)** rather than imply a direct MoSPI connection. Saved official September 2026 baseline and fallback messages remain unchanged.
