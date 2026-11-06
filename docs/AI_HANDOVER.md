@@ -5,6 +5,14 @@ Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
 
+## Latest engineering update — Phase 2 (2026-11-07)
+- Added inflation API regression tests and GitHub Actions workflow; test cases include recent, stale, future, malformed, invalid-range and HTTP error responses.
+- api/inflation.js now checks HTTP status and freshness (at most four calendar months old, never future) and clears timeout on failure.
+- needs-finder.html now refuses API reports older than the saved/bundled inflation period.
+- M38 runway formula and all plan rules remain unchanged. Phase 1 already fixed zero/short duration display and added runway tests.
+- The source is still a third-party Trading Economics page. The app's existing MoSPI attribution needs review: the endpoint is **not** a direct MoSPI source. Avoid claiming an official live feed.
+- Next assistant: verify current GitHub Actions results, Vercel production SHA and runtime API response before further edits.
+
 ## Purpose
 Claude and ChatGPT alternate work on this project. GitHub main is the source of truth for code, decisions, and handover notes. Vercel deploys from GitHub. Never assume prior AI chats, Claude artifacts or Google Drive copies reflect the latest code.
 
