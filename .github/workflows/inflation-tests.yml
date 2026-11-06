@@ -1,0 +1,18 @@
+name: Inflation API regression tests
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'api/inflation.js'
+      - 'tests/inflation.test.cjs'
+      - '.github/workflows/inflation-tests.yml'
+  workflow_dispatch:
+jobs:
+  inflation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/inflation.test.cjs
