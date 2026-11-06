@@ -5,6 +5,14 @@ Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
 
+## Official-only inflation on each website visit — 2026-11-07
+- Replaced Trading Economics entirely in api/inflation.js with a direct MoSPI eSankhyiki homepage CPI KPI fetch. Every API invocation requests the government page with no-store; browser requests /api/inflation with a cache-busting timestamp on each page initialization.
+- Official-only parser requires explicit "Inflation [Month] [Year] [Rate]% Consumer Price Index" context; validates value and report period. API includes source and sourceUrl; returns ok:false rather than accepting any third-party rate when unavailable.
+- Updated all seven existing live-rate labels to MoSPI eSankhyiki and added clickable government source link beside inflation note. Financial formulas and plan rules unchanged.
+- Regression tests updated to assert government-only fetch, no-store, stale/future/invalid rejection, and failed response fallback. GitHub Actions inflation tests passed at cfa5ba35; later browser and runway tests need verification.
+- **LIVE LIMITATION:** production /api/inflation returned {ok:false,reason:"official-data-unavailable"} on 2026-11-07 despite HTTP 200. The website therefore uses its labelled saved official baseline (September 2026 5.54%) and is **NOT YET VERIFIED to automatically obtain newer MoSPI figures**. Do not describe this feature as fully complete until official API integration returns live data on production.
+- Next engineering step: integrate documented MoSPI eSankhyiki structured CPI API (/api/cpi/getCPIData), validate the All-India Combined general CPI rate against official press release, add real integration checks, and then verify live Vercel response. Do not use third-party data.
+
 ## Phase 3 verified browser regression finding — 2026-11-07
 - GitHub Actions mobile Chromium browser suite PASSED at application commit f6bf9b4965574db27effe03453214fdec6b89c61 (run 42278203460). M38 runway suite also PASSED (run 42278203511).
 - Browser suite initially detected a **real production-blocking JavaScript parse error**: the Phase 2 inflation period regex had doubled backslashes, yielding "Invalid regular expression flags" and preventing all main script initialization. Fixed the regex in commit f6bf9b49; test now confirms page initializes.
