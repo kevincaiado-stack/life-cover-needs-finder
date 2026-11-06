@@ -1030,13 +1030,8 @@ function renderSay(a,inc,A,B,C,D,gap){
 var CC=null,SP=false;
 function renderCard(a,inc,A,B,C,D,gap){
   var b=$("ccBox");if(!(a&&inc)){b.hidden=true;CC=null;return}
-  var have=C+D,need=A+B,p=need>0?Math.min(100,Math.floor(have/need*100)):0;CC={have:have,need:need,gap:gap,p:p,age:a};b.hidden=false;
+  var have=C+D,need=A+B,p=need>0?Math.min(100,Math.floor(have/need*100)):0;CC={have:have,need:need,gap:gap,p:p,age:a};b.hidden=true;
   var nm=nmOf($("uname")),pn=WHO>=2?nmOf($("pname")):"";if(pn)nm=nm?nm+" & "+pn:pn;CC.nm=nm;
-  b.innerHTML='<h3>'+tx("Customer card")+'</h3><p class="ct">'+(nm?esc(nm)+" · ":"")+tx("Your family's cover check")+'</p>'+
-  '<div class="tile"><i>✅</i><div><small>'+tx("What you have today")+'</small><b>'+rs(have)+'</b></div></div>'+
-  '<div class="tile"><i>🏠</i><div><small>'+tx("What your family needs")+'</small><b>'+rs(need)+'</b></div></div>'+
-  '<div class="tile miss"><i>⚠️</i><div><small>'+tx("What is still missing")+'</small><b>'+rs(gap)+'</b></div></div>'+
-  '<button type="button" class="add" id="ccBtn">'+tx("Share as picture")+'</button><p class="hint" id="ccNote"></p>';
   $("raBox").hidden=!window.speechSynthesis;
 }
 function wrapT(g,t,x,y,w,lh){var ws=t.split(" "),l="";ws.forEach(function(wd){var n=l?l+" "+wd:wd;if(g.measureText(n).width>w&&l){g.fillText(l,x,y);y+=lh;l=wd}else l=n});if(l){g.fillText(l,x,y);y+=lh}return y}
@@ -1228,7 +1223,6 @@ document.addEventListener("click",function(e){
   if(e.target.closest("#exBtn")){QSM=false;EXM=true;loadExample();return}
   var ch=e.target.closest("button.chip");if(ch){var ce=$(ch.dataset.c);ce.value=Number(ch.dataset.v).toLocaleString("en-IN");render();return}
   var ob=e.target.closest("button.ochip");if(ob){var oi=+ob.dataset.o,k=OB.indexOf(oi);if(k>=0)OB.splice(k,1);else OB.push(oi);renderObj();return}
-  if(e.target.closest("#ccBtn")){shareCard();return}
   if(e.target.closest("#waBtn")){waShare();return}
   if(e.target.closest("#raBtn")){readAloud();return}
   var sb=e.target.closest("[data-simple]");if(sb){setSimple(!document.documentElement.classList.contains("simple"));return}
