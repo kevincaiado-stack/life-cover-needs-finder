@@ -3,6 +3,14 @@
 Last updated: 2026-11-06 (LATEST MILESTONE 38: family runway = (savings + cover - loans) divided by monthly expenses; before it m34 Customer card removed, m33 product-type suggestions, m32 Simple view fixes, m31 claim ratio box, m30 multi-select objections)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
+## Phase 2 — inflation reliability (2026-11-07)
+- Milestone 38 remains the latest financial feature; Phase 1 added runway regression tests and short/zero-duration display fixes (commit a9851df).
+- Phase 2 adds tests/inflation.test.cjs and GitHub Actions inflation-tests.yml. The inflation endpoint now rejects HTTP error pages, invalid CPI values, future-dated reports, and reports older than four calendar months. Request timeouts are cleared on all paths.
+- The browser only accepts an API observation whose reporting month is not older than its current saved/bundled baseline. Existing inflation controls, financial formulas, seven-language strings and insurance rules are preserved.
+- Source remains Trading Economics HTML extraction, **not an official MoSPI feed**. A reliable official structured source has not yet been integrated; third-party extraction remains a maintenance risk.
+- Confirm GitHub Actions and Vercel SHA before considering this deployment verified. No claim of full mobile-browser QA.
+- Note: the app's older source text and labels may still refer to MoSPI as the source; this requires separate compliance/source-label review before describing the live feed as official.
+
 ## ROLLED BACK on 2026-10-28 (read this first)
 - At your request the app was put back to the 2026-10-24 version (commit dc571e4): all 7 languages, plan recommendations visible with "Show plans", NO needs analysis phase 2 and plans NOT hidden.
 - Everything built after that point was discarded from the live app: plans-off switch (PLANS_ON), assumptions card, age goals, retirement corpus, invest tables, education and marriage suggestions.
