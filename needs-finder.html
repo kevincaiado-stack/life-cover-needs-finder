@@ -1016,8 +1016,10 @@ function rwTxt(r){return(r&&r.y>0)?fmt("about {0} years",r.y):""}
 function renderRw(a,ret,A,B,C,D,ex){
   var b=$("rwBox"),r=rwY(a,ret,A,B,C,D,ex);if(!r){b.hidden=true;return}b.hidden=false;
   var h='<h3>'+tx("How long could your family manage?")+'</h3>';
-  if(r.net<=0){b.innerHTML=h+'<p>'+tx("Your loans are more than your savings and cover, so nothing is left to run your family's expenses. Closing the cover gap comes first.")+'</p>';return}
-  h+='<p>'+fmt("If something happened to you today, your savings and cover could support your family for about {0} years.",r.y)+'</p>';
+  if(r.net<0){b.innerHTML=h+'<p>'+tx("Your loans are more than your savings and cover, so nothing is left to run your family's expenses. Closing the cover gap comes first.")+'</p>';return}
+  if(r.net===0){b.innerHTML=h+'<p>'+tx("After loans, no savings or existing cover remain to support monthly expenses. Closing the cover gap comes first.")+'</p>';return}
+  var duration=r.mo<1?"less than one month":r.mo<12?(r.mo===1?"about 1 month":"about "+r.mo+" months"):"about "+r.y+" years";
+  h+='<p>'+fmt("If something happened to you today, your savings and cover could support your family for {0}.",duration)+'</p>';
   if(r.w>0){var p=Math.min(100,Math.floor(r.y/r.w*100));h+='<div class="rwb" role="img" aria-label="'+p+'%"><i style="width:'+p+'%"></i></div><p class="sub">'+fmt("That covers {0}% of the {1} years you plan to keep working.",p,r.w)+'</p>'}
   b.innerHTML=h+'<p class="sub">'+fmt("Savings and cover of {0}, minus loans of {1}, divided by monthly expenses of {2} is about {3} months.",rs(r.have),rs(r.loans),rs(r.mon),r.mo)+'</p><p class="sub">'+tx("Based on today's expenses. No price rise or returns counted.")+'</p>';
 }
