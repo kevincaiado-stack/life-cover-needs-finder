@@ -5,6 +5,13 @@ Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
 
+## Phase 3 verified browser regression finding — 2026-11-07
+- GitHub Actions mobile Chromium browser suite PASSED at application commit f6bf9b4965574db27effe03453214fdec6b89c61 (run 42278203460). M38 runway suite also PASSED (run 42278203511).
+- Browser suite initially detected a **real production-blocking JavaScript parse error**: the Phase 2 inflation period regex had doubled backslashes, yielding "Invalid regular expression flags" and preventing all main script initialization. Fixed the regex in commit f6bf9b49; test now confirms page initializes.
+- Browser tests cover mobile viewport overflow, seven-language switching, M38 sample inputs, standalone saved summary, and Simple view runway visibility. They use desktop Chromium emulating mobile dimensions, NOT physical iOS Safari.
+- Keep automated browser suite mandatory for any future HTML changes. Remaining manual checks: actual iPhone Safari, printing/PDF rendering, WhatsApp sharing, full multi-step advisor journey and native-speaker translations.
+- No financial formulas or plan rules changed in the fix.
+
 ## Phase 3 browser regression automation — 2026-11-07
 - Added tests/mobile-smoke.test.cjs and .github/workflows/mobile-smoke.yml. Automated mobile-sized Chromium checks cover viewport overflow, seven language switching, M38 runway and standalone saved-summary HTML, and Simple view runway visibility.
 - Browser checks run against local repository HTML with external requests blocked, so they are deterministic; they do **not** establish production Safari behavior, external font loading, actual PDF print rendering, or physical iPhone compatibility.
