@@ -962,6 +962,7 @@ function renderRet(a,ret){
   var e=num($("exp").value),box=$("retBox"),sm=$("oRet"),i=infl();
   var iv=$("inflV");if(document.activeElement!==iv)iv.value=i.toFixed(2);$("inflDn").disabled=(i<=INFL);$("inflUp").disabled=(i>=30);
   $("inflNote").textContent=LIVE?fmt("Live rate: latest India retail inflation (CPI) is {0}%, for {1}. Source: MoSPI eSankhyiki. You can raise it, but not lower it.",INFL,INFL_ON):fmt("Could not get the live rate. Showing the last saved rate: {0}%, for {1}. You can raise it, but not lower it.",INFL,INFL_ON);
+  $("inflNote").insertAdjacentHTML("beforeend",' <a href="https://esankhyiki.mospi.gov.in/" target="_blank" rel="noopener noreferrer">MoSPI eSankhyiki ↗</a>');
   if(!a||!e){box.innerHTML='<p class="hint">'+tx("Fill in your age and monthly expenses to see this.")+'</p>';sm.innerHTML="";return}
   var y=Math.max(0,ret-a),f=e*Math.pow(1+i/100,y);
   var L=function(l,v){return '<div class="line"><span>'+l+'</span><b>'+v+'</b></div>'};
