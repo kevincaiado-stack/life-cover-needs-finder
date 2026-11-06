@@ -3,6 +3,14 @@
 Last updated: 2026-11-06 (LATEST MILESTONE 38: family runway = (savings + cover - loans) divided by monthly expenses; before it m34 Customer card removed, m33 product-type suggestions, m32 Simple view fixes, m31 claim ratio box, m30 multi-select objections)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
+## Official CPI production recovery — 2026-11-07
+- Production Vercel /api/inflation returned **ok:true, rate:5.54, on:09/2026**, sourced directly from the official Government of India PIB release at https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3. No third-party CPI data used.
+- The official MoSPI eSankhyiki API at api.mospi.gov.in failed TLS fetch from Vercel; the eSankhyiki homepage was client-rendered and could not be parsed server-side. Replaced failing endpoint with official PIB publication discovery plus government release-page verification. PIB ministry release listing was lagging (listed August 2026) when checked; known verified September 2026 PIB release acts as an official fallback. Newer releases appearing in the government listing are preferred by reporting month.
+- Every page visit fetches /api/inflation without browser/server cache; accepted official rates update INFL, INFL_ON, saved local rate and call render() to recalculate projections. Browser regression verifies new official response triggers recalculation.
+- API tests passed at b88a674a. Production direct API smoke succeeded. Browser source link now points to the actual official PIB release. Browser and runway tests on the latest UI commit need confirmation.
+- **Caveat:** Government PIB listing publication latency and source availability are outside application control; do not guarantee same-minute detection of a release or permanent 100% uptime. Monitor the next CPI publication (expected 12 Nov 2026) and verify a new official month is discovered without code changes.
+- Temporary CPI diagnostic endpoint removed after testing. Financial formulas and plan suitability unchanged.
+
 ## Monthly official CPI recalculation validation — 2026-11-07
 - Confirmed existing client flow: on each visit loadInfl() calls /api/inflation with no-store and cache-busting; when an official response has a valid reporting period >= saved baseline, it updates INFL/INFL_ON, saves them and calls render(). The retirement inflation projections recompute with the applied rate. An intentional higher user scenario rate is preserved.
 - Added Chromium regression checks: changing CPI changes retirement-expense projection (passed, run 42279236271); a new test stubs the official endpoint response and asserts loadInfl() updates month, rate, live state and visible projections (run pending verification).
