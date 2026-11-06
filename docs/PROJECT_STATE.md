@@ -3,6 +3,13 @@
 Last updated: 2026-11-06 (LATEST MILESTONE 38: family runway = (savings + cover - loans) divided by monthly expenses; before it m34 Customer card removed, m33 product-type suggestions, m32 Simple view fixes, m31 claim ratio box, m30 multi-select objections)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
+## Inflation source attribution follow-up — 2026-11-07
+- Verified official MoSPI/PIB September 2026 all-India combined CPI inflation: 5.54% (published 12 October 2026). October 2026 CPI is scheduled for release on 12 November 2026. Official reference: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3
+- Updated all seven existing live-rate labels to identify **Trading Economics (MoSPI CPI data)** rather than imply a direct MoSPI connection. Saved official September 2026 baseline and fallback messages remain unchanged.
+- Evaluated MoSPI eSankhyiki CPI catalogue: https://esankhyiki.mospi.gov.in/catalogue-main/catalogue?product=CPI . It exposes official releases, but no stable documented public API contract was verified in this task. Do not switch to an untested endpoint or scrape official PDFs in production.
+- Follow-up: integrate a verified official structured API when access/schema/uptime and regression fixtures can be validated; consider native-speaker sign-off for revised attribution translations.
+- App layout, inflation arithmetic, product rules, and supported languages were not changed.
+
 ## Phase 2 — inflation reliability (2026-11-07)
 - Milestone 38 remains the latest financial feature; Phase 1 added runway regression tests and short/zero-duration display fixes (commit a9851df).
 - Phase 2 adds tests/inflation.test.cjs and GitHub Actions inflation-tests.yml. The inflation endpoint now rejects HTTP error pages, invalid CPI values, future-dated reports, and reports older than four calendar months. Request timeouts are cleared on all paths.
