@@ -1,0 +1,18 @@
+name: Milestone 38 runway tests
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'needs-finder.html'
+      - 'tests/runway.test.cjs'
+      - '.github/workflows/runway-tests.yml'
+  workflow_dispatch:
+jobs:
+  runway:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/runway.test.cjs
