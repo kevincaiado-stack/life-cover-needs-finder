@@ -1,0 +1,45 @@
+# AI Handover — Life Cover Needs Finder
+
+Updated: 2026-11-07
+Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
+Production: https://life-cover-needs-finder.vercel.app/
+Canonical branch: main
+
+## Purpose
+Claude and ChatGPT alternate work on this project. GitHub main is the source of truth for code, decisions, and handover notes. Vercel deploys from GitHub. Never assume prior AI chats, Claude artifacts or Google Drive copies reflect the latest code.
+
+## Start-of-session checklist
+1. Read main HEAD and recent commits.
+2. Read docs/AI_HANDOVER.md, docs/PROJECT_STATE.md and docs/needs-finder-rules-and-status.md. The latter is older and may be superseded.
+3. Inspect needs-finder.html and relevant docs/translation-review.csv rows.
+4. Check Vercel deployment status and verify the source commit matches the intended GitHub commit.
+5. Identify outstanding risks, confirm scope, and avoid overwriting the other assistant's work.
+
+## Current application baseline — Milestone 38
+As documented in docs/PROJECT_STATE.md, latest application milestone M38 was committed on 2026-11-06 at 313cf4c79a3a854feaa5e39db7b1484f420e2195.
+
+The 'How long could your family manage?' runway is (savings and investments + existing life cover - loans) / monthly expenses = months, then months / 12 = years. When loans exceed resources, show a no-runway message. Objection responses reuse the positive runway. Duration can exceed working years, but the comparison bar caps at 100%. No inflation or investment returns are counted. Test zero or missing monthly expenses and rounding. Relevant functions: rwY(), rwTxt(r), renderRw(a,ret,A,B,C,D,ex). R29 translations cover seven languages. Pre-M38 rollback: stable-2026-11-06-pre-runway4.
+
+Other recent milestones: M34 removed the visible Customer card; M33 added advisor timeline product-type suggestions; M32 fixed Simple view plan toggles; M31 added a claim-ratio information box. See PROJECT_STATE.md for exact details and rollback branches. Experimental Phase 2 changes were rolled back in October; do not restore without approval.
+
+## GitHub-first workflow for both assistants
+1. Refresh main before any edits.
+2. Keep changes scoped and preserve rollback references.
+3. Test financial calculations and edge cases, mobile layout, Simple view, seven-language content, plan suitability, printed and saved summaries.
+4. Commit approved changes to GitHub. Update PROJECT_STATE.md and this handover for behavior changes.
+5. Verify Vercel build, source SHA, production availability and key mobile flows. A GitHub push alone is not deployment verification.
+6. Hand over changed files, commit SHA, test evidence, deployment status, open issues and next recommended task.
+
+## Pending audit findings / validation queue
+These are candidates for investigation, NOT confirmed defects. A complete code audit and production smoke test are still pending.
+
+- P0 — Validate M38 runway math, negative net resources, zero/blank expenses, month/year units, rounding and objection-answer consistency. Keep runway distinct from the cover-gap/protection meter.
+- P0 — Review plan suitability, 'MUST BE OFFERED' wording, training-only illustrative disclaimers, claim-ratio sources and compliance.
+- P1 — Regression-test Simple view, plan controls, timeline suggestions, removed Customer card, printing/PDF and saved summaries.
+- P1 — Native-speaker and compliance review for Hindi, Gujarati, Tamil, Malayalam, Kannada and Marathi, especially R29.
+- P1 — Confirm Vercel production deploys the intended GitHub commit without build/runtime regressions.
+- P2 — Review unused Customer-card functions, dead translation rows, single-file maintainability and test coverage.
+- P2 — Label Google Drive and Claude copies as potentially stale; update only when explicitly needed.
+
+## Handover verification
+Prepared using GitHub main's PROJECT_STATE.md, needs-finder-rules-and-status.md and recent commit history. This handover changes documentation only; no application code is modified. Vercel deployment status is not verified by this note and must be checked separately.
