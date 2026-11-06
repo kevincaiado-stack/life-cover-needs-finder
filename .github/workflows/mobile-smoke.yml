@@ -1,0 +1,20 @@
+name: Phase 3 mobile browser smoke
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'needs-finder.html'
+      - 'tests/mobile-smoke.test.cjs'
+      - '.github/workflows/mobile-smoke.yml'
+  workflow_dispatch:
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: node --test tests/mobile-smoke.test.cjs
