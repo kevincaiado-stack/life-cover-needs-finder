@@ -3,9 +3,9 @@
 const SOURCE_URL = "https://esankhyiki.mospi.gov.in/";
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 function extract(html) {
-  const t = String(html).replace(/<script\\b[^>]*>[\\s\\S]*?<\\/script>/gi," ").replace(/<style\\b[^>]*>[\\s\\S]*?<\\/style>/gi," ").replace(/<[^>]*>/g," ").replace(/&nbsp;|&#160;/gi," ").replace(/\\s+/g," ");
+  const t = String(html).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi," ").replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi," ").replace(/<[^>]*>/g," ").replace(/&nbsp;|&#160;/gi," ").replace(/\s+/g," ");
   // Official homepage KPI reads "Inflation September, 2026 5.54% Consumer Price Index".
-  const m = /Inflation\\s+(January|February|March|April|May|June|July|August|September|October|November|December)\\s*,?\\s*(20\\d{2})\\s+(\\d{1,2}(?:\\.\\d{1,2})?)\\s*%\\s*Consumer Price Index/i.exec(t);
+  const m = /Inflation\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s*,?\s*(20\d{2})\s+(\d{1,2}(?:\.\d{1,2})?)\s*%\s*Consumer Price Index/i.exec(t);
   if (!m) return null;
   return { month: MONTHS.findIndex(x=>x.toLowerCase()===m[1].toLowerCase())+1, year:Number(m[2]), rate:Number(m[3]) };
 }
