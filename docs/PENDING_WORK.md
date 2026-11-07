@@ -5,7 +5,7 @@ Updated: 2026-11-07 | Current application milestone: **M51** | Source of truth: 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
 
 ## M51 — Priority 4 language audit: structural fix completed, approvals open
-- **P0 LANGUAGE automated integrity: DONE.** 468 runtime keys checked across six translations; no blanks or placeholder mismatches. CSV review register reconciled (IDs 213, 360, 389 updated, 468 added), automated source-key parity test added. See `docs/LANGUAGE_AUDIT_M51.md`.
+- **P0 LANGUAGE automated integrity: DONE.** 468 runtime keys checked across six translations; no blanks or placeholder mismatches. CSV review register reconciled (IDs 213, 360, 378, 389 updated, 468 added), automated source-key parity test added. See `docs/LANGUAGE_AUDIT_M51.md`.
 - **P0 LANGUAGE formal approval: OPEN.** Qualified native-speaker review for M44 savings, M45 UX and M46 OBJ0 objections (18 flagged rows), plus older flagged product/compliance copy and untranslated M47/M49 explanatory content. Capture named reviewer, language, row ID, date and evidence. Do not mark signed off based on automated checks.
 - **Next Priority 5 — P1 IPHONE:** physical Safari customer/advisor UX, saved landscape A4 first-page dashboard, conditional appendix, PDF/WhatsApp output; Start or Skip for now.
 
