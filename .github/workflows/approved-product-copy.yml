@@ -1,0 +1,21 @@
+name: M59 approved product copy regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'needs-finder.html'
+      - 'tests/approved-product-copy.test.cjs'
+      - '.github/workflows/approved-product-copy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  product-copy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/approved-product-copy.test.cjs
+      - run: node --test tests/eligibility-boundaries.test.cjs tests/income-suitability.test.cjs tests/savings-edge.test.cjs tests/product-catalog-consistency.test.cjs
