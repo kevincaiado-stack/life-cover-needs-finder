@@ -1,0 +1,15 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const html=fs.readFileSync(require('node:path').join(__dirname,'../needs-finder.html'),'utf8');
+const start=html.indexOf('var PD='),end=html.indexOf('function pdet(',start);
+assert.ok(start>=0&&end>start,'Product-detail catalog found');
+const context={};vm.createContext(context);vm.runInContext(html.slice(start,end),context);
+const items=k=>Array.from(context.PD[k][1]);
+test('IncomeNow Early Income premium minima disclose PPT 2 and PPT 3/4',()=>{const s=items('inn').join(' ');assert.match(s,/PPT 2 years ₹5,00,000/);assert.match(s,/PPT 3 or 4 years ₹2,00,000/);assert.doesNotMatch(s,/Minimum premium: ₹50,000 for all variants/)});
+test('Promise4Life Assured Term Income minimum annual premium is explicitly disclosed',()=>{const s=items('p4l').join(' ');assert.match(s,/Assured Term Income minimum annual premium ₹36,000/);assert.doesNotMatch(s,/Minimum premium: ₹50,000 for all variants/)});
+test('Promise4Life PPT-dependent maximum entry ages are disclosed',()=>{const s=items('p4l').join(' ');for(const p of [/50 years for PPT 5/,/60 years for PPT 7/,/65 years for PPT 10 or 12/])assert.match(s,p)});
+test('other five product families retain original detail entries',()=>{for(const k of ['we','si','ig','p4f','yt'])assert.ok(items(k).length>0)});
+test('approved copy change does not remove age gate or financial allocation logic',()=>{assert.ok(html.includes('if(a<18||a>65)'));assert.ok(html.includes('function savingsSplit('))});
+test('language selector and translation fallback are unchanged',()=>{assert.ok(html.includes('function tx(s)'));assert.ok(html.includes('return (r&&r[LI[LANG]])||s'));for(const code of ['en','hi','gu','ta','ml','kn','mr'])assert.ok(html.includes('"'+code+'"'))});
