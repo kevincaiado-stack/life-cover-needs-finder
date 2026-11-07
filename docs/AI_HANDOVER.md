@@ -1,9 +1,14 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M48 P0 compliance hardening; M47 dashboard; M46 earlier)
+Updated: 2026-11-07 (M49 claim-source verification; M48 compliance hardening; M47 dashboard)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## M49 — Priority 2 claim-ratio primary-source correction (2026-11-07)
+- Official insurer homepage identifies **99.52% FY2025–26 individual death claims settled**, versus FY26 press release's separate **99.6%** statement. The discrepancy is not safely explained as rounding; do not conflate metrics. FY2024–25 annual report confirms **99.43% individual** versus **99.38% combined individual/group**. Display now compares 99.52% to 99.43% as individual claim metrics, with explicit source/definition caveats. See `docs/CLAIMS_SOURCE_AUDIT_M49.md`.
+- M49 regression test added; no financial calculations or customer/advisor export rules changed. IRDAI official workbook independent reconciliation and compliance approval of wording remain open. Next priority: P0 export privacy review, with Start/Skip choice.
+- Pre-change rollback: `stable-2026-11-07-pre-m49-claims-primary-sources`.
 
 ## M48 — P0 compliance remediation follow-up (2026-11-07)
 - Technical C06 mitigation committed: strict customer-summary export allowlist for six customer-facing panels; advisor objection, talking points, product suggestions, quick-start and voice UI excluded; training disclaimer retained. New regression tests exercise populated advisor-only panels and training warning.
