@@ -4,6 +4,16 @@ Date: 2026-11-07
 Status: **Preliminary code/content audit completed; formal compliance approval NOT granted.**
 Scope: GitHub `main` application (M46 baseline, followed by M47 saved-summary layout-only change), advisor guidance, financial illustrations, protection/goal language, disclosure, source references, export controls. This review is not legal, regulatory, actuarial or insurer compliance certification.
 
+## M48 remediation and closure evidence (2026-11-07)
+
+**Remediated in code, pending real-output QA:** C06 — saved-summary HTML now exports an explicit allowlist of six customer-visible sections (`nmBox`, `rwBox`, `pmBox`, `tlBox`, `mdBox`, `finBox`) instead of indiscriminately serializing any new section. The advisor-only `tpBox`, `objBox`, `ccBox`, `sayBox`, `qsBox`, voice controls, suggestions and product category blocks are excluded. Training-only disclaimer remains visible. M48 automated regression tests cover populated advisor sections and disclaimer. This is a **technical mitigation**, not a compliance sign-off; real iPhone print, HTML, PDF and WhatsApp inspection is still needed.
+
+**Already implemented in M46/M47:** C03 zero-gap objection variants; C04 proportional savings split without double counting; C08 landscape first-page dashboard with overflow appendix. The financial formulas and unapproved wording have **not** been changed. These remain subject to suitability, presentation and native-language approval.
+
+**Cannot be independently closed by development:** C01 official claim-ratio primary-source/definition verification (next Priority 2); C02 product suitability and two-year cutoff; C03 legal/linguistic approval of objection scripts; C04 financial-methodology approval; C05 legal disclaimer approval; C07 named native-speaker approvals; C09 next official CPI rollover. The application must continue to be labelled **internal training only**. None of these should be marked approved or verified without evidence from the responsible authority.
+
+**Remediation decision:** Technical export leakage risk reduced; **P0 compliance approval remains OPEN**, not completed. User can defer the external approvals, but should not use the material for regulated advice or sales until signed off.
+
 ## Findings and action register (highest risk first)
 
 | ID | Priority | Evidence in current application | Risk / required action | Approval owner | Status |
