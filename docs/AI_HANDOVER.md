@@ -1,9 +1,26 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M46 objection no-gap fix; M45 UX1-UX8; M44, M43 earlier)
+Updated: 2026-11-07 (M46 authoritative; M45 UX1-UX8 completed; documentation reconciled)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## CURRENT AUTHORITATIVE BASELINE — M46 (2026-11-07)
+
+**GitHub main application SHA:** `1fd25417900e7cb0b3d1e478e6ac574f2063ee5c`. **Vercel production:** READY and matched this SHA on verification. **GitHub Actions:** latest M46 mobile Chromium and runway test workflows completed successfully. This is the current feature baseline; later documentation-only commits will have newer SHAs without changing the application. Older 'current M43/M44/M45', planned UX1–UX8, or pending-release statements below are historical, not the active status.
+
+**Completed and tested:**
+- M44: monthly savings presets and custom amount; one proportional monthly budget shared among future goals, no double counting; zero-return nominal contribution illustration.
+- M45 UX1–UX8: Customer screen hides advisor-only guidance and enables Simple view; sticky key numbers; collapsible Your numbers / Talking points / More detail; improved Enter navigation, language selector, colour/tap/readability; print/saved-summary date and customer heading with disclaimer and A4 formatting. **Saved summary is multi-page (roughly 3–4 pages for an example family), not a guaranteed one-page handout.**
+- M46 UX9: objection responses adapt to a fully covered customer with zero cover gap; 'Returns are poor' explanation refined. New OBJ0 translations added in seven languages, but native-speaker sign-off for these strings is **not documented**.
+- Official-only CPI via MoSPI PIB release, last production-verified 09/2026 at 5.54%; real next-month discovery not yet verified. Existing runway formula unchanged.
+
+**Verification distinctions:** A user-reported iPhone Safari check passed for savings controls, Simple-view timeline and Hindi on 2026-11-07 at 19:22 IST. This does **not** establish a complete seven-language, UX1–UX9, export/print/WhatsApp physical-device audit. A user-reported native-speaker review is recorded but the precise language/string scope and reviewer evidence are not documented; do **not** mark the new M45 or M46 strings as individually signed off. Compliance and source-document verification remain pending. See `docs/PENDING_WORK.md` for prioritized work and acceptance criteria.
+
+**Workflow:** GitHub `main` is the only source of truth. Read `docs/AI_HANDOVER.md`, `docs/PROJECT_STATE.md` and `docs/PENDING_WORK.md` before work; create rollback branch, test, commit, verify Vercel SHA, and update all three files. Do not modify intentionally frozen Google Drive (`e5a2eff`). Claude Project/artifact mirrors are not verified synchronized. Pre-reconciliation rollback: `stable-2026-11-07-pre-m46-doc-reconcile`.
+
+### Historical milestone and planning notes below
+Earlier entries are retained for traceability; interpret any prior 'latest/current', UX1–UX8 'planned', native-language 'verified', or CPI failure notes in their dated context. This section and `PENDING_WORK.md` override conflicting historical status labels.
 
 ## M46: objection answers when cover gap is zero (Claude, 2026-11-07)
 - Bug from user screenshot: with a fully covered customer (gap Rs 0) answers said "protect the gap of Rs 0". Fix: each affected objection in OBJS now has an optional `z` object (no-gap wording for d/e/x/w); renderObj uses it when CC.gap<=0 (Object.assign merge). Objections with z: too expensive, think about it, already have insurance, mutual funds, spouse/parents (w only), liquidity, returns are poor. Others never mention the gap.
@@ -23,7 +40,7 @@ Canonical branch: main
 - New strings (all 7 languages, rows appended to translation-review.csv): Customer screen, Protected, Family can manage, Your numbers, Talking points, More detail, Prepared for {0}. Native-speaker review pending for these.
 - Not verified: real iPhone Safari for the new UI (user should recheck: header wrap, sticky strip, Enter key behaviour).
 
-## UI/UX program UX1-UX8 (approved by user 2026-11-07 19:27 IST; Claude is executing in order)
+## HISTORICAL PLAN — UI/UX program UX1-UX8 (subsequently completed in M45)
 Rollback: pre-ux branch `stable-2026-11-07-pre-ux` = state before this program; each step gets its own `stable-2026-11-07-uxN` branch. All new text needs 7 languages + translation-review.csv rows. No financial-rule changes. Advisor-only content stays out of print, saved summary and WhatsApp.
 1. UX1 Advisor / customer split: a "Customer screen" toggle hides advisor-only cards (objections, product suggestions on timeline) on screen, not just in print.
 2. UX2 Sticky key-numbers strip: cover gap, protection %, how long the family can last, always visible at top of results.
@@ -49,7 +66,7 @@ Status log: see PROJECT_STATE.md (entries UX1..UX8). If a step is not marked don
 - One monthly budget split proportionally across future goals by goal amount / months remaining. Shares sum to selected monthly amount. Show monthly share, nominal contributions capped at goal, percentage and remaining gap. No investment returns, inflation growth, or double counting; life cover separate.
 - Seven-language strings added; native review pending. Browser tests added. M43 is previous baseline. Pre-change rollback stable-2026-11-07-pre-savings-buttons.
 
-## PREVIOUS VERIFIED BASELINE — M43 (see M44 above)
+## HISTORICAL BASELINE — M43 (superseded by M44–M46)
 
 **Source of truth:** GitHub `main`; application HEAD `02e969152f2cc2e996436b7b39d26197de709842` (M43). Production Vercel READY at this same SHA. The latest M43 GitHub Actions mobile Chromium and runway test runs both passed. This section supersedes any older 'LATEST', pending verification or live CPI failure statements below; historical entries are retained for traceability.
 
@@ -62,7 +79,7 @@ Status log: see PROJECT_STATE.md (entries UX1..UX8). If a step is not marked don
 **Verified rollback references:** `stable-2026-11-07-pre-rk-remove` = `969105aaa093` (M42), `stable-2026-11-07-rk-removed` and `stable-2026-11-07-safe` = `02e969152f2c` (M43). A pre-document-cleanup branch `stable-2026-11-07-pre-handover-cleanup` was created from M43. See PENDING_WORK.md for all deferred work, owners, priorities, and acceptance checks.
 
 ### Historical record notice
-All dated milestone/phase entries below document decisions at the time they were written. They may contain superseded labels, unverified historical claims, and earlier CPI integration failures. For present-day status use the CURRENT STATUS section above, not older 'next steps'.
+All dated milestone/phase entries below document decisions at the time they were written. They may contain superseded labels, unverified historical claims, and earlier CPI integration failures. For present-day status use CURRENT AUTHORITATIVE BASELINE — M46 and PENDING_WORK.md, not older 'next steps'.
 
 ## Standing instructions from the user (Kevin) — READ FIRST (added by Claude, 2026-11-07)
 1. **Before building anything:** fetch GitHub main, read this file and docs/PROJECT_STATE.md, update this file if anything is missing, then proceed.
