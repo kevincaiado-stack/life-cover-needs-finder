@@ -1,9 +1,15 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M46 authoritative; M45 UX1-UX8 completed; documentation reconciled)
+Updated: 2026-11-07 (M47 dashboard and P0 compliance audit; M46 prior application baseline)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## M47 — P0 compliance audit and saved-summary dashboard (2026-11-07)
+- **P0 compliance audit performed, not approved:** Findings C01–C09, required evidence, reviewers and hold decision documented in `docs/COMPLIANCE_AUDIT_M47.md`. External/customer-facing or sales use remains prohibited; training-only restriction unchanged. Next priority: C01 official claim-settlement evidence, user may Start or Skip.
+- **Saved summary layout:** `buildSummary()` now creates a landscape A4 financial dashboard with three KPI tiles, side-by-side financial/runway/goals/charts panels, and a detailed appendix for panels that exceed the first-page height. Saved HTML and Print/PDF button use the same dashboard. Overflow panels move (not disappear); no underlying calculation changed. Advisor-only sections `tpBox`, `objBox`, `ccBox`, `.pcat`, tips and actions remain excluded. The appendix can span more than one page if many goals are entered; the dashboard first page is prioritized.
+- **Automated checks:** M47 browser smoke tests for dashboard, excluded advisor sections and overflow appendix were added. Final Vercel/CI verification and physical iPhone/PDF print checks must be tracked separately. Mobile saved HTML uses fixed landscape canvas (horizontal scrolling on narrow screens) to retain A4 layout.
+- Pre-change rollback `stable-2026-11-07-pre-m47-dashboard-compliance`; M46 app baseline `1fd25417900e` prior to M47. Do not treat audit as regulatory approval.
 
 ## CURRENT AUTHORITATIVE BASELINE — M46 (2026-11-07)
 
