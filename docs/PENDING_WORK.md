@@ -4,6 +4,12 @@ Updated: 2026-11-07 | Current application milestone: **M44** | Source of truth: 
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
 
+## M44 GitHub/Vercel synchronization — 2026-11-07
+- Monthly savings presets, custom input and proportional split across goals are committed to GitHub main and deployed to Vercel. New regression test covers allocation without double counting and interactive controls.
+- Browser test originally failed because synthetic goals were reset by the normal render() after clicking a preset; regression fixture corrected in commit `92baa9cd2565d44938e821542a596a7c6fe70919`. Verify the current Actions run `42360399150` before marking all tests green.
+- Vercel READY on `92baa9cd2565d44938e821542a596a7c6fe70919` was confirmed. Documentation-only follow-up commits will update the production SHA without changing app code.
+- Outstanding: physical iPhone Safari, six native-language reviews, compliance sign-off for allocation illustration and overflow/fully-funded-goal behavior; see PENDING_WORK.md.
+
 ## M44 savings scenario follow-ups (2026-11-07)
 - **P0:** Native-speaker review of savings strings (translation-review.csv rows 440–442); compliance approval of illustrative goal allocations.
 - **P1:** Real iPhone Safari checks of presets, custom keyboard, seven languages and goal allocations; validate due-now goals and custom extremes.
