@@ -1,7 +1,11 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-08 — M51 language review register parity.
+Last updated: 2026-11-08 — M52 A4 print pagination.
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
+
+## M52 — Landscape A4 dashboard pagination and iPhone QA (2026-11-08)
+- Standalone summary first-page layout now measures 194mm A4 landscape printable height rather than arbitrary 690px. CSS uses 281mm print width, two-column dashboard, single-column breakable appendix. Font-ready print sequencing replaces fixed 450ms delay.
+- Chromium browser tests 19/19 pass, including oversized 95-line summary, retained appendix, generated PDF and seven-language privacy. Real iPhone Safari print/export remains unverified and pending user QA. See `docs/IPHONE_PRINT_AUDIT_M52.md`. No financial or advisor/customer privacy changes.
 
 ## M51 — Language dictionary/review register parity (2026-11-08)
 - All 468 runtime translation keys have nonempty Hindi, Gujarati, Tamil, Malayalam, Kannada and Marathi strings and exact placeholder parity. Browser test verifies language switching and formatting.
