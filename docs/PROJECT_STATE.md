@@ -1,7 +1,11 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-07 — M47 saved-summary dashboard and preliminary P0 compliance audit; M46 previous application baseline.
+Last updated: 2026-11-07 — M48 compliance export hardening; M47 dashboard; M46 earlier.
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
+
+## M48 — Compliance hardening without formula changes
+- Saved customer-summary exporter now uses an explicit allowlist of six panels, preventing future advisor-only sections from being accidentally included. Quick-start, objection, sales talking points, voice and product suggestion UI excluded. Training disclaimer remains. Automated regression tests added.
+- C06 technically mitigated; physical output privacy inspection and external compliance approval remain open. C01 primary-source claims ratio audit remains next P0. See `docs/COMPLIANCE_AUDIT_M47.md`. No financial calculation or recommendation thresholds changed.
 
 ## M47 — Compliance findings and A4 dashboard export (2026-11-07)
 - P0 preliminary audit findings and required external approvals recorded in `docs/COMPLIANCE_AUDIT_M47.md`. No formal compliance approval. Training-only disclaimer and business rules preserved.
