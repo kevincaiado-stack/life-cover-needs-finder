@@ -1,9 +1,14 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M47 dashboard and P0 compliance audit; M46 prior application baseline)
+Updated: 2026-11-07 (M48 P0 compliance hardening; M47 dashboard; M46 earlier)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## M48 — P0 compliance remediation follow-up (2026-11-07)
+- Technical C06 mitigation committed: strict customer-summary export allowlist for six customer-facing panels; advisor objection, talking points, product suggestions, quick-start and voice UI excluded; training disclaimer retained. New regression tests exercise populated advisor-only panels and training warning.
+- `docs/COMPLIANCE_AUDIT_M47.md` updated with remediation ledger and explicit outstanding approvals. M46 no-gap objection fix and M47 landscape dashboard already implemented. No business formulas, claim figures, suitability rules or translations changed. P0 external approval remains **OPEN**; C01 primary-source claims verification is next priority, not silently treated as completed.
+- Pre-M48 rollback `stable-2026-11-07-pre-m48-compliance-remediation`. Confirm latest Actions and Vercel matching SHA after docs commit; physical print/PDF/WhatsApp QA still pending.
 
 ## M47 — P0 compliance audit and saved-summary dashboard (2026-11-07)
 - **P0 compliance audit performed, not approved:** Findings C01–C09, required evidence, reviewers and hold decision documented in `docs/COMPLIANCE_AUDIT_M47.md`. External/customer-facing or sales use remains prohibited; training-only restriction unchanged. Next priority: C01 official claim-settlement evidence, user may Start or Skip.
