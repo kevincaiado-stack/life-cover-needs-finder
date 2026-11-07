@@ -4,6 +4,7 @@ Last updated: 2026-11-07 (PREVIOUS MILESTONE 43; CURRENT M44: Rethink your strat
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
 
 ## UX program (2026-11-07): UX1-UX8, see AI_HANDOVER.md. Built so far (in order): see lines below.
+- UX6 DONE: Language switcher: larger 44px select with globe icon, native-script names kept, no iPhone zoom (16px) (UX6) (branch stable-2026-11-07-ux6)
 - UX5 DONE: Guided form: Enter key moves to the next box then to Next, enter-key hint on phone keyboards; progress line, numeric keyboards and example placeholders already existed (UX5) (branch stable-2026-11-07-ux5)
 - UX3 DONE: Result cards grouped into collapsible sections: Your numbers, Talking points (advisor), More detail; Talking points hidden in customer screen, print and saved summary (UX3) (branch stable-2026-11-07-ux3)
 - UX2 DONE: Sticky key-numbers strip (cover gap, protected %, how long family can manage) at top of results; not in print or saved summary (UX2) (branch stable-2026-11-07-ux2)
