@@ -1,7 +1,12 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-07 (LATEST MILESTONE 43: Rethink your strategy card (M42) removed at the user's request, timeline already covers it; before it M41: runway time wording translated, unused Customer-card code removed; before it M40 timeline visible in Simple view, M39 runway with inflation)
+Last updated: 2026-11-07 (PREVIOUS MILESTONE 43; CURRENT M44: Rethink your strategy card (M42) removed at the user's request, timeline already covers it; before it M41: runway time wording translated, unused Customer-card code removed; before it M40 timeline visible in Simple view, M39 runway with inflation)
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
+
+## M44 — Savings choices and proportional goal split (2026-11-07)
+- Presets ₹5k/₹10k/₹15k/₹20k/₹25k/₹50k plus custom numeric entry replace slider.
+- One monthly amount allocated across future goals in proportion to each goal's required monthly saving; per-goal contribution, percentage and remaining target shown. No returns, inflation growth or substitution for life cover. Financial needs formulas unchanged.
+- Seven-language UI strings added (native review pending), browser tests added. Pre-change rollback stable-2026-11-07-pre-savings-buttons.
 
 ## CURRENT VERIFIED BASELINE — M43 (2026-11-07)
 
