@@ -51,3 +51,12 @@ test('M38 standard multi-year runway preserves years display', () => {
   renderRw(40, 60, 0, 0, 600000, 0, 120000);
   assert.match(elements.rwBox.innerHTML, /about 5 years/i);
 });
+
+test('Inflation runway: same money lasts fewer years when expenses rise (5.54%)', () => {
+  context.infl = () => 5.54;
+  renderRw(38, 60, 0, 3000000, 1000000, 30000000, 720000);
+  assert.match(elements.rwBox.innerHTML, /about 38\.9 years/);
+  assert.match(elements.rwBox.innerHTML, /5\.54% a year \(current inflation\)/);
+  assert.match(elements.rwBox.innerHTML, /would last about 21\.3 years/);
+  delete context.infl;
+});

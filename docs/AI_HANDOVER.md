@@ -1,9 +1,16 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07
+Updated: 2026-11-07 (M39 added)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## M39: runway with inflation (Claude, 2026-11-07)
+- User asked to also show how many years the money would last with current inflation counted. Added a bold line under the M38 runway: yearly expenses grow at infl() (live official CPI, 5.54% on 09/2026), the lump sum (savings + cover - loans) pays them with no investment return, n = ln(1+M*g/E)/ln(1+g). Example: 2.80 Cr, 7.2 L a year, 5.54% -> about 21.3 years (38.9 with no price rise). Shown in months if under a year; hidden if about 1 month or less.
+- M38 formula and rwY() are unchanged and still pure; tests/runway.test.cjs passes 9/9 (one test added), tests/inflation.test.cjs 5/5, tests/mobile-smoke.test.cjs 6/6 (run locally with CHROME_BIN pointing at Playwright's Chromium).
+- Merged on top of the ChatGPT live-CPI commits through 055a413 without touching api/ or the inflation source. Rollback: stable-2026-11-07-pre-infl.
+- Needs: native-speaker review of the 3 new R30 lines; compliance review of the wording; check Vercel deployed this commit.
+- Note for the next assistant: the ChatGPT duration phrase in renderRw ('about N months') is inserted into translated sentences in English; it is not translated in the six other languages. Not changed here.
 
 ## Official CPI production recovery — 2026-11-07
 - Production Vercel /api/inflation returned **ok:true, rate:5.54, on:09/2026**, sourced directly from the official Government of India PIB release at https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3. No third-party CPI data used.
