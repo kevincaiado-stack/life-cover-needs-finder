@@ -5,6 +5,9 @@ Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
 
+## User confirmation — native-speaker review (2026-11-07, 19:14 IST)
+- The user (Kevin) stated that the native-speaker review is verified. Exact scope (which languages/rows) was not specified; treat as verified per the user's statement. Compliance sign-off and real-iPhone Safari check remain open. Claude's cloud has no WebKit, so Safari must be checked by the user on a real iPhone.
+
 ## M44 GitHub/Vercel synchronization — 2026-11-07
 - Monthly savings presets, custom input and proportional split across goals are committed to GitHub main and deployed to Vercel. New regression test covers allocation without double counting and interactive controls.
 - Browser test originally failed because synthetic goals were reset by the normal render() after clicking a preset; regression fixture corrected in commit `92baa9cd2565d44938e821542a596a7c6fe70919`. Actions run `42360399150` completed **successfully** (8 mobile Chromium browser tests including new M44 scenarios).
