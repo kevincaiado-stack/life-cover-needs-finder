@@ -1,7 +1,12 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-07 — M46 authoritative (UX9 no-gap objections); M45 UX1–UX8 complete; M44 savings scenarios previous.
+Last updated: 2026-11-07 — M47 saved-summary dashboard and preliminary P0 compliance audit; M46 previous application baseline.
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
+
+## M47 — Compliance findings and A4 dashboard export (2026-11-07)
+- P0 preliminary audit findings and required external approvals recorded in `docs/COMPLIANCE_AUDIT_M47.md`. No formal compliance approval. Training-only disclaimer and business rules preserved.
+- Saved summary is now landscape A4 dashboard with KPI tiles and two-column information panels. If content cannot fit, full panels move to an appendix; no customer-facing data is silently dropped. Same layout used for HTML save and Print/PDF. Advisor-only content remains excluded. Appendix may exceed one page for complex families.
+- Browser smoke tests cover layout, exclusion and overflow. Physical iPhone and real PDF QA pending. Pre-change rollback: `stable-2026-11-07-pre-m47-dashboard-compliance`.
 
 ## CURRENT VERIFIED APPLICATION STATE — M46
 
