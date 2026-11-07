@@ -95,3 +95,16 @@ test('M51 translation review register matches runtime dictionary keys',async()=>
  console.log('M51 CSV DICTIONARY DIFFERENCE',JSON.stringify({runtime:keys.length,registered:sources.size,absent,stale}));
  assert.deepEqual(absent,[]);assert.deepEqual(stale,[]);
 }));
+
+test('M52 A4 landscape export keeps first-page content inside printable height and preserves overflow in appendix',async()=>browserCase(async page=>{
+ const summary=await page.evaluate(()=>{document.querySelector('#age').value='38';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();const nm=document.querySelector('#nmBox');nm.insertAdjacentHTML('beforeend','<div id="M52_LONG_DETAILS">'+Array.from({length:95},(_,i)=>'<p>Goal '+i+' — detailed illustration retained in appendix</p>').join('')+'</div>');return buildSummary()});
+ await page.setContent(summary,{waitUntil:'load'});await page.evaluate(()=>document.fonts.ready);await page.evaluate(()=>summaryDashboardLayout());
+ const x=await page.evaluate(()=>{const p=document.querySelector('#summaryPage'),dash=document.querySelector('#summaryDashboard'),app=document.querySelector('#summaryAppendix'),long=document.querySelector('#M52_LONG_DETAILS');const limit=p.getBoundingClientRect().top+194*96/25.4;return {height:dash.getBoundingClientRect().bottom-p.getBoundingClientRect().top,limit,appendix:!app.hidden,longPresent:!!long,longInAppendix:app.contains(long),panels:document.querySelectorAll('.panel').length,hasKpis:document.querySelectorAll('.kpi').length,css:document.querySelector('style').textContent}});
+ assert.ok(x.height<=194*96/25.4+1,'dashboard overflows landscape printable area');assert.equal(x.appendix,true);assert.equal(x.longPresent,true);assert.equal(x.longInAppendix,true);assert.equal(x.hasKpis,3);assert.ok(x.panels>=3);assert.match(x.css,/@page\{size:A4 landscape;margin:8mm\}/);
+ const pdf=await page.pdf({format:'A4',landscape:true,printBackground:true,preferCSSPageSize:true});
+ assert.ok(pdf.length>1500);assert.match(pdf.subarray(0,8).toString(),/%PDF-/);
+}));
+test('M52 summary export maintains data and privacy across seven languages in phone viewport',async()=>browserCase(async page=>{
+ const out=await page.evaluate(()=>{document.querySelector('#age').value='38';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='60000';render();return ['en','hi','gu','ta','ml','kn','mr'].map(l=>{setLang(l);const html=buildSummary();return {l,lang:html.match(/<html lang="([^"]+)"/)?.[1],panels:(html.match(/class="panel"/g)||[]).length,print:html.includes('size:A4 landscape'),advisor:html.includes('id="objBox"'),disclaimer:html.includes('id="sumDisc"'),script:html.includes('summaryDashboardLayout')}})});
+ for(const x of out){assert.equal(x.lang,x.l);assert.equal(x.print,true);assert.equal(x.advisor,false);assert.equal(x.disclaimer,true);assert.equal(x.script,true);assert.ok(x.panels>=3)}
+}));
