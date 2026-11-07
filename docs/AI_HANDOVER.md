@@ -260,3 +260,8 @@ These are candidates for investigation, NOT confirmed defects. A complete code a
 
 ## Handover verification
 Prepared using GitHub main's PROJECT_STATE.md, needs-finder-rules-and-status.md and recent commit history. This handover changes documentation only; no application code is modified. Vercel deployment status is not verified by this note and must be checked separately.
+
+### Priority 6 regression verification — 2026-11-07
+- Executed local Node.js `node --test tests/inflation.test.cjs` using a reconstructed copy of the current committed `api/inflation.js` and `tests/inflation.test.cjs` fetched from GitHub. **7 tests passed, 0 failed**, ~0.17s. This is not a GitHub Actions CI run; repository checkout was blocked by container DNS, so do not present it as a checked-out-repository CI pass.
+- Scenarios: official parsing, source checks, simulated newer month, third-party rejection, future/stale rejection, zero/negative CPI, unavailable official fallback.
+- Official MoSPI September 2026 CPI 5.54% remains the latest verified; October release is scheduled 2026-11-12 and real rollover remains pending. Priority 7 may be offered; ongoing CPI release monitoring remains open.
