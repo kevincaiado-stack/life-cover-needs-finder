@@ -48,3 +48,24 @@ test('M49 claim record uses consistent individual-death-claims comparison and of
  assert.match(result.html,/individual death claims settled \(by number\)/);assert.match(result.html,/99.38%/);assert.match(result.html,/rounded 99.6%/);
  assert.ok(result.sources.some(x=>x.includes('annual-report-2024-25.pdf')));assert.ok(result.sources.some(x=>x==='https://www.canarahsbclife.com/'));
 }));
+
+test('M50 all seven languages and both screen modes keep HTML and WhatsApp exports free of advisor markers',async()=>browserCase(async page=>{
+ const out=await page.evaluate(()=>{
+   document.querySelector('#age').value='38';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();
+   const ids=['objBox','tpBox','ccBox','sayBox','qsBox','raBox','ksBox'];const markers=ids.map((id,i)=>'ADVISOR_PRIVACY_'+i+'_MARKER');
+   ids.forEach((id,i)=>{const el=document.getElementById(id);el.hidden=false;el.insertAdjacentText('beforeend',markers[i])});
+   return ['en','hi','gu','ta','ml','kn','mr'].flatMap(l=>{setLang(l);return [false,true].map(cust=>{setCust(cust);const html=buildSummary(),text=sumText();return {l,cust,html,text,lang:document.documentElement.lang,markers}})});
+ });
+ assert.equal(out.length,14);
+ for(const x of out){assert.equal(x.lang,x.l);assert.match(x.html,/id="summaryDashboard"/);assert.match(x.html,/Strictly for Internal Training Purposes only/);assert.match(x.text,/Strictly for Internal Training Purposes only/);for(const m of x.markers){assert.ok(!x.html.includes(m),x.l+' HTML leaked '+m);assert.ok(!x.text.includes(m),x.l+' WhatsApp leaked '+m)}for(const id of ['objBox','tpBox','ccBox','sayBox','qsBox','raBox','ksBox'])assert.ok(!x.html.includes('id="'+id+'"'),x.l+' exported '+id)}
+}));
+test('M50 browser direct-print shortcut hides live advisor workspace, but exported dashboard remains printable',async()=>browserCase(async page=>{
+ await page.evaluate(()=>{document.querySelector('#age').value='38';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();document.querySelector('#objBox').hidden=false;document.querySelector('#objBox').textContent='PRIVATE_ADVISOR_PRINT_MARKER'});
+ await page.emulateMedia({media:'print'});
+ const v=await page.evaluate(()=>({header:getComputedStyle(document.querySelector('header')).display,aside:getComputedStyle(document.querySelector('aside')).display,warning:getComputedStyle(document.body,'::before').content,html:buildSummary()}));
+ assert.equal(v.header,'none');assert.equal(v.aside,'none');assert.match(v.warning,/privacy-safe customer summary/);assert.doesNotMatch(v.html,/PRIVATE_ADVISOR_PRINT_MARKER/);
+ await page.setContent(v.html,{waitUntil:'load'});
+ await page.emulateMedia({media:'print'});
+ const d=await page.evaluate(()=>({display:getComputedStyle(document.querySelector('#summaryPage')).display,panels:document.querySelectorAll('.panel').length,warning:getComputedStyle(document.body,'::before').content}));
+ assert.notEqual(d.display,'none');assert.ok(d.panels>0);assert.equal(d.warning,'none');
+}));
