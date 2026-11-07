@@ -1,13 +1,28 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M43: M42 card removed)
+Updated: 2026-11-07 (M43 current; handover reconciliation and backlog)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
 
+## CURRENT STATUS — AUTHORITATIVE (verified 2026-11-07, M43)
+
+**Source of truth:** GitHub `main`; application HEAD `02e969152f2cc2e996436b7b39d26197de709842` (M43). Production Vercel READY at this same SHA. The latest M43 GitHub Actions mobile Chromium and runway test runs both passed. This section supersedes any older 'LATEST', pending verification or live CPI failure statements below; historical entries are retained for traceability.
+
+**Active features:** M39 inflation-adjusted runway; M40 timeline visible in Simple view; M41 seven-language runway-duration sentences and removal of unused Customer-card functions; M43 removed the M42 'Rethink your strategy' card. M42 is **RETIRED**; its R32 translation rows are historical and must not be treated as active UI strings. Preserve M38 base runway formula, seven languages, advisor-only export exclusions, and training-only disclaimer.
+
+**Official CPI production:** `/api/inflation` returned `{ok:true,rate:5.54,on:"09/2026",source:"MoSPI via PIB"}` in a fresh production check on 2026-11-07; official release https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3 . On each page load the app requests the uncached API, and valid newer CPI is applied to inflation-dependent calculations. A simulated newer-month browser regression passed; **the first real new-month auto-detection remains unverified** until the next official CPI release. The PIB listing may lag publication; no third-party fallback. Older entries saying Trading Economics is current or that production still returns `ok:false` are superseded.
+
+**Workflow:** Read this file, PROJECT_STATE.md, and PENDING_WORK.md before changes. Create a pre-change rollback branch, make scoped changes, test, commit to GitHub main, verify Vercel source SHA and API where relevant, update both state files and PENDING_WORK.md, and record the post-change rollback ref. Update translation-review.csv only when translated UI strings change. **Google Drive is frozen intentionally at e5a2eff; do not update without user instruction.** Claude artifact/Project copies are external mirrors: synchronization is **not verified**; do not claim they were updated unless access and confirmation are available. GitHub remains authoritative.
+
+**Verified rollback references:** `stable-2026-11-07-pre-rk-remove` = `969105aaa093` (M42), `stable-2026-11-07-rk-removed` and `stable-2026-11-07-safe` = `02e969152f2c` (M43). A pre-document-cleanup branch `stable-2026-11-07-pre-handover-cleanup` was created from M43. See PENDING_WORK.md for all deferred work, owners, priorities, and acceptance checks.
+
+### Historical record notice
+All dated milestone/phase entries below document decisions at the time they were written. They may contain superseded labels, unverified historical claims, and earlier CPI integration failures. For present-day status use the CURRENT STATUS section above, not older 'next steps'.
+
 ## Standing instructions from the user (Kevin) — READ FIRST (added by Claude, 2026-11-07)
 1. **Before building anything:** fetch GitHub main, read this file and docs/PROJECT_STATE.md, update this file if anything is missing, then proceed.
-2. **After every change** update, in this order: docs/AI_HANDOVER.md, docs/PROJECT_STATE.md (milestone entry, rollback branch), docs/translation-review.csv (new translated lines), GitHub main, a rollback branch, and the Claude copies (Claude artifact https://claude.ai/artifact/ANuVBdzZuozqm3bKmsezaJ and the Claude Project folder needs-finder/ which holds needs-finder.html, PROJECT_STATE.md, translation-review.csv). Vercel deploys from GitHub main (https://life-cover-needs-finder.vercel.app) and must be checked separately.
+2. **After every change:** update docs/AI_HANDOVER.md, docs/PROJECT_STATE.md and docs/PENDING_WORK.md as applicable; update docs/translation-review.csv only for new or changed translations; commit to GitHub main and verify Vercel separately. Create a pre-change rollback branch and record a post-change rollback ref. Claude artifact and Claude Project copies are external mirrors, not automatically synchronized; verify access and sync explicitly before claiming they match GitHub.
 3. **Rollback points:** make a branch before each change (naming used: stable-YYYY-MM-DD-name, plus a pre- branch for the version before the change). Never rewrite history.
 4. **Google Drive is intentionally NOT updated** (frozen at commit e5a2eff). Do not update it unless the user asks.
 5. **The user is a beginner who learns fast.** Explain in simple words (like to a 10-year-old), step by step, ask ONE question at a time, do not assume. Confirm understanding before building anything that is ambiguous; show a mock first when the user asks for ideas ("don't build yet").
@@ -23,7 +38,7 @@ Canonical branch: main
 - The user asked to remove the M42 card and all its details because the same guidance is already on the life timeline (product suggestions). M42 code (rkBox, renderRk, CC.ret, R32 translations) is gone from needs-finder.html; do not rebuild it unless the user asks again.
 - Rollback: stable-2026-11-07-rethink still holds M42; stable-2026-11-07-pre-rk-remove is the state just before removal.
 
-## M42 (REMOVED in M43): "Rethink your strategy" card (Claude, 2026-11-07)
+## HISTORICAL ONLY — M42 (REMOVED in M43): "Rethink your strategy" card (Claude, 2026-11-07)
 - New advisor-only card #rkBox (class "obj", under the objection card), built by renderRk() (called after renderObj in render()). Words only: no percentages, no returns, no premiums.
 - One row per goal: Extra cover needed = "Pure protection" (keep separate, low cost); each goal by years left (<=5 "Mostly guaranteed", <=10 "Guaranteed + market-based", >10 "More market-based"); Retirement = "Guaranteed". Then a wealth-creation note (fully market-based), a question to ask the customer, and the standard "guide for discussion" line.
 - CC.ret was added in the render chain so renderRk knows the retirement age.
@@ -57,13 +72,13 @@ Canonical branch: main
 - **Caveat:** Government PIB listing publication latency and source availability are outside application control; do not guarantee same-minute detection of a release or permanent 100% uptime. Monitor the next CPI publication (expected 12 Nov 2026) and verify a new official month is discovered without code changes.
 - Temporary CPI diagnostic endpoint removed after testing. Financial formulas and plan suitability unchanged.
 
-## Monthly official CPI recalculation validation — 2026-11-07
+## HISTORICAL — superseded CPI integration blocker — Monthly official CPI recalculation validation — 2026-11-07
 - Confirmed existing client flow: on each visit loadInfl() calls /api/inflation with no-store and cache-busting; when an official response has a valid reporting period >= saved baseline, it updates INFL/INFL_ON, saves them and calls render(). The retirement inflation projections recompute with the applied rate. An intentional higher user scenario rate is preserved.
 - Added Chromium regression checks: changing CPI changes retirement-expense projection (passed, run 42279236271); a new test stubs the official endpoint response and asserts loadInfl() updates month, rate, live state and visible projections (run pending verification).
 - **External blocker remains**: production official-only endpoint returned ok:false; a MoSPI eSankhyiki homepage KPI is not reliably exposed as server-readable HTML. Official documented CPI API is advertised at https://esankhyiki.mospi.gov.in/macroindicators?product=cpi&tab=api (GET /api/cpi/getCPIData). Its request parameters and response schema have not been validated; do not substitute an invented API integration.
 - Preserve government-only source policy. Do not claim end-to-end automatic new-month detection is operational until Vercel live response returns ok:true with a verified latest All-India Combined General CPI inflation rate.
 
-## Official-only inflation on each website visit — 2026-11-07
+## HISTORICAL — superseded failed MoSPI homepage attempt — Official-only inflation on each website visit — 2026-11-07
 - Replaced Trading Economics entirely in api/inflation.js with a direct MoSPI eSankhyiki homepage CPI KPI fetch. Every API invocation requests the government page with no-store; browser requests /api/inflation with a cache-busting timestamp on each page initialization.
 - Official-only parser requires explicit "Inflation [Month] [Year] [Rate]% Consumer Price Index" context; validates value and report period. API includes source and sourceUrl; returns ok:false rather than accepting any third-party rate when unavailable.
 - Updated all seven existing live-rate labels to MoSPI eSankhyiki and added clickable government source link beside inflation note. Financial formulas and plan rules unchanged.
@@ -84,14 +99,14 @@ Canonical branch: main
 - First workflow run failed at the Playwright browser dependency installation step before tests could execute; changed workflow to install Chromium without system apt dependencies. Verify latest run outcome and fix any actual test failures before declaring Phase 3 complete.
 - No production application code or financial rules changed in this phase. Follow-up: test actual iOS Safari and full customer navigation/print/WhatsApp flows.
 
-## Inflation source attribution follow-up — 2026-11-07
+## HISTORICAL — superseded third-party attribution — Inflation source attribution follow-up — 2026-11-07
 - Verified official MoSPI/PIB September 2026 all-India combined CPI inflation: 5.54% (published 12 October 2026). October 2026 CPI is scheduled for release on 12 November 2026. Official reference: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3
 - Updated all seven existing live-rate labels to identify **Trading Economics (MoSPI CPI data)** rather than imply a direct MoSPI connection. Saved official September 2026 baseline and fallback messages remain unchanged.
 - Evaluated MoSPI eSankhyiki CPI catalogue: https://esankhyiki.mospi.gov.in/catalogue-main/catalogue?product=CPI . It exposes official releases, but no stable documented public API contract was verified in this task. Do not switch to an untested endpoint or scrape official PDFs in production.
 - Follow-up: integrate a verified official structured API when access/schema/uptime and regression fixtures can be validated; consider native-speaker sign-off for revised attribution translations.
 - App layout, inflation arithmetic, product rules, and supported languages were not changed.
 
-## Latest engineering update — Phase 2 (2026-11-07)
+## HISTORICAL — superseded Phase 2 engineering update (2026-11-07)
 - Added inflation API regression tests and GitHub Actions workflow; test cases include recent, stale, future, malformed, invalid-range and HTTP error responses.
 - api/inflation.js now checks HTTP status and freshness (at most four calendar months old, never future) and clears timeout on failure.
 - needs-finder.html now refuses API reports older than the saved/bundled inflation period.
