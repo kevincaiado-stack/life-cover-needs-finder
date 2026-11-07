@@ -3,7 +3,8 @@
 Last updated: 2026-11-07 (PREVIOUS MILESTONE 43; CURRENT M44: Rethink your strategy card (M42) removed at the user's request, timeline already covers it; before it M41: runway time wording translated, unused Customer-card code removed; before it M40 timeline visible in Simple view, M39 runway with inflation)
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
 
-## UX program (2026-11-07): UX1-UX8 planned, none built yet. See AI_HANDOVER.md.
+## UX program (2026-11-07): UX1-UX8, see AI_HANDOVER.md. Built so far (in order): see lines below.
+- UX1 DONE: Customer screen toggle hides advisor notes and product suggestions, turns on Simple view; key sentence larger in Simple view (UX1+UX4) (branch stable-2026-11-07-ux1)
 
 ## M44 GitHub/Vercel synchronization — 2026-11-07
 - Monthly savings presets, custom input and proportional split across goals are committed to GitHub main and deployed to Vercel. New regression test covers allocation without double counting and interactive controls.
