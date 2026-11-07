@@ -4,6 +4,7 @@ Last updated: 2026-11-07 (PREVIOUS MILESTONE 43; CURRENT M44: Rethink your strat
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
 
 ## UX program (2026-11-07): UX1-UX8, see AI_HANDOVER.md. Built so far (in order): see lines below.
+- UX2 DONE: Sticky key-numbers strip (cover gap, protected %, how long family can manage) at top of results; not in print or saved summary (UX2) (branch stable-2026-11-07-ux2)
 - UX1 DONE: Customer screen toggle hides advisor notes and product suggestions, turns on Simple view; key sentence larger in Simple view (UX1+UX4) (branch stable-2026-11-07-ux1)
 
 ## M44 GitHub/Vercel synchronization — 2026-11-07
