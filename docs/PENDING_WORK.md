@@ -176,3 +176,7 @@ Status log: see PROJECT_STATE.md (entries UX1..UX8). If a step is not marked don
 ### M54 verification addendum
 - Six focused allocation assertions passed in local Node.js execution of the exact `savingsSplit` function copied from `needs-finder.html`: zero-year exclusions, funded cap, zero budget, maximum budget, proportional rounding tolerance, no eligible goals. The committed `tests/savings-edge.test.cjs` has NOT yet been independently observed passing in GitHub Actions; CI verification remains open.
 - Vercel production was observed READY during documentation updates; final HEAD SHA matching requires a fresh check after all documentation commits. No application code changed in M54.
+
+## M56 CI gate correction (2026-11-07)
+- During Priority 7–9 push/verification, found a syntax error in the newly added M56 test's literal HTML regex. Fixed the test-only syntax in commit `0b4459e0a72c128d44d34be41f84aa62846d7c13`; no application code or product guidance changed.
+- Priority 7, 8, 9 test files and workflows are already pushed to `main`. The available connected GitHub workflow-run lookup filters PR-triggered runs and returned no evidence for these main-branch push runs; public GitHub Actions pages were not accessible in this session. **CI success is not verified**. Do not start Priority 10 until all three workflows show successful results or an independently equivalent verified run is available.
