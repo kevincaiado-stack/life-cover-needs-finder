@@ -1,11 +1,16 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M43 current; handover reconciliation and backlog)
+Updated: 2026-11-07 (M44 current; M43 prior baseline)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
 
-## CURRENT STATUS — AUTHORITATIVE (verified 2026-11-07, M43)
+## M44 — Savings scenario (2026-11-07)
+- Replaced monthly savings slider with presets ₹5,000, ₹10,000, ₹15,000, ₹20,000, ₹25,000, ₹50,000 and custom input (0–1,000,000).
+- One monthly budget split proportionally across future goals by goal amount / months remaining. Shares sum to selected monthly amount. Show monthly share, nominal contributions capped at goal, percentage and remaining gap. No investment returns, inflation growth, or double counting; life cover separate.
+- Seven-language strings added; native review pending. Browser tests added. M43 is previous baseline. Pre-change rollback stable-2026-11-07-pre-savings-buttons.
+
+## PREVIOUS VERIFIED BASELINE — M43 (see M44 above)
 
 **Source of truth:** GitHub `main`; application HEAD `02e969152f2cc2e996436b7b39d26197de709842` (M43). Production Vercel READY at this same SHA. The latest M43 GitHub Actions mobile Chromium and runway test runs both passed. This section supersedes any older 'LATEST', pending verification or live CPI failure statements below; historical entries are retained for traceability.
 
