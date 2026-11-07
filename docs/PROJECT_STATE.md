@@ -290,3 +290,9 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Added `tests/product-catalog-consistency.test.cjs` (six source-invariant checks) and `.github/workflows/product-catalog-consistency.yml`. M57 CI success still pending verification.
 - Rollback branch `stable-2026-11-07-pre-m57-product-reconciliation`. No financial calculations, business rules, recommendation text, or app HTML changed. Compliance signoff remains mandatory before customer-facing use.
 - Next priority proposed: M58 evidence-backed insurer brochure/UIN matrix, variant-specific rule changes only after explicit approval, full seven-language review; user must select Start/Skip.
+
+## M58 Priority 11 official insurer reconciliation (2026-11-07)
+- Verified Canara HSBC Life official product registry/UINs and brochures; see `docs/PRODUCT_ELIGIBILITY_RECONCILIATION.md` M58 section with URLs and source-specific findings. Official evidence confirms IncomeNow PPT-specific minimum premium exceptions and Promise4Life Assured Term Income ₹36k minimum versus app's blanket ₹50k; Promise4Future premium-mode and maturity-age restrictions omitted. **No business rule changes authorized**; compliance review and seven-language translation signoff pending.
+- Existing M54–M57 GitHub Actions verified green from user screenshots. No app HTML or formulas changed in M58. Rollback branch `stable-2026-11-07-pre-m58-brochure-evidence`.
+- Vercel build-rate-limit on latest HEAD previously observed; avoid excess deployment attempts. Last confirmed production READY may lag GitHub HEAD. Resolve quota through Vercel account dashboard/reset or approved plan change; do not claim fixed.
+- Next: obtain user approval for specific eligibility and premium text corrections after verifying full current brochure matrix; independently test all seven languages; only then modify app.
