@@ -1,0 +1,17 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const html=fs.readFileSync(require('node:path').join(__dirname,'../needs-finder.html'),'utf8');
+const start=html.indexOf('function rec0('),end=html.indexOf('var PD=',start);
+assert.ok(start>=0&&end>start,'Recommendation logic found');
+const selections={q1:'Income based',q2:'Guaranteed',q3:'Immediate'};
+const ctx={pick:n=>selections[n.slice(-2)]||'',Math};vm.createContext(ctx);vm.runInContext(html.slice(start,end),ctx);
+const rec=(age,goal={t:'ret',y:15})=>ctx.rec0('x',age,goal);
+test('global adult recommendation gate excludes 17 and 66 but includes 18 and 65',()=>{assert.match(rec(17),/No plan is available/);assert.match(rec(66),/No plan is available/);assert.doesNotMatch(rec(18),/No plan is available/);assert.doesNotMatch(rec(65),/No plan is available/)});
+test('guaranteed immediate income age 50 allowed; 51 excluded',()=>{assert.match(rec(50),/Suggested plan: Income Now/);assert.match(rec(51),/Income Now is for ages 18 to 50/)});
+test('guaranteed deferred income retains approved PPC wording at 55 boundary',()=>{selections.q3='At a later stage';try{assert.match(rec(55),/PPC MUST BE OPTED/);assert.doesNotMatch(rec(56),/PPC MUST BE OPTED/)}finally{selections.q3='Immediate'}});
+test('short education goal produces no plan recommendation',()=>{assert.match(rec(40,{t:'edu',y:4.99}),/No plan is recommended/)});
+test('five-year education goal recommends Wealth Edge and PPC only at eligible adult ages',()=>{assert.match(rec(50,{t:'edu',y:5}),/PPC can be opted/);assert.doesNotMatch(rec(51,{t:'edu',y:5}),/PPC can be opted/)});
+test('training disclosure wrapper is present in application source',()=>{assert.match(html,/Strictly for Internal Training Purposes only/);assert.match(html,/purely illustrative values and not for Sale/)});
+test('published Income Now and Promise4Future age bands are retained for compliance review',()=>{assert.match(html,/Early Income:<\\/b> entry age 0 to 50/);assert.match(html,/Income4Future:<\\/b> entry age 0 to 55/)});
