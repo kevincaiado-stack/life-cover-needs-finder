@@ -69,3 +69,15 @@ test('M50 browser direct-print shortcut hides live advisor workspace, but export
  const d=await page.evaluate(()=>({display:getComputedStyle(document.querySelector('#summaryPage')).display,panels:document.querySelectorAll('.panel').length,warning:getComputedStyle(document.body,'::before').content}));
  assert.notEqual(d.display,'none');assert.ok(d.panels>0);assert.equal(d.warning,'none');
 }));
+
+test('M51 translation dictionary completeness, exact numbered placeholders, and seven-language runtime formatting',async()=>browserCase(async page=>{
+ const audit=await page.evaluate(()=>{
+  const keys=Object.keys(TD),missing=[],mismatch=[],bad=[];
+  const slots=t=>[...String(t).matchAll(/\{\d+\}/g)].map(x=>x[0]).sort().join('|');
+  keys.forEach(k=>{const r=TD[k];for(let j=1;j<=6;j++){if(typeof r[j]!=='string'||!r[j].trim())missing.push({k,lang:j});else if(slots(k)!==slots(r[j]))mismatch.push({k,lang:j,source:slots(k),target:slots(r[j])})}});
+  ['en','hi','gu','ta','ml','kn','mr'].forEach(l=>{setLang(l);if(document.documentElement.lang!==l)bad.push(l);if(!fmt('Prepared for {0}','TEST_PERSON').includes('TEST_PERSON'))bad.push(l+'-format')});
+  return {keys:keys.length,missing:missing.slice(0,30),missingCount:missing.length,mismatch:mismatch.slice(0,30),mismatchCount:mismatch.length,bad};
+ });
+ console.log('M51 TRANSLATION AUDIT',JSON.stringify(audit));
+ assert.equal(audit.missingCount,0);assert.equal(audit.mismatchCount,0);assert.deepEqual(audit.bad,[]);
+}));
