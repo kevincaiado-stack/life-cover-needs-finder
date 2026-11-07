@@ -1,0 +1,10 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const html=fs.readFileSync(require('node:path').join(__dirname,'../needs-finder.html'),'utf8');
+test('product catalog retains all seven product families',()=>{for(const k of ['we:','si:','ig:','inn:','p4l:','p4f:','yt:'])assert.ok(html.includes(k+'['),k)});
+test('Promise4Future variant-specific upper age bands remain visible pending approval',()=>{assert.ok(html.includes('Savings4Future:</b> entry age 0 to 60'));assert.ok(html.includes('Income4Future:</b> entry age 0 to 55'))});
+test('Income Now details and adult recommendation gate are independently documented',()=>{assert.ok(html.includes('Early Income:</b> entry age 0 to 50'));assert.ok(html.includes('if(a<18||a>65)'));assert.ok(html.includes('if(a>50)return'))});
+test('PPC eligibility text and proposer disclosure remain intact',()=>{assert.ok(html.includes('if(a<=55)al="PPC MUST BE OPTED"'));assert.ok(html.includes('LIFE ASSURED &amp; PROPOSER MUST BE SAME'))});
+test('training-only disclaimer remains in recommendation wrapper',()=>{assert.ok(html.includes('Strictly for Internal Training Purposes only'));assert.ok(html.includes('function addDisc(h)'))});
+test('all seven language identifiers are present',()=>{for(const k of ['"en"','"hi"','"gu"','"ta"','"ml"','"kn"','"mr"'])assert.ok(html.includes(k),k)});
