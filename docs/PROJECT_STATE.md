@@ -1,5 +1,13 @@
 # Project State: Life Cover Needs Finder
 
+## M55 — Priority 8 immediate-income suitability audit (2026-11-07)
+- Reviewed `pcat(t)` in `needs-finder.html`: retirement timeline `t.y<=2` selects `Suggested: Immediate income plan`; `t.y>2` selects `Suggested: Endowment plan to build a corpus, or an Income at a later stage plan`. Explanation distinguishes corpus, deferred income and immediate income. Other `gap`, `edu`, `mar`, `home` categories remain independent.
+- No approved cutoff, product guidance, financial formulas, seven-language translations, or application HTML changed. Product suitability and insurer-specific eligibility still require human/compliance review; timeline suggestions are not personalized eligibility decisions.
+- Added `tests/income-suitability.test.cjs` with six test scenarios for 0/1/2-year boundary, >2 years, explanation, term protection separation, unknown type and other goal categories. Added `.github/workflows/income-suitability.yml` to run Node tests on `main` and manual dispatch.
+- Rollback branch `stable-2026-11-07-pre-m55-income-suitability`. Commits `26423070676603717e13fa1a310dc42daadb8d4f` and `e22b40f00979025e75e2a411fc3d51eede1d3527`. CI result and production final HEAD need verification; do not claim test success until observed.
+- Priority 7 GitHub Actions CI remains unverified in this session; keep pending. Next Priority 9 proposed: product eligibility / age-band boundaries and disclosure consistency, subject to Start/Skip and formal compliance review.
+
+
 ## M54 — Priority 7 savings edge audit (2026-11-07)
 - Reviewed `savingsSplit` in `needs-finder.html`: future eligible goals have y>0 and v>0, weighted by v/(12*y). Monthly budget is proportionally split, goal credit capped at target, remaining nonnegative and percent capped at 100. No financial formulas changed.
 - Added six focused Node tests `tests/savings-edge.test.cjs` for zero/past-due goals, fully funded goal caps, zero savings, maximum custom monthly value, fractional allocation sum tolerance, and no eligible goals. Added `.github/workflows/savings-edge.yml` to run on main changes and manual dispatch.
