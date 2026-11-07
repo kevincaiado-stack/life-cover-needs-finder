@@ -88,8 +88,8 @@ test('M51 translation review register matches runtime dictionary keys',async()=>
  for(let i=0;i<csv.length;i++){const c=csv[i];if(quoted){if(c==='"'&&csv[i+1]==='"'){value+='"';i++}else if(c==='"')quoted=false;else value+=c}else if(c==='"')quoted=true;else if(c===','){row.push(value);value=''}else if(c==='\n'){row.push(value.replace(/\r$/,''));rows.push(row);row=[];value=''}else value+=c}
  if(row.length||value){row.push(value);rows.push(row)}
  const sources=new Set(rows.slice(1).filter(r=>r[1]).map(r=>r[1]));
- const keys=await page.evaluate(()=>Object.keys(TD));
- const absent=keys.filter(k=>!sources.has(k));
- console.log('M51 CSV DICTIONARY DIFFERENCE',JSON.stringify({runtime:keys.length,registered:sources.size,absent}));
+ const entries=await page.evaluate(()=>Object.values(TD));const keys=entries.map(r=>r[0]);
+ const absent=entries.filter(r=>!sources.has(r[0]));const stale=[...sources].filter(k=>!keys.includes(k));
+ console.log('M51 CSV DICTIONARY DIFFERENCE',JSON.stringify({runtime:keys.length,registered:sources.size,absent,stale}));
  assert.deepEqual(absent,[]);
 }));
