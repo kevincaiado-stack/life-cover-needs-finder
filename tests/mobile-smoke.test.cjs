@@ -30,3 +30,14 @@ test('M47 dense saved summary moves details into appendix rather than deleting t
  const result=await page.evaluate(()=>{const d=document.querySelector('#summaryDashboard'),p=document.querySelector('#panel-nmBox');for(let i=0;i<45;i++){const n=document.createElement('div');n.className='line';n.textContent='Additional family goal '+i+' ₹1,00,000';p.appendChild(n)}summaryDashboardLayout();return {appendix:!document.querySelector('#summaryAppendix').hidden,kept:document.querySelectorAll('#panel-nmBox .line').length,exists:!!document.querySelector('#panel-nmBox'),main:document.querySelector('#summaryPage').scrollHeight}});
  assert.equal(result.appendix,true);assert.equal(result.exists,true);assert.ok(result.kept>=45);assert.ok(result.main<900);
 }));
+
+test('M48 customer summary exports only allowlisted panels and retains training warning',async()=>browserCase(async page=>{
+ const x=await page.evaluate(()=>{document.querySelector('#age').value='40';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();const html=buildSummary();return {html,disclaimer:html.includes('Strictly for Internal Training Purposes only'),allowlist:html.includes('id="summaryDashboard"')}});
+ assert.equal(x.disclaimer,true);assert.equal(x.allowlist,true);
+ for(const id of ['tpBox','objBox','ccBox','sayBox','qsBox','raBox','ksBox','wiCtl'])assert.doesNotMatch(x.html,new RegExp('id="'+id+'"'));
+ assert.doesNotMatch(x.html,/class="pcat/);
+}));
+test('M48 saved summary remains privacy-safe when advisor-only sections are populated',async()=>browserCase(async page=>{
+ const x=await page.evaluate(()=>{document.querySelector('#age').value='40';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();document.querySelector('#objBox').hidden=false;document.querySelector('#objBox').innerHTML='ADVISOR_ONLY_MARKER';document.querySelector('#tpBox').hidden=false;document.querySelector('#qsBox').hidden=false;document.querySelector('#qsBox').innerHTML='QUICK_START_MARKER';return buildSummary()});
+ assert.doesNotMatch(x,/ADVISOR_ONLY_MARKER|QUICK_START_MARKER/);
+}));
