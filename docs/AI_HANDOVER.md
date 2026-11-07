@@ -1,6 +1,6 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M41 added)
+Updated: 2026-11-07 (M42 added)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
@@ -18,6 +18,15 @@ Canonical branch: main
 10. **Testing:** tests/*.test.cjs (node). Browser tests need a Chromium: set CHROME_BIN to a Playwright Chromium path (e.g. /opt/pw-browsers/chromium-1194/chrome-linux/chrome) and NODE_PATH to the global node_modules. Keep rwY()/renderRw() free of globals other than $, tx, fmt, rs (tests run them in a VM; infl is read only if it exists).
 11. **Milestones M30-M39 (all in PROJECT_STATE.md):** M30 multi-select objections; M31 claim settlement ratio box (99.6% FY2025-26 company press release, 99.43% FY2024-25 company page; official PDFs could not be opened by Claude, links and definition unverified); M32 Simple view keeps Show plans and runway box; M33 product-type suggestions on timeline (Term / ULIP + Par/Non-Par / Endowment or Income plans; 2-year cut-off to Immediate income is Claude's choice, to confirm); M34 Customer card removed; M35-M38 runway rule iterations; M39 runway with inflation.
 12. **Discussed but NOT built (user has not approved):** allocation guide by goal type with percentages, a 'Rethink your strategy' card, optional 'how money is placed today' tap, premium estimate from insurer rate tables, saving customers (login/DB/admin/DPDP), a 'How we worked this out' page.
+
+## M42: "Rethink your strategy" card (Claude, 2026-11-07)
+- New advisor-only card #rkBox (class "obj", under the objection card), built by renderRk() (called after renderObj in render()). Words only: no percentages, no returns, no premiums.
+- One row per goal: Extra cover needed = "Pure protection" (keep separate, low cost); each goal by years left (<=5 "Mostly guaranteed", <=10 "Guaranteed + market-based", >10 "More market-based"); Retirement = "Guaranteed". Then a wealth-creation note (fully market-based), a question to ask the customer, and the standard "guide for discussion" line.
+- CC.ret was added in the render chain so renderRk knows the retirement age.
+- Never printed or saved: .obj is hidden in print, "rkBox" is removed in buildSummary, and sumText (WhatsApp) does not include it. Checked in a real browser.
+- 12 new translated strings (R32 rows 441-452 in docs/translation-review.csv, 7 languages). Native-speaker and compliance review pending.
+- Rollback branches: stable-2026-11-07-pre-rethink (before) and stable-2026-11-07-rethink (after). Drive is NOT updated, on purpose.
+- Tests green: runway 9/9, inflation 5/5, mobile-smoke 6/6.
 
 ## M41: pending checks fixed (Claude, 2026-11-07)
 - The M38 runway sentence was English-only in the six other languages: renderRw now uses four fully translated sentences (years / months / 1 month / under a month). The duration is no longer a separate English phrase. Do not reintroduce `fmt(sentence, "about N months")` with an English duration.
