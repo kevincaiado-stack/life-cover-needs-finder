@@ -1,0 +1,18 @@
+name: M56 eligibility boundary regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'needs-finder.html'
+      - 'tests/eligibility-boundaries.test.cjs'
+      - '.github/workflows/eligibility-boundaries.yml'
+  workflow_dispatch:
+jobs:
+  eligibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/eligibility-boundaries.test.cjs
