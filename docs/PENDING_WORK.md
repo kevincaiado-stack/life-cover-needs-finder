@@ -1,5 +1,13 @@
 # Deferred Work Register — Life Cover Needs Finder
 
+## M56 — Priority 9 eligibility and disclosure audit (2026-11-07)
+- Audited `rec0` and product details (`PD`) in `needs-finder.html`. Existing global recommendation age gate is 18–65, while product detail tables include child entry ages (e.g. Income Now Early Income 0–50) and differing Promise4Future variants (Savings4Future 0–60, Income4Future 0–55). These are **potential scope/eligibility mismatches**, not confirmed product errors; do not change without current insurer brochures and compliance approval.
+- Current guaranteed immediate-income recommendation includes age 50 and excludes 51; PPC display ages 18–50 for Wealth Edge and 18–55 for iSelect wording. Short education goal <5 years suppresses recommendation; exactly 5 years triggers Wealth Edge. Training-only disclosure text exists in the source. No app HTML, approved business rules, formulas, or translations changed.
+- Added seven focused regression cases in `tests/eligibility-boundaries.test.cjs` and `.github/workflows/eligibility-boundaries.yml`. Rollback branch `stable-2026-11-07-pre-m56-eligibility`; commits `04b0312fd3538dc95bb2a767945b1af3fd5db61b`, `da23d89fb12634dbc319bbe29dad9a81a2355704`.
+- Priority 7 and 8 CI verification attempted through GitHub commit workflow runs endpoint, but it only exposes PR-triggered runs and returned empty for both; public Actions workflow pages could not be fetched. Therefore CI remains **unverified**, not failed or passed. Priority 9 CI also unverified. No assertion of successful regression execution.
+- Pending: obtain authoritative insurer brochure/eligibility matrix and compliance sign-off, verify Actions run outcomes for M54/M55/M56, and independently confirm production HEAD. Next Priority 10 proposed: full age/term/product eligibility matrix reconciliation against approved official brochures and consistency across all seven languages, subject to Start/Skip.
+
+
 ## M55 — Priority 8 immediate-income suitability audit (2026-11-07)
 - Reviewed `pcat(t)` in `needs-finder.html`: retirement timeline `t.y<=2` selects `Suggested: Immediate income plan`; `t.y>2` selects `Suggested: Endowment plan to build a corpus, or an Income at a later stage plan`. Explanation distinguishes corpus, deferred income and immediate income. Other `gap`, `edu`, `mar`, `home` categories remain independent.
 - No approved cutoff, product guidance, financial formulas, seven-language translations, or application HTML changed. Product suitability and insurer-specific eligibility still require human/compliance review; timeline suggestions are not personalized eligibility decisions.
