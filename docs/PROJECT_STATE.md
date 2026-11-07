@@ -1,7 +1,11 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-07 — M49 primary insurer claim ratio verification and correction.
+Last updated: 2026-11-08 — M50 export privacy remediation.
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
+
+## M50 — P0 customer export privacy hardening (2026-11-08)
+- Blocked unsafe browser direct printing of live advisor workspace; in-app Print/PDF uses the sanitized landscape summary. Six-panel saved HTML allowlist and fixed-field WhatsApp summary retained. Seven-language, two-screen-mode automated privacy tests added. No financial calculations changed.
+- Manual iPhone PDF/WhatsApp output review and formal compliance approval remain open. See `docs/EXPORT_PRIVACY_AUDIT_M50.md`. Next Priority 4 is native-language review.
 
 ## M49 — Claim-settlement figures reconciled to insurer primary publications
 - Updated FY2025–26 individual death-claim settlement figure to 99.52% per insurer homepage; retained FY2024–25 99.43% per insurer annual report. The FY26 press release separately cites 99.6% without matching explicit metric definition; FY25 overall individual+group is 99.38%. App now clarifies distinctions and links primary sources. See `docs/CLAIMS_SOURCE_AUDIT_M49.md`.
