@@ -1,9 +1,21 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M44 current; M43 prior baseline)
+Updated: 2026-11-07 (M45 UX1-UX8 current; M44, M43 earlier)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## M45: UX1-UX8 DONE (Claude, 2026-11-07) - read this before touching the UI
+- Rollback: `stable-2026-11-07-pre-ux` (before all), plus `-pre-uxN` / `-uxN` per step. Tests green at each step (runway 9, inflation 5, mobile-smoke 8).
+- UX1+UX4: header button #custBtn "Customer screen" -> class html.cust (+ turns on Simple view, saved in localStorage ncCust). Hides #tpBox (Talking points: What-to-say + objections + CC), .pcat, .ptip, #raBox. Simple view makes the runway sentence (18px) and gap larger.
+- UX2: sticky strip #ksBox (cover gap, protected %, family can manage) filled by renderKs() in the render chain; hidden in print; removed in buildSummary. Also toggles .gap.ok.
+- UX3: result cards wrapped in <details class="sec">: #nmBox "Your numbers", #tpBox "Talking points" (advisor-only, removed in buildSummary, hidden in print), #mdBox "More detail" (hidden in Simple view). Summary labels are set from data-sec in applyTr().
+- UX5: Enter key moves to the next box, then to Next; enterkeyhint=next. Progress line, inputmode and placeholders already existed.
+- UX6: language select 44px high, 16px font, globe icon, names in own script (already so).
+- UX7: tokens --bad/--good (+ dark); gap is red, turns green when covered; 44px taps on touch screens; Indic line spacing. Saved summary gap colours match.
+- UX8: saved summary header "Prepared for <name> · Prepared on <date>", disclaimer at top, A4 compact print CSS, More detail starts on a new page. NOT a strict one-pager (example family = about 3-4 pages).
+- New strings (all 7 languages, rows appended to translation-review.csv): Customer screen, Protected, Family can manage, Your numbers, Talking points, More detail, Prepared for {0}. Native-speaker review pending for these.
+- Not verified: real iPhone Safari for the new UI (user should recheck: header wrap, sticky strip, Enter key behaviour).
 
 ## UI/UX program UX1-UX8 (approved by user 2026-11-07 19:27 IST; Claude is executing in order)
 Rollback: pre-ux branch `stable-2026-11-07-pre-ux` = state before this program; each step gets its own `stable-2026-11-07-uxN` branch. All new text needs 7 languages + translation-review.csv rows. No financial-rule changes. Advisor-only content stays out of print, saved summary and WhatsApp.

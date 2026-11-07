@@ -4,7 +4,7 @@ Updated: 2026-11-07 | Current application milestone: **M44** | Source of truth: 
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
 
-## UI/UX program UX1-UX8 (approved by user 2026-11-07 19:27 IST; Claude is executing in order)
+## UI/UX program UX1-UX8 - STATUS: ALL BUILT (M45); open: native review of 7 new strings, real iPhone recheck of new UI (approved by user 2026-11-07 19:27 IST; Claude is executing in order)
 Rollback: pre-ux branch `stable-2026-11-07-pre-ux` = state before this program; each step gets its own `stable-2026-11-07-uxN` branch. All new text needs 7 languages + translation-review.csv rows. No financial-rule changes. Advisor-only content stays out of print, saved summary and WhatsApp.
 1. UX1 Advisor / customer split: a "Customer screen" toggle hides advisor-only cards (objections, product suggestions on timeline) on screen, not just in print.
 2. UX2 Sticky key-numbers strip: cover gap, protection %, how long the family can last, always visible at top of results.
