@@ -283,3 +283,10 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 ## M56 CI gate correction (2026-11-07)
 - During Priority 7–9 push/verification, found a syntax error in the newly added M56 test's literal HTML regex. Fixed the test-only syntax in commit `0b4459e0a72c128d44d34be41f84aa62846d7c13`; no application code or product guidance changed.
 - Priority 7, 8, 9 test files and workflows are already pushed to `main`. The available connected GitHub workflow-run lookup filters PR-triggered runs and returned no evidence for these main-branch push runs; public GitHub Actions pages were not accessible in this session. **CI success is not verified**. Do not start Priority 10 until all three workflows show successful results or an independently equivalent verified run is available.
+
+## M57 Priority 10 — official eligibility and seven-language reconciliation (2026-11-07)
+- User screenshots confirmed latest successful GitHub Actions on `main`: M54 #2, M55 #2, M56 #3. Gate cleared; M56 #1 failed historically, followed by successful #2 and #3.
+- Created `docs/PRODUCT_ELIGIBILITY_RECONCILIATION.md`: repository catalog of age bands and policy terms, mismatch register (Income Now child-age description versus adult recommendation gate; Promise4Future 55/60 versus general 65 gate), PPC and language/disclosure risks. Current official insurer brochure versions/UINs not established; **no authoritative product validation or native-speaker approval claimed**.
+- Added `tests/product-catalog-consistency.test.cjs` (six source-invariant checks) and `.github/workflows/product-catalog-consistency.yml`. M57 CI success still pending verification.
+- Rollback branch `stable-2026-11-07-pre-m57-product-reconciliation`. No financial calculations, business rules, recommendation text, or app HTML changed. Compliance signoff remains mandatory before customer-facing use.
+- Next priority proposed: M58 evidence-backed insurer brochure/UIN matrix, variant-specific rule changes only after explicit approval, full seven-language review; user must select Start/Skip.
