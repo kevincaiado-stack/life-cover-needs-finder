@@ -1,5 +1,13 @@
 # Deferred Work Register — Life Cover Needs Finder
 
+## M53 — Priority 6 CPI audit (2026-11-07)
+- Official September 2026 All-India Combined General CPI 5.54% confirmed against MoSPI/PIB release (12 October 2026); next October release scheduled 12 November 2026. No newer official release verified at audit time.
+- Identified API validation bug: valid official zero or negative inflation was rejected. Fixed validation to permit rates strictly between -25% and +25%; existing CPI extraction and calculations unchanged. Explicit `stale` boolean added to API success/failure payload. Added focused regression cases for deflation and unavailable official data.
+- Fallback remains government-only: verified September release if listing unavailable; if both fail API returns ok:false, stale:true. Listing lag and real new-month rollover still require live verification. No third-party substitution or silent claim of current data.
+- Pre-change rollback `stable-2026-11-07-pre-m53-cpi`. Application commit `ee51d93299bb9dc29a0ee1009ed92df8afbe0197`; test commit `3ac379f141df4d44587562ea3253e96c7c206e8d`. Test execution and production SHA alignment require separate verification. Formal compliance and native-speaker approvals remain open.
+- Next Priority 7 proposed: savings allocation edge-case validation (zero-year goals, fully funded goals, custom extremes), subject to Start/Skip.
+
+
 > **Manual QA update:** 2026-11-07 — User-reported manual QA confirmation: all five Priority 5 physical iPhone Safari checks PASSED. Scope reported as the five requested checks; no screenshots, iOS build, or independent reproduction supplied. M52 automated Chromium 19/19 previously passed. Close user manual QA checklist only; formal compliance/privacy/native-language approvals remain open. Next: Priority 6 official CPI freshness, stale/offline fallback and recalculation (Start/Skip).
 
 Updated: 2026-11-07 | Current application milestone: **M52** | Source of truth: GitHub `main`
