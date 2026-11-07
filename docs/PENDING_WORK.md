@@ -1,8 +1,13 @@
 # Deferred Work Register — Life Cover Needs Finder
 
-Updated: 2026-11-07 | Current application milestone: **M47** | Source of truth: GitHub `main`
+Updated: 2026-11-07 | Current application milestone: **M48** | Source of truth: GitHub `main`
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
+
+## M48 remediation status — P0 compliance remains open
+- **C06 technical fix implemented:** explicit allowlist for customer HTML/PDF print summary, excludes advisor-only sections, preserves training disclaimer; automated regression coverage added. **Do not close privacy sign-off** until saved HTML, real PDF/print and WhatsApp are reviewed on real devices.
+- **C01/C02/C03/C04/C05/C07/C09 still require external or primary-source evidence.** Formal compliance approval cannot be self-issued. No business rules or claims statistics changed. Full ledger: `docs/COMPLIANCE_AUDIT_M47.md`.
+- **Next choice remains Priority 2 — claim-settlement ratio source verification**. Offer Start or Skip for now. Skipping leaves C01 P0 open.
 
 ## M47 priority progress and next decision (2026-11-07)
 - **P0 COMPLIANCE — preliminary audit DONE, formal sign-off OPEN.** See `docs/COMPLIANCE_AUDIT_M47.md` findings C01–C09 and named approval roles. HOLD for external/customer-facing use.
