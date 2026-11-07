@@ -5,7 +5,7 @@ Rule: GitHub main is authoritative. Update this file with milestone changes and 
 
 ## M51 — Language dictionary/review register parity (2026-11-08)
 - All 468 runtime translation keys have nonempty Hindi, Gujarati, Tamil, Malayalam, Kannada and Marathi strings and exact placeholder parity. Browser test verifies language switching and formatting.
-- Synced translation review IDs 213, 360, 389 and added 468 to match runtime. New bidirectional CSV/runtime parity regression test. No application translations, financial calculations or privacy rules changed. Native-speaker/compliance approvals remain pending; see `docs/LANGUAGE_AUDIT_M51.md`.
+- Synced translation review IDs 213, 360, 378, 389 and added 468 to match runtime. New bidirectional CSV/runtime parity regression test. No application translations, financial calculations or privacy rules changed. Native-speaker/compliance approvals remain pending; see `docs/LANGUAGE_AUDIT_M51.md`.
 
 ## M50 — P0 customer export privacy hardening (2026-11-08)
 - Blocked unsafe browser direct printing of live advisor workspace; in-app Print/PDF uses the sanitized landscape summary. Six-panel saved HTML allowlist and fixed-field WhatsApp summary retained. Seven-language, two-screen-mode automated privacy tests added. No financial calculations changed.
