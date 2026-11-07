@@ -91,5 +91,5 @@ test('M51 translation review register matches runtime dictionary keys',async()=>
  const entries=await page.evaluate(()=>Object.values(TD));const keys=entries.map(r=>r[0]);
  const absent=entries.filter(r=>!sources.has(r[0]));const stale=[...sources].filter(k=>!keys.includes(k));
  console.log('M51 CSV DICTIONARY DIFFERENCE',JSON.stringify({runtime:keys.length,registered:sources.size,absent,stale}));
- assert.deepEqual(absent,[]);
+ assert.deepEqual(absent,[]);assert.deepEqual(stale,[]);
 }));
