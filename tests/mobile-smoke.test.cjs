@@ -81,3 +81,15 @@ test('M51 translation dictionary completeness, exact numbered placeholders, and 
  console.log('M51 TRANSLATION AUDIT',JSON.stringify(audit));
  assert.equal(audit.missingCount,0);assert.equal(audit.mismatchCount,0);assert.deepEqual(audit.bad,[]);
 }));
+
+test('M51 translation review register matches runtime dictionary keys',async()=>browserCase(async page=>{
+ const {readFileSync}=require('node:fs');const csv=readFileSync(resolve(__dirname,'../docs/translation-review.csv'),'utf8');
+ const rows=[];let row=[],value='',quoted=false;
+ for(let i=0;i<csv.length;i++){const c=csv[i];if(quoted){if(c==='"'&&csv[i+1]==='"'){value+='"';i++}else if(c==='"')quoted=false;else value+=c}else if(c==='"')quoted=true;else if(c===','){row.push(value);value=''}else if(c==='\n'){row.push(value.replace(/\r$/,''));rows.push(row);row=[];value=''}else value+=c}
+ if(row.length||value){row.push(value);rows.push(row)}
+ const sources=new Set(rows.slice(1).filter(r=>r[1]).map(r=>r[1]));
+ const keys=await page.evaluate(()=>Object.keys(TD));
+ const absent=keys.filter(k=>!sources.has(k));
+ console.log('M51 CSV DICTIONARY DIFFERENCE',JSON.stringify({runtime:keys.length,registered:sources.size,absent}));
+ assert.deepEqual(absent,[]);
+}));
