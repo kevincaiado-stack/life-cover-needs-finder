@@ -1,9 +1,15 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-08 (M51 language audit; M50 export privacy; M49 claims)
+Updated: 2026-11-08 (M52 iPhone/print; M51 language; M50 export privacy)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## M52 — Priority 5 A4 landscape dashboard and mobile export hardening (2026-11-08)
+- Fixed hard-coded 690px saved-summary overflow test: now uses rendered dashboard bottom against A4 landscape **194mm printable height**; overflow panels move to a conditional appendix without dropping any content. Print width is **281mm**; appendix prints in one column and allows long content to continue across pages.
+- App Print/PDF now waits for standalone document fonts, recalculates dashboard layout, then prints. Seven-language customer-safe export retained. No financial calculations, language translations or privacy allowlists changed.
+- M52 Chromium tests include 95-line oversized summary, first-page fit, appendix preservation, PDF generation and seven-language export. **19/19 passed**. Physical iPhone Safari / iOS print PDF and WhatsApp sign-off remains OPEN. See `docs/IPHONE_PRINT_AUDIT_M52.md`.
+- Rollback before M52: `stable-2026-11-08-pre-m52-iphone-print`. Next Priority 6: CPI source freshness and fallback, Start/Skip.
 
 ## M51 — Priority 4 translation audit and review-register reconciliation (2026-11-08)
 - Audited 468 runtime translation keys in English + six Indian languages. No blank translations or numbered-placeholder mismatches found. Added automated runtime dictionary/CSV parity and language formatting checks.
