@@ -41,3 +41,10 @@ test('M48 saved summary remains privacy-safe when advisor-only sections are popu
  const x=await page.evaluate(()=>{document.querySelector('#age').value='40';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();document.querySelector('#objBox').hidden=false;document.querySelector('#objBox').innerHTML='ADVISOR_ONLY_MARKER';document.querySelector('#tpBox').hidden=false;document.querySelector('#qsBox').hidden=false;document.querySelector('#qsBox').innerHTML='QUICK_START_MARKER';return buildSummary()});
  assert.doesNotMatch(x,/ADVISOR_ONLY_MARKER|QUICK_START_MARKER/);
 }));
+
+test('M49 claim record uses consistent individual-death-claims comparison and official source links',async()=>browserCase(async page=>{
+ const result=await page.evaluate(()=>({v:CSR.v,pv:CSR.pv,fy:CSR.fy,pfy:CSR.pfy,html:csrBox(()=>''),sources:CSRL.map(x=>x[1])}));
+ assert.equal(result.v,'99.52');assert.equal(result.pv,'99.43');assert.equal(result.fy,'2025-26');assert.equal(result.pfy,'2024-25');
+ assert.match(result.html,/individual death claims settled \(by number\)/);assert.match(result.html,/99.38%/);assert.match(result.html,/rounded 99.6%/);
+ assert.ok(result.sources.some(x=>x.includes('annual-report-2024-25.pdf')));assert.ok(result.sources.some(x=>x==='https://www.canarahsbclife.com/'));
+}));
