@@ -4,6 +4,18 @@ Updated: 2026-11-07 | Current application milestone: **M44** | Source of truth: 
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
 
+## UI/UX program UX1-UX8 (approved by user 2026-11-07 19:27 IST; Claude is executing in order)
+Rollback: pre-ux branch `stable-2026-11-07-pre-ux` = state before this program; each step gets its own `stable-2026-11-07-uxN` branch. All new text needs 7 languages + translation-review.csv rows. No financial-rule changes. Advisor-only content stays out of print, saved summary and WhatsApp.
+1. UX1 Advisor / customer split: a "Customer screen" toggle hides advisor-only cards (objections, product suggestions on timeline) on screen, not just in print.
+2. UX2 Sticky key-numbers strip: cover gap, protection %, how long the family can last, always visible at top of results.
+3. UX3 Collapsible sections: group result cards (Your numbers, Your timeline, Talking points) with headings.
+4. UX4 Simple View is the default for the customer screen; key sentence in large text.
+5. UX5 Guided form: progress line (Step x of y), numeric keyboard (inputmode) on money/age fields, friendly example placeholders.
+6. UX6 Language switcher at top, language names in own script (English, हिन्दी, ગુજરાતી, தமிழ், മലയാളം, ಕನ್ನಡ, मराठी).
+7. UX7 Polish: same colour = same meaning (red gap, green covered), tap targets >= 44px, contrast, readable Indic font sizes.
+8. UX8 Saved summary as one-page handout: header with date and customer name, training disclaimer visible.
+Status log: see PROJECT_STATE.md (entries UX1..UX8). If a step is not marked done there, it is not built.
+
 ## M44 GitHub/Vercel synchronization — 2026-11-07
 - Monthly savings presets, custom input and proportional split across goals are committed to GitHub main and deployed to Vercel. New regression test covers allocation without double counting and interactive controls.
 - Browser test originally failed because synthetic goals were reset by the normal render() after clicking a preset; regression fixture corrected in commit `92baa9cd2565d44938e821542a596a7c6fe70919`. Actions run `42360399150` completed **successfully** (8 mobile Chromium browser tests including new M44 scenarios).

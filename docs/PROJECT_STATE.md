@@ -3,6 +3,8 @@
 Last updated: 2026-11-07 (PREVIOUS MILESTONE 43; CURRENT M44: Rethink your strategy card (M42) removed at the user's request, timeline already covers it; before it M41: runway time wording translated, unused Customer-card code removed; before it M40 timeline visible in Simple view, M39 runway with inflation)
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
 
+## UX program (2026-11-07): UX1-UX8 planned, none built yet. See AI_HANDOVER.md.
+
 ## M44 GitHub/Vercel synchronization — 2026-11-07
 - Monthly savings presets, custom input and proportional split across goals are committed to GitHub main and deployed to Vercel. New regression test covers allocation without double counting and interactive controls.
 - Browser test originally failed because synthetic goals were reset by the normal render() after clicking a preset; regression fixture corrected in commit `92baa9cd2565d44938e821542a596a7c6fe70919`. Actions run `42360399150` completed **successfully** (8 mobile Chromium browser tests including new M44 scenarios).

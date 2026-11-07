@@ -5,6 +5,18 @@ Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
 
+## UI/UX program UX1-UX8 (approved by user 2026-11-07 19:27 IST; Claude is executing in order)
+Rollback: pre-ux branch `stable-2026-11-07-pre-ux` = state before this program; each step gets its own `stable-2026-11-07-uxN` branch. All new text needs 7 languages + translation-review.csv rows. No financial-rule changes. Advisor-only content stays out of print, saved summary and WhatsApp.
+1. UX1 Advisor / customer split: a "Customer screen" toggle hides advisor-only cards (objections, product suggestions on timeline) on screen, not just in print.
+2. UX2 Sticky key-numbers strip: cover gap, protection %, how long the family can last, always visible at top of results.
+3. UX3 Collapsible sections: group result cards (Your numbers, Your timeline, Talking points) with headings.
+4. UX4 Simple View is the default for the customer screen; key sentence in large text.
+5. UX5 Guided form: progress line (Step x of y), numeric keyboard (inputmode) on money/age fields, friendly example placeholders.
+6. UX6 Language switcher at top, language names in own script (English, हिन्दी, ગુજરાતી, தமிழ், മലയാളം, ಕನ್ನಡ, मराठी).
+7. UX7 Polish: same colour = same meaning (red gap, green covered), tap targets >= 44px, contrast, readable Indic font sizes.
+8. UX8 Saved summary as one-page handout: header with date and customer name, training disclaimer visible.
+Status log: see PROJECT_STATE.md (entries UX1..UX8). If a step is not marked done there, it is not built.
+
 ## User confirmation — native-speaker review (2026-11-07, 19:14 IST)
 - The user (Kevin) stated that the native-speaker review is verified. Exact scope (which languages/rows) was not specified; treat as verified per the user's statement. Real-iPhone Safari check: PASSED, reported by the user on 2026-11-07 19:22 IST (savings buttons, custom box, Simple View timeline, Hindi). Compliance sign-off remains open. 
 
