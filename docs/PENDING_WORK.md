@@ -1,10 +1,35 @@
 # Deferred Work Register — Life Cover Needs Finder
 
-Updated: 2026-11-07 | Current application milestone: **M44** | Source of truth: GitHub `main`
+Updated: 2026-11-07 | Current application milestone: **M46** | Source of truth: GitHub `main`
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
 
-## UI/UX program UX1-UX8 - STATUS: ALL BUILT (M45); open: native review of 7 new strings, real iPhone recheck of new UI (approved by user 2026-11-07 19:27 IST; Claude is executing in order)
+## M46 verification ledger and prioritized next work
+
+**Current baseline:** M46 app SHA `1fd25417900e7cb0b3d1e478e6ac574f2063ee5c`; Vercel READY on matching SHA; latest mobile Chromium and runway workflows passed. M45 UX1–UX8 and M46 UX9 are **implemented**, not still planned. M44 savings scenario remains active. Older dated sections below are historical details; this ledger governs current status.
+
+| Priority | ID | Open task | Verified vs outstanding / closure evidence |
+|---|---|---|---|
+| P0 | COMPLIANCE | Approve suitability, objection wording (including M46), financial illustrations and internal-training disclaimer before external use | Reviewer and exact approved version recorded; currently **not approved** |
+| P0 | CLAIMS | Verify 99.6% FY2025-26 / 99.43% FY2024-25 claims figures, metric definitions and primary insurer/IRDAI disclosures | Official source PDFs, year and metric reconciled; currently **unverified** |
+| P0 | EXPORT-PRIVACY | Ensure no advisor-only objections, product guidance or tips appear in saved summary, WhatsApp, print/PDF across both screen modes | Automated UI tests passed; **real exported files/messages still need manual audit** |
+| P0 | LANGUAGE | Review active translations, specifically M45 UX labels and M46 18 OBJ0 strings (plus M44 strings) | User-reported native-speaker verification exists but exact scope unspecified; record reviewer/language/row and sign-off. Do not treat M46 as reviewed |
+| P1 | IPHONE | Full real iPhone Safari UX1–UX9 and seven-language audit, customer mode, sticky strip, Enter behavior, saved summary | User-reported partial pass (savings, Simple view, Hindi), **not full coverage** |
+| P1 | CPI | Verify next genuine MoSPI/PIB monthly release automatically updates site and calculations; handle PIB listing lag | September 2026 5.54% was live-verified; next release rollover **not yet proven** |
+| P1 | INCOME | Confirm two-year immediate-income suggestion cutoff | User/product expert approval and regression tests |
+| P1 | SAVINGS | Check full-funding overflow, zero-year goals, custom input extremes and proportionate split behavior | M44 browser tests passed; edge cases and business acceptance remain |
+| P1 | PRINT | Clarify desired saved-summary length: current A4 output is multi-page, approximately 3–4 pages in sample | User approves multi-page or separately requests a true one-page redesign; test on mobile and desktop |
+| P2 | MIRRORS | Confirm Claude artifact/Project mirror sync to GitHub M46 | External copies not verified; GitHub remains authoritative; Google Drive frozen |
+| P2 | CLEANUP | Archive retired M42 strings and unused old Returns translations without losing audit history | Check live references and retain history; do not change product rules |
+
+**Completed (do not reopen without a regression):** M44 savings presets and custom input; M45 UX1–UX8; M46 no-gap objections; GitHub/Vercel deployment match and automated M46 workflow success.
+
+**Documentation-only reconciliation rollback:** `stable-2026-11-07-pre-m46-doc-reconcile`. No app code, product rules or translations changed during reconciliation.
+
+### Historical backlog below
+Items below were written during M44/M45 and may repeat the current ledger or contain obsolete 'pending UX build', 'one-page' and review labels. Update or close items against this ledger, not by interpreting historical headings as current instructions.
+
+## HISTORICAL M45 program record — UX1–UX8 completed (not still executing)
 Rollback: pre-ux branch `stable-2026-11-07-pre-ux` = state before this program; each step gets its own `stable-2026-11-07-uxN` branch. All new text needs 7 languages + translation-review.csv rows. No financial-rule changes. Advisor-only content stays out of print, saved summary and WhatsApp.
 1. UX1 Advisor / customer split: a "Customer screen" toggle hides advisor-only cards (objections, product suggestions on timeline) on screen, not just in print.
 2. UX2 Sticky key-numbers strip: cover gap, protection %, how long the family can last, always visible at top of results.
@@ -13,7 +38,7 @@ Rollback: pre-ux branch `stable-2026-11-07-pre-ux` = state before this program; 
 5. UX5 Guided form: progress line (Step x of y), numeric keyboard (inputmode) on money/age fields, friendly example placeholders.
 6. UX6 Language switcher at top, language names in own script (English, हिन्दी, ગુજરાતી, தமிழ், മലയാളം, ಕನ್ನಡ, मराठी).
 7. UX7 Polish: same colour = same meaning (red gap, green covered), tap targets >= 44px, contrast, readable Indic font sizes.
-8. UX8 Saved summary as one-page handout: header with date and customer name, training disclaimer visible.
+8. UX8 Saved summary with header, date and disclaimer; actual output can span multiple A4 pages (not a strict one-pager).
 Status log: see PROJECT_STATE.md (entries UX1..UX8). If a step is not marked done there, it is not built.
 
 ## M44 GitHub/Vercel synchronization — 2026-11-07
