@@ -1,8 +1,15 @@
 # Deferred Work Register — Life Cover Needs Finder
 
-Updated: 2026-11-07 | Current application milestone: **M46** | Source of truth: GitHub `main`
+Updated: 2026-11-07 | Current application milestone: **M47** | Source of truth: GitHub `main`
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
+
+## M47 priority progress and next decision (2026-11-07)
+- **P0 COMPLIANCE — preliminary audit DONE, formal sign-off OPEN.** See `docs/COMPLIANCE_AUDIT_M47.md` findings C01–C09 and named approval roles. HOLD for external/customer-facing use.
+- **P1 PRINT/DASHBOARD — implementation DONE, QA OPEN.** Landscape A4 dashboard, KPI tiles, two-column layout, conditional appendix; test HTML/PDF on real iPhone and desktop, all languages, long goal lists, print pagination and legibility. Print/export advisor-only exclusions require manual validation. Fixed landscape canvas may scroll horizontally on phones when previewing saved HTML.
+- **Next priority decision: P0 CLAIMS / C01** — validate FY2025-26 99.6% and FY2024-25 99.43% against original insurer/IRDAI publications, definitions and links. Offer **Start** or **Skip for now**; skip does not close the risk.
+- **P0 COMPLIANCE stays OPEN** until authorized reviewer signs off on the exact version, objections, suitability, training disclaimer and translations. Initial audit alone does not satisfy approval.
+- Rollback before M47: `stable-2026-11-07-pre-m47-dashboard-compliance`.
 
 ## M46 verification ledger and prioritized next work
 
