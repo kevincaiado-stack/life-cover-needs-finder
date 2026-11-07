@@ -1,6 +1,6 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M39 added)
+Updated: 2026-11-07 (M40 added)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
@@ -18,6 +18,10 @@ Canonical branch: main
 10. **Testing:** tests/*.test.cjs (node). Browser tests need a Chromium: set CHROME_BIN to a Playwright Chromium path (e.g. /opt/pw-browsers/chromium-1194/chrome-linux/chrome) and NODE_PATH to the global node_modules. Keep rwY()/renderRw() free of globals other than $, tx, fmt, rs (tests run them in a VM; infl is read only if it exists).
 11. **Milestones M30-M39 (all in PROJECT_STATE.md):** M30 multi-select objections; M31 claim settlement ratio box (99.6% FY2025-26 company press release, 99.43% FY2024-25 company page; official PDFs could not be opened by Claude, links and definition unverified); M32 Simple view keeps Show plans and runway box; M33 product-type suggestions on timeline (Term / ULIP + Par/Non-Par / Endowment or Income plans; 2-year cut-off to Immediate income is Claude's choice, to confirm); M34 Customer card removed; M35-M38 runway rule iterations; M39 runway with inflation.
 12. **Discussed but NOT built (user has not approved):** allocation guide by goal type with percentages, a 'Rethink your strategy' card, optional 'how money is placed today' tap, premium estimate from insurer rate tables, saving customers (login/DB/admin/DPDP), a 'How we worked this out' page.
+
+## M40: timeline visible in Simple view (Claude, 2026-11-07)
+- User: on the final summary, tapping Simple view hid 'Your life timeline'; it must stay visible whether or not Simple view is on. Removed `html.simple #tlBox` from the Simple-view CSS (line ~102). Still hidden in Simple view: small grey helper text (.hint/.sub), #charts, #wtBox (The cost of waiting). Product-type suggestions (.pcat) remain advisor-only: hidden in print and removed from the saved summary. Rollback: stable-2026-11-07-pre-tl.
+- Queue the user approved next, in order: (1) pending checks from the handover list (translate runway time wording, remove unused Customer-card code and dead translation rows, regression re-test), (2) build the advisor-only 'Rethink your strategy' card.
 
 ## M39: runway with inflation (Claude, 2026-11-07)
 - User asked to also show how many years the money would last with current inflation counted. Added a bold line under the M38 runway: yearly expenses grow at infl() (live official CPI, 5.54% on 09/2026), the lump sum (savings + cover - loans) pays them with no investment return, n = ln(1+M*g/E)/ln(1+g). Example: 2.80 Cr, 7.2 L a year, 5.54% -> about 21.3 years (38.9 with no price rise). Shown in months if under a year; hidden if about 1 month or less.
