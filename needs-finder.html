@@ -1311,6 +1311,11 @@ window.addEventListener("beforeprint",function(){
   reopen=[];document.querySelectorAll("aside details").forEach(function(d){if(!d.open){reopen.push(d);d.open=true}});
 });
 window.addEventListener("afterprint",function(){reopen.forEach(function(d){d.open=false})});
+document.addEventListener("focusin",function(e){var t=e.target;if(t&&t.tagName==="INPUT"&&t.type==="text"&&!t.getAttribute("enterkeyhint"))t.setAttribute("enterkeyhint","next")});
+document.addEventListener("keydown",function(e){var t=e.target;if(e.key!=="Enter"||!t||t.tagName!=="INPUT"||t.type!=="text"||e.isComposing)return;
+  var sec=t.closest("section.card");if(!sec)return;e.preventDefault();
+  var L=[].slice.call(sec.querySelectorAll('input[type="text"],input[type="date"]')).filter(function(x){return x.offsetParent!==null&&!x.disabled&&!x.readOnly}),i=L.indexOf(t);
+  if(i>=0&&i<L.length-1){L[i+1].focus()}else{t.blur();var nb=$("bNext");if(nb&&!nb.disabled)nb.focus()}});
 $("custBtn").onclick=function(){setCust(!document.documentElement.classList.contains("cust"))};
 $("bigBtn").onclick=function(){setBig(!document.documentElement.classList.contains("big"))};
 try{if(localStorage.getItem("ncBig")==="1")setBig(true)}catch(e){}
