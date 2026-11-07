@@ -121,6 +121,9 @@ html.simple .rw p:first-of-type{font-size:18px;font-weight:600;line-height:1.4}h
 .qsb{background:var(--amberbg);border-radius:12px;padding:12px 14px;margin:8px 0 12px}.qsb p{margin:0 0 8px}.qsb .add{margin-top:0}
 .say{background:var(--amberbg);border-radius:14px;padding:14px;margin:14px 0}.say h3{margin:0 0 6px;font-size:16px}.say p{margin:0}.say ul{margin:8px 0 0;padding-left:18px}.say li{margin:6px 0}
 @media print{
+  /* Direct printing the live advisor workspace is unsafe; print the sanitized summary instead. */
+  body>*{display:none!important}
+  body::before{content:"Use the Print or save as PDF button in the results screen for a privacy-safe customer summary.";display:block!important;padding:20mm;font:16px/1.5 system-ui,Arial,sans-serif;color:#14213D}
   html.big body{zoom:1}
   :root{--bg:#fff;--card:#fff;--ink:#14213D;--mute:#5B6778;--line:#D9E0E7;--teal:#0F766E;--tealbg:#E3F3F1;--amber:#B45309;--amberbg:#FDF1DC}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
