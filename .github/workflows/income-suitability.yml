@@ -1,0 +1,18 @@
+name: M55 income suitability regression
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'needs-finder.html'
+      - 'tests/income-suitability.test.cjs'
+      - '.github/workflows/income-suitability.yml'
+  workflow_dispatch:
+jobs:
+  suitability:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/income-suitability.test.cjs
