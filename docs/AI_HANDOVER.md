@@ -5,6 +5,20 @@ Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
 
+## Standing instructions from the user (Kevin) — READ FIRST (added by Claude, 2026-11-07)
+1. **Before building anything:** fetch GitHub main, read this file and docs/PROJECT_STATE.md, update this file if anything is missing, then proceed.
+2. **After every change** update, in this order: docs/AI_HANDOVER.md, docs/PROJECT_STATE.md (milestone entry, rollback branch), docs/translation-review.csv (new translated lines), GitHub main, a rollback branch, and the Claude copies (Claude artifact https://claude.ai/artifact/ANuVBdzZuozqm3bKmsezaJ and the Claude Project folder needs-finder/ which holds needs-finder.html, PROJECT_STATE.md, translation-review.csv). Vercel deploys from GitHub main (https://life-cover-needs-finder.vercel.app) and must be checked separately.
+3. **Rollback points:** make a branch before each change (naming used: stable-YYYY-MM-DD-name, plus a pre- branch for the version before the change). Never rewrite history.
+4. **Google Drive is intentionally NOT updated** (frozen at commit e5a2eff). Do not update it unless the user asks.
+5. **The user is a beginner who learns fast.** Explain in simple words (like to a 10-year-old), step by step, ask ONE question at a time, do not assume. Confirm understanding before building anything that is ambiguous; show a mock first when the user asks for ideas ("don't build yet").
+6. **Honesty / compliance rules:** the app is for internal advisor training only (disclaimer under 'Your summary': "This is Strictly for Internal Training Purposes only. These are purely illustrative values and not for Sale"). No invented statistics, customer stories or false deadlines; urgency only from true things (age-based price rise, health change, goal dates). No promised returns, no premium amounts (the app has no premium rates). Compliance must approve wording before real use; native speakers must review the six non-English languages.
+7. **Advisor-only content must never appear in the printed summary, saved summary file, WhatsApp text:** objection answers (Feel-Felt-Found, 9 objections, multi-select, claim settlement ratio box on 'I don't trust claims'), product-type suggestions on the life timeline, tips. The Customer card was removed in M34. Goal text keeps the person's name ('Aarav: education (in 12 yrs)') — the user rejected a cleaner version.
+8. **Runway rule is the user's own, stated in words twice:** (savings + existing cover - loans) divided by MONTHLY expenses, shown in months/years; may exceed working years; bar caps at 100%. Inflation line (M39) is an addition, not a replacement.
+9. **Translations:** 7 languages (English, Hindi, Gujarati, Tamil, Malayalam, Kannada, Marathi). Any new text needs all 7 (AR rows in needs-finder.html, translation blocks near the end of the script, plus docs/translation-review.csv). fmt() only replaces {0}-{9}.
+10. **Testing:** tests/*.test.cjs (node). Browser tests need a Chromium: set CHROME_BIN to a Playwright Chromium path (e.g. /opt/pw-browsers/chromium-1194/chrome-linux/chrome) and NODE_PATH to the global node_modules. Keep rwY()/renderRw() free of globals other than $, tx, fmt, rs (tests run them in a VM; infl is read only if it exists).
+11. **Milestones M30-M39 (all in PROJECT_STATE.md):** M30 multi-select objections; M31 claim settlement ratio box (99.6% FY2025-26 company press release, 99.43% FY2024-25 company page; official PDFs could not be opened by Claude, links and definition unverified); M32 Simple view keeps Show plans and runway box; M33 product-type suggestions on timeline (Term / ULIP + Par/Non-Par / Endowment or Income plans; 2-year cut-off to Immediate income is Claude's choice, to confirm); M34 Customer card removed; M35-M38 runway rule iterations; M39 runway with inflation.
+12. **Discussed but NOT built (user has not approved):** allocation guide by goal type with percentages, a 'Rethink your strategy' card, optional 'how money is placed today' tap, premium estimate from insurer rate tables, saving customers (login/DB/admin/DPDP), a 'How we worked this out' page.
+
 ## M39: runway with inflation (Claude, 2026-11-07)
 - User asked to also show how many years the money would last with current inflation counted. Added a bold line under the M38 runway: yearly expenses grow at infl() (live official CPI, 5.54% on 09/2026), the lump sum (savings + cover - loans) pays them with no investment return, n = ln(1+M*g/E)/ln(1+g). Example: 2.80 Cr, 7.2 L a year, 5.54% -> about 21.3 years (38.9 with no price rise). Shown in months if under a year; hidden if about 1 month or less.
 - M38 formula and rwY() are unchanged and still pure; tests/runway.test.cjs passes 9/9 (one test added), tests/inflation.test.cjs 5/5, tests/mobile-smoke.test.cjs 6/6 (run locally with CHROME_BIN pointing at Playwright's Chromium).
@@ -72,7 +86,10 @@ Claude and ChatGPT alternate work on this project. GitHub main is the source of 
 4. Check Vercel deployment status and verify the source commit matches the intended GitHub commit.
 5. Identify outstanding risks, confirm scope, and avoid overwriting the other assistant's work.
 
-## Current application baseline — Milestone 38
+## Current application baseline — Milestone 39 (M38 runway + inflation line)
+M38 details follow; M39 only adds the inflation line described in the M39 section at the top.
+
+### M38 details
 As documented in docs/PROJECT_STATE.md, latest application milestone M38 was committed on 2026-11-06 at 313cf4c79a3a854feaa5e39db7b1484f420e2195.
 
 The 'How long could your family manage?' runway is (savings and investments + existing life cover - loans) / monthly expenses = months, then months / 12 = years. When loans exceed resources, show a no-runway message. Objection responses reuse the positive runway. Duration can exceed working years, but the comparison bar caps at 100%. No inflation or investment returns are counted. Test zero or missing monthly expenses and rounding. Relevant functions: rwY(), rwTxt(r), renderRw(a,ret,A,B,C,D,ex). R29 translations cover seven languages. Pre-M38 rollback: stable-2026-11-06-pre-runway4.
