@@ -1,8 +1,13 @@
 # Deferred Work Register — Life Cover Needs Finder
 
-Updated: 2026-11-07 | Current application milestone: **M49** | Source of truth: GitHub `main`
+Updated: 2026-11-07 | Current application milestone: **M50** | Source of truth: GitHub `main`
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
+
+## M50 — Priority 3 privacy remediation, next Priority 4
+- **P0 EXPORT-PRIVACY technical fix IMPLEMENTED:** direct browser print now blocks the live advisor workspace and directs users to sanitized in-app Print/PDF; HTML export uses six-panel allowlist; WhatsApp text uses explicit fields. Seven languages × customer/advisor modes have automated privacy regression tests. See `docs/EXPORT_PRIVACY_AUDIT_M50.md`.
+- **P0 privacy final sign-off OPEN:** inspect real iPhone Safari saved HTML, generated PDF pages, print and WhatsApp external UI, especially translated and complex-goal cases. Compliance/legal must approve any external sharing.
+- **Next Priority 4 — P0 LANGUAGE:** native-speaker sign-off for M44–M46 additions and current seven-language content, with reviewer name, language, row IDs and date. Offer Start or Skip; do not invent approvals.
 
 ## M49 — Priority 2 claim verification results and next action
 - **P0 CLAIMS primary insurer verification: DONE for displayed values.** FY2025–26 99.52% individual death claims from official insurer website; FY2024–25 99.43% individual death claims from insurer annual report. Press release's 99.6% is a separate insufficiently defined claim and not safely interchangeable; FY2024–25 combined individual+group 99.38% is distinct. See `docs/CLAIMS_SOURCE_AUDIT_M49.md`.
