@@ -1,5 +1,13 @@
 # Project State: Life Cover Needs Finder
 
+## M54 — Priority 7 savings edge audit (2026-11-07)
+- Reviewed `savingsSplit` in `needs-finder.html`: future eligible goals have y>0 and v>0, weighted by v/(12*y). Monthly budget is proportionally split, goal credit capped at target, remaining nonnegative and percent capped at 100. No financial formulas changed.
+- Added six focused Node tests `tests/savings-edge.test.cjs` for zero/past-due goals, fully funded goal caps, zero savings, maximum custom monthly value, fractional allocation sum tolerance, and no eligible goals. Added `.github/workflows/savings-edge.yml` to run on main changes and manual dispatch.
+- Important pre-existing product decision: unused savings budget from already-funded goals is not redistributed to other goals. This is explicitly deferred and must not be changed without user approval; capped displayed contributions can therefore be lower than nominal monthly allocations.
+- Rollback `stable-2026-11-07-pre-m54-savings-edge`. Commits `74606e50c93f19c96adfbe7df0b9949bb68cb4b0` (tests), `6e53c2fa3a8d47ae2e1e31bfe50e8ae3798be670` (CI). GitHub Actions test result remains to be verified; do not claim passing tests without run evidence.
+- Next Priority 8 proposed: validate the two-year immediate-income product suggestion cutoff and product-suitability wording, with explicit business approval before changing guidance. Start/Skip.
+
+
 ## M53 — Priority 6 CPI audit (2026-11-07)
 - Official September 2026 All-India Combined General CPI 5.54% confirmed against MoSPI/PIB release (12 October 2026); next October release scheduled 12 November 2026. No newer official release verified at audit time.
 - Identified API validation bug: valid official zero or negative inflation was rejected. Fixed validation to permit rates strictly between -25% and +25%; existing CPI extraction and calculations unchanged. Explicit `stale` boolean added to API success/failure payload. Added focused regression cases for deflation and unavailable official data.
