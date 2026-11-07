@@ -1,8 +1,13 @@
 # Deferred Work Register — Life Cover Needs Finder
 
-Updated: 2026-11-07 | Current application milestone: **M48** | Source of truth: GitHub `main`
+Updated: 2026-11-07 | Current application milestone: **M49** | Source of truth: GitHub `main`
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
+
+## M49 — Priority 2 claim verification results and next action
+- **P0 CLAIMS primary insurer verification: DONE for displayed values.** FY2025–26 99.52% individual death claims from official insurer website; FY2024–25 99.43% individual death claims from insurer annual report. Press release's 99.6% is a separate insufficiently defined claim and not safely interchangeable; FY2024–25 combined individual+group 99.38% is distinct. See `docs/CLAIMS_SOURCE_AUDIT_M49.md`.
+- **Still OPEN:** direct IRDAI Table 15 workbook reconciliation; compliance/legal sign-off of exact customer-facing wording and definitions. Do not treat this as formal compliance approval.
+- **Next Priority 3 — P0 EXPORT-PRIVACY:** verify real saved HTML, PDF/print and WhatsApp across advisor/customer modes, zero-gap, all languages; Start or Skip for now.
 
 ## M48 remediation status — P0 compliance remains open
 - **C06 technical fix implemented:** explicit allowlist for customer HTML/PDF print summary, excludes advisor-only sections, preserves training disclaimer; automated regression coverage added. **Do not close privacy sign-off** until saved HTML, real PDF/print and WhatsApp are reviewed on real devices.
