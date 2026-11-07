@@ -1,8 +1,13 @@
 # Deferred Work Register — Life Cover Needs Finder
 
-Updated: 2026-11-07 | Current application milestone: **M43** | Source of truth: GitHub `main`
+Updated: 2026-11-07 | Current application milestone: **M44** | Source of truth: GitHub `main`
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
+
+## M44 savings scenario follow-ups (2026-11-07)
+- **P0:** Native-speaker review of savings strings (translation-review.csv rows 440–442); compliance approval of illustrative goal allocations.
+- **P1:** Real iPhone Safari checks of presets, custom keyboard, seven languages and goal allocations; validate due-now goals and custom extremes.
+- **P2:** Proportional allocation does not reallocate surplus after a goal is fully funded. Consider priority-based/user-defined splits only with explicit approval.
 
 ## P0 — must address before external/customer-facing use
 
