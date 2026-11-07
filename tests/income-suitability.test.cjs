@@ -1,0 +1,16 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const html=fs.readFileSync(require('node:path').join(__dirname,'../needs-finder.html'),'utf8');
+const begin=html.indexOf('function pcat('),end=html.indexOf('function renderTl(',begin);
+assert.ok(begin>=0&&end>begin,'Timeline suitability helper exists');
+const ctx={Math,tx:x=>x,esc:x=>String(x),fmt:(s,...a)=>s.replace(/\\{(\\d+)\\}/g,(_,i)=>a[Number(i)])};
+vm.createContext(ctx);vm.runInContext(html.slice(begin,end),ctx);
+const category=(t,y)=>ctx.pcat({t,y});
+test('retirement due now or within two years retains immediate-income suggestion',()=>{for(const y of [0,1,2])assert.match(category('ret',y),/Suggested: Immediate income plan/)});
+test('retirement after two years retains deferred-income/endowment suggestion',()=>{for(const y of [2.01,3,10,30])assert.match(category('ret',y),/Suggested: Endowment plan to build a corpus, or an Income at a later stage plan/)});
+test('retirement explanation differentiates immediate, later income and corpus',()=>{const a=category('ret',2);assert.match(a,/Immediate income starts right away/);assert.match(a,/Income at a later stage gives regular income/);assert.match(a,/Endowment builds a corpus/)});
+test('term protection guidance stays separate from retirement income',()=>{const a=category('gap',0);assert.match(a,/Suggested: Term plan/);assert.doesNotMatch(a,/Immediate income plan/)});
+test('unrecognized goal type produces no product suggestion',()=>assert.equal(category('unknown',2),''));
+test('education, marriage and home categories are not changed by retirement cutoff',()=>{assert.match(category('edu',2),/combination of ULIP/);assert.match(category('mar',10),/combination of ULIP/);assert.match(category('home',2),/Suggested: ULIP/)});
