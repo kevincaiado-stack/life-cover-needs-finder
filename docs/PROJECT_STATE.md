@@ -1,7 +1,17 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-07 (M45 UX1-UX8 built; PREVIOUS MILESTONE 43; CURRENT M44: Rethink your strategy card (M42) removed at the user's request, timeline already covers it; before it M41: runway time wording translated, unused Customer-card code removed; before it M40 timeline visible in Simple view, M39 runway with inflation)
+Last updated: 2026-11-07 — M46 authoritative (UX9 no-gap objections); M45 UX1–UX8 complete; M44 savings scenarios previous.
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
+
+## CURRENT VERIFIED APPLICATION STATE — M46
+
+- App baseline GitHub `main` commit `1fd25417900e7cb0b3d1e478e6ac574f2063ee5c`, verified Vercel READY at matching SHA; latest M46 mobile browser and runway workflows passed. Documentation-only commits after this point do not alter app functionality.
+- M44: selectable additional monthly savings and custom entry, single budget proportionally split among future goals without double counting.
+- M45: UX1–UX8 **all implemented** — customer/advisor screen split, sticky key figures, collapsible result groups, Simple view, Enter navigation, improved language selector, accessibility styling, saved-summary heading/disclaimer/A4 formatting. The summary is **not guaranteed one page**; sample prints approximately 3–4 pages.
+- M46: zero-cover-gap objection answer variants, plus improved 'Returns are poor' answer. 18 new translated strings (OBJ0) await specifically documented native-speaker review.
+- Verified scope: automated M46 workflows passed; user reported iPhone Safari success for savings controls, Simple view and Hindi, but not a comprehensive physical-device UX/export audit. User-reported native-speaker verification has unspecified scope; do not infer new M45/M46 strings were signed off. Compliance, claims-ratio source evidence, advisor-only export privacy checks and next real CPI month rollover remain open.
+- Historical entries below preserve decisions but any older 'current M43/M44', UX1–UX8 plan, one-page promise, or broad 'review complete' status is superseded by this section and `docs/PENDING_WORK.md`.
+- Pre-document-reconciliation rollback: `stable-2026-11-07-pre-m46-doc-reconcile`. GitHub main is canonical; Google Drive intentionally frozen; Claude mirrors unverified.
 
 ## UX program (2026-11-07): UX1-UX8, see AI_HANDOVER.md. Built so far (in order): see lines below.
 - UX9 DONE: Objection answers have no-gap wording when the customer is fully covered (gap Rs 0); Returns are poor answer improved (M46) (branch stable-2026-11-07-ux9)
