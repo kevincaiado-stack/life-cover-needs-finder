@@ -14,4 +14,4 @@ test('guaranteed deferred income retains approved PPC wording at 55 boundary',()
 test('short education goal produces no plan recommendation',()=>{assert.match(rec(40,{t:'edu',y:4.99}),/No plan is recommended/)});
 test('five-year education goal recommends Wealth Edge and PPC only at eligible adult ages',()=>{assert.match(rec(50,{t:'edu',y:5}),/PPC can be opted/);assert.doesNotMatch(rec(51,{t:'edu',y:5}),/PPC can be opted/)});
 test('training disclosure wrapper is present in application source',()=>{assert.match(html,/Strictly for Internal Training Purposes only/);assert.match(html,/purely illustrative values and not for Sale/)});
-test('published Income Now and Promise4Future age bands are retained for compliance review',()=>{assert.match(html,/Early Income:<\\/b> entry age 0 to 50/);assert.match(html,/Income4Future:<\\/b> entry age 0 to 55/)});
+test('published Income Now and Promise4Future age bands are retained for compliance review',()=>{assert.ok(html.includes('Early Income:</b> entry age 0 to 50'));assert.ok(html.includes('Income4Future:</b> entry age 0 to 55'))});
