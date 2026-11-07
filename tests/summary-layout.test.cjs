@@ -1,0 +1,14 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const src=fs.readFileSync(require('node:path').join(__dirname,'../needs-finder.html'),'utf8');
+const start=src.indexOf('var SUM_CSS='),end=src.indexOf('function buildSummary()',start);
+assert.ok(start>=0&&end>start,'summary CSS block exists');
+const ctx={};vm.createContext(ctx);vm.runInContext(src.slice(start,end),ctx);
+test('responsive summary uses single-column phone layout',()=>{assert.match(ctx.SUM_CSS,/max-width:700px/);assert.match(ctx.SUM_CSS,/grid-template-columns:minmax\(0,1fr\)/)});
+test('summary has aligned number columns and full-width key panels',()=>{assert.match(ctx.SUM_CSS,/font-variant-numeric:tabular-nums/);assert.match(ctx.SUM_CSS,/#panel-nmBox,#panel-mdBox\{grid-column:1\/-1\}/)});
+test('print preserves A4 landscape and appendix',()=>{assert.match(ctx.SUM_CSS,/@page\{size:A4 landscape;margin:9mm\}/);assert.match(ctx.SUM_CSS,/\.appendix\{break-before:page/)});
+test('generated summary keeps only explicitly allowed result panels',()=>{assert.match(src,/var panelIds=\["nmBox","rwBox","pmBox","tlBox","mdBox","finBox"\]/);assert.match(src,/Explicit allowlist: never export future advisor-only UI/)});
+test('appendix moves detail and overflow panels without deleting them',()=>{assert.match(src,/extra\.appendChild\(detail\)/);assert.match(src,/extra\.insertBefore\(p,extra\.firstChild\)/);assert.match(src,/app\.hidden=!extra\.children\.length/)});
+test('summary builder retains print action and disclaimer',()=>{assert.match(src,/var discHtml=disc\?disc\.outerHTML/);assert.match(src,/Print or save as PDF/)});
