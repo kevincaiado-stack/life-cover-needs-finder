@@ -1,9 +1,9 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-07 (LATEST MILESTONE 42: advisor-only Rethink your strategy card (words only, 7 languages, never printed or saved); before it M41: runway time wording translated, unused Customer-card code removed; before it M40 timeline visible in Simple view, M39 runway with inflation)
+Last updated: 2026-11-07 (LATEST MILESTONE 43: Rethink your strategy card (M42) removed at the user's request, timeline already covers it; before it M41: runway time wording translated, unused Customer-card code removed; before it M40 timeline visible in Simple view, M39 runway with inflation)
 Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
 
-## M42 Rethink your strategy card (2026-11-07)
+## M43: M42 Rethink card removed (user request). History: M42 Rethink your strategy card (2026-11-07)
 - Advisor-only card under the objections: guaranteed vs market-based guidance per goal by years left, protection kept separate, retirement income guaranteed, wealth creation market-based, a question for the customer. No numbers. Hidden in print, removed from saved summary and WhatsApp text. R32 translations (441-452) await native review.
 
 ## Official CPI production recovery — 2026-11-07

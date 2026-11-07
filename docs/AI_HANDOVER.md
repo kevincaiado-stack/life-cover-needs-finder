@@ -1,6 +1,6 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M42 added)
+Updated: 2026-11-07 (M43: M42 card removed)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
@@ -19,7 +19,11 @@ Canonical branch: main
 11. **Milestones M30-M39 (all in PROJECT_STATE.md):** M30 multi-select objections; M31 claim settlement ratio box (99.6% FY2025-26 company press release, 99.43% FY2024-25 company page; official PDFs could not be opened by Claude, links and definition unverified); M32 Simple view keeps Show plans and runway box; M33 product-type suggestions on timeline (Term / ULIP + Par/Non-Par / Endowment or Income plans; 2-year cut-off to Immediate income is Claude's choice, to confirm); M34 Customer card removed; M35-M38 runway rule iterations; M39 runway with inflation.
 12. **Discussed but NOT built (user has not approved):** allocation guide by goal type with percentages, a 'Rethink your strategy' card, optional 'how money is placed today' tap, premium estimate from insurer rate tables, saving customers (login/DB/admin/DPDP), a 'How we worked this out' page.
 
-## M42: "Rethink your strategy" card (Claude, 2026-11-07)
+## M43: Rethink your strategy card REMOVED (Claude, 2026-11-07)
+- The user asked to remove the M42 card and all its details because the same guidance is already on the life timeline (product suggestions). M42 code (rkBox, renderRk, CC.ret, R32 translations) is gone from needs-finder.html; do not rebuild it unless the user asks again.
+- Rollback: stable-2026-11-07-rethink still holds M42; stable-2026-11-07-pre-rk-remove is the state just before removal.
+
+## M42 (REMOVED in M43): "Rethink your strategy" card (Claude, 2026-11-07)
 - New advisor-only card #rkBox (class "obj", under the objection card), built by renderRk() (called after renderObj in render()). Words only: no percentages, no returns, no premiums.
 - One row per goal: Extra cover needed = "Pure protection" (keep separate, low cost); each goal by years left (<=5 "Mostly guaranteed", <=10 "Guaranteed + market-based", >10 "More market-based"); Retirement = "Guaranteed". Then a wealth-creation note (fully market-based), a question to ask the customer, and the standard "guide for discussion" line.
 - CC.ret was added in the render chain so renderRk knows the retirement age.
