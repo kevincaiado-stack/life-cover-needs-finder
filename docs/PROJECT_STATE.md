@@ -1,10 +1,21 @@
 # Project State: Life Cover Needs Finder
 
 Last updated: 2026-11-07 (LATEST MILESTONE 43: Rethink your strategy card (M42) removed at the user's request, timeline already covers it; before it M41: runway time wording translated, unused Customer-card code removed; before it M40 timeline visible in Simple view, M39 runway with inflation)
-Rule: this file is updated at every milestone, then copied to GitHub, Google Drive and the Claude Project.
+Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
 
-## M43: M42 Rethink card removed (user request). History: M42 Rethink your strategy card (2026-11-07)
-- Advisor-only card under the objections: guaranteed vs market-based guidance per goal by years left, protection kept separate, retirement income guaranteed, wealth creation market-based, a question for the customer. No numbers. Hidden in print, removed from saved summary and WhatsApp text. R32 translations (441-452) await native review.
+## CURRENT VERIFIED BASELINE — M43 (2026-11-07)
+
+- **Application:** M43 removed the M42 'Rethink your strategy' advisor card because timeline guidance already covers it. M42 is historical only. M39 inflation-adjusted runway, M40 Simple-view timeline visibility and M41 seven-language runway time wording remain active.
+- **GitHub/Vercel:** main application commit `02e969152f2cc2e996436b7b39d26197de709842`; production READY and serving the same application SHA when checked on 2026-11-07. GitHub Actions mobile browser smoke and runway tests succeeded on that SHA.
+- **Official CPI:** production `/api/inflation` returned `ok:true`, `rate:5.54`, `on:09/2026`, `source:MoSPI via PIB` (official release https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3). Newer verified official rates are checked each visit and trigger recalculation. First actual next-month release detection is still pending; publication listings may lag. All older Trading Economics / `ok:false` claims below are superseded history, not present status.
+- **Rollback:** `stable-2026-11-07-pre-rk-remove` at `969105aaa093` (M42); `stable-2026-11-07-rk-removed` and `stable-2026-11-07-safe` at `02e969152f2c` (M43); `stable-2026-11-07-pre-handover-cleanup` branched from M43 before docs cleanup.
+- **Open work:** docs/PENDING_WORK.md is the prioritized source for deferred tasks and acceptance criteria. Historical entries below are retained for audit, not as current status.
+- **Change scope:** this reconciliation changes documentation only; no application code, calculation formulas, translated UI strings or product rules.
+
+### Historical milestone notes (superseded statements may follow)
+
+## M43: M42 Rethink card removed (user request, 2026-11-07)
+- M42 temporarily added an advisor-only guidance card under objections. **M43 removed that card** because the timeline already provides similar guidance. R32 rows 441-452 are historical and inactive; they do not need sign-off unless reintroduced. Preserve existing timeline and advisor-only export exclusions.
 
 ## Official CPI production recovery — 2026-11-07
 - Production Vercel /api/inflation returned **ok:true, rate:5.54, on:09/2026**, sourced directly from the official Government of India PIB release at https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3. No third-party CPI data used.
@@ -14,13 +25,13 @@ Rule: this file is updated at every milestone, then copied to GitHub, Google Dri
 - **Caveat:** Government PIB listing publication latency and source availability are outside application control; do not guarantee same-minute detection of a release or permanent 100% uptime. Monitor the next CPI publication (expected 12 Nov 2026) and verify a new official month is discovered without code changes.
 - Temporary CPI diagnostic endpoint removed after testing. Financial formulas and plan suitability unchanged.
 
-## Monthly official CPI recalculation validation — 2026-11-07
+## HISTORICAL — superseded CPI blocker — Monthly official CPI recalculation validation — 2026-11-07
 - Confirmed existing client flow: on each visit loadInfl() calls /api/inflation with no-store and cache-busting; when an official response has a valid reporting period >= saved baseline, it updates INFL/INFL_ON, saves them and calls render(). The retirement inflation projections recompute with the applied rate. An intentional higher user scenario rate is preserved.
 - Added Chromium regression checks: changing CPI changes retirement-expense projection (passed, run 42279236271); a new test stubs the official endpoint response and asserts loadInfl() updates month, rate, live state and visible projections (run pending verification).
 - **External blocker remains**: production official-only endpoint returned ok:false; a MoSPI eSankhyiki homepage KPI is not reliably exposed as server-readable HTML. Official documented CPI API is advertised at https://esankhyiki.mospi.gov.in/macroindicators?product=cpi&tab=api (GET /api/cpi/getCPIData). Its request parameters and response schema have not been validated; do not substitute an invented API integration.
 - Preserve government-only source policy. Do not claim end-to-end automatic new-month detection is operational until Vercel live response returns ok:true with a verified latest All-India Combined General CPI inflation rate.
 
-## Official-only inflation on each website visit — 2026-11-07
+## HISTORICAL — superseded homepage integration — Official-only inflation on each website visit — 2026-11-07
 - Replaced Trading Economics entirely in api/inflation.js with a direct MoSPI eSankhyiki homepage CPI KPI fetch. Every API invocation requests the government page with no-store; browser requests /api/inflation with a cache-busting timestamp on each page initialization.
 - Official-only parser requires explicit "Inflation [Month] [Year] [Rate]% Consumer Price Index" context; validates value and report period. API includes source and sourceUrl; returns ok:false rather than accepting any third-party rate when unavailable.
 - Updated all seven existing live-rate labels to MoSPI eSankhyiki and added clickable government source link beside inflation note. Financial formulas and plan rules unchanged.
@@ -41,14 +52,14 @@ Rule: this file is updated at every milestone, then copied to GitHub, Google Dri
 - First workflow run failed at the Playwright browser dependency installation step before tests could execute; changed workflow to install Chromium without system apt dependencies. Verify latest run outcome and fix any actual test failures before declaring Phase 3 complete.
 - No production application code or financial rules changed in this phase. Follow-up: test actual iOS Safari and full customer navigation/print/WhatsApp flows.
 
-## Inflation source attribution follow-up — 2026-11-07
+## HISTORICAL — superseded third-party attribution — Inflation source attribution follow-up — 2026-11-07
 - Verified official MoSPI/PIB September 2026 all-India combined CPI inflation: 5.54% (published 12 October 2026). October 2026 CPI is scheduled for release on 12 November 2026. Official reference: https://www.pib.gov.in/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3
 - Updated all seven existing live-rate labels to identify **Trading Economics (MoSPI CPI data)** rather than imply a direct MoSPI connection. Saved official September 2026 baseline and fallback messages remain unchanged.
 - Evaluated MoSPI eSankhyiki CPI catalogue: https://esankhyiki.mospi.gov.in/catalogue-main/catalogue?product=CPI . It exposes official releases, but no stable documented public API contract was verified in this task. Do not switch to an untested endpoint or scrape official PDFs in production.
 - Follow-up: integrate a verified official structured API when access/schema/uptime and regression fixtures can be validated; consider native-speaker sign-off for revised attribution translations.
 - App layout, inflation arithmetic, product rules, and supported languages were not changed.
 
-## Phase 2 — inflation reliability (2026-11-07)
+## HISTORICAL — Phase 2 inflation reliability (2026-11-07)
 - Milestone 38 remains the latest financial feature; Phase 1 added runway regression tests and short/zero-duration display fixes (commit a9851df).
 - Phase 2 adds tests/inflation.test.cjs and GitHub Actions inflation-tests.yml. The inflation endpoint now rejects HTTP error pages, invalid CPI values, future-dated reports, and reports older than four calendar months. Request timeouts are cleared on all paths.
 - The browser only accepts an API observation whose reporting month is not older than its current saved/bundled baseline. Existing inflation controls, financial formulas, seven-language strings and insurance rules are preserved.
@@ -164,8 +175,8 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Drive is one version behind (commit e5a2eff, before the remembered-rate change). Done for commit e5a2eff (SHA ff0c5004...cf8e). If the app changes, re-make the Drive parts and change EXPECT and N in the joiner. User still to test the joiner.
 - Next step: user checks the redesign on a phone, then asks for changes one at a time. Drive copy is one version behind by choice.
 
-## Routine after every change
-1. Edit the app. 2. Push to GitHub. 3. Deploy to Vercel. 4. Update Google Drive. 5. Republish the Claude artifact. 6. Replace the Project copy. 7. Update this file and the rules doc.
+## Routine after every change (current)
+1. Read main and handover/state/backlog. 2. Create pre-change rollback branch. 3. Make scoped change and run relevant tests. 4. Update handover/state/backlog and translations if changed. 5. Commit to GitHub main. 6. Verify Vercel deployment SHA and relevant live behavior. 7. Record post-change rollback ref. 8. Synchronize Claude mirrors only with verified access; do not update intentionally frozen Google Drive without user instruction.
 
 ## Related files
 - needs-finder-rules-and-status.md: plan facts, business rules, routine.
