@@ -62,8 +62,8 @@ test('M50 all seven languages and both screen modes keep HTML and WhatsApp expor
 test('M50 browser direct-print shortcut hides live advisor workspace, but exported dashboard remains printable',async()=>browserCase(async page=>{
  await page.evaluate(()=>{document.querySelector('#age').value='38';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();document.querySelector('#objBox').hidden=false;document.querySelector('#objBox').textContent='PRIVATE_ADVISOR_PRINT_MARKER'});
  await page.emulateMedia({media:'print'});
- const v=await page.evaluate(()=>({header:getComputedStyle(document.querySelector('header')).display,aside:getComputedStyle(document.querySelector('aside')).display,warning:getComputedStyle(document.body,'::before').content,html:buildSummary()}));
- assert.equal(v.header,'none');assert.equal(v.aside,'none');assert.match(v.warning,/privacy-safe customer summary/);assert.doesNotMatch(v.html,/PRIVATE_ADVISOR_PRINT_MARKER/);
+ const v=await page.evaluate(()=>({header:getComputedStyle(document.querySelector('header')).display,wrap:getComputedStyle(document.querySelector('.wrap')).display,warning:getComputedStyle(document.body,'::before').content,html:buildSummary()}));
+ assert.equal(v.header,'none');assert.equal(v.wrap,'none');assert.match(v.warning,/privacy-safe customer summary/);assert.doesNotMatch(v.html,/PRIVATE_ADVISOR_PRINT_MARKER/);
  await page.setContent(v.html,{waitUntil:'load'});
  await page.emulateMedia({media:'print'});
  const d=await page.evaluate(()=>({display:getComputedStyle(document.querySelector('#summaryPage')).display,panels:document.querySelectorAll('.panel').length,warning:getComputedStyle(document.body,'::before').content}));
