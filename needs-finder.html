@@ -28,7 +28,7 @@ label{display:block;font-weight:500;font-size:15px;margin:20px 0 8px}
 .tls:last-child{border-left-color:transparent;padding-bottom:4px}
 .tls:before{content:"";position:absolute;left:-9px;top:3px;width:15px;height:15px;border-radius:50%;background:var(--teal);border:3px solid var(--card)}
 .tls .tw{font-size:13px;color:var(--teal);font-weight:600}.tls .tn{font-weight:600}.tls .tv{color:var(--ink)}.tls .ts{font-size:13px;color:var(--mute);margin-top:2px}
-.wic{margin-top:14px;padding-top:6px;border-top:1px dashed var(--line)}
+.wic{margin-top:14px;padding-top:6px;border-top:1px dashed var(--line)}.wil{font-weight:600;margin:12px 0}.wiopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.wiopts button{min-width:0;padding:11px 2px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer}.wiopts button[aria-pressed=true]{background:var(--tealbg);border:2px solid var(--teal);color:var(--teal)}#wiCustom{width:100%;max-width:250px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--ink);font:inherit}#wiCustomL{margin:10px 0 5px}
 input[type=range]{width:100%;accent-color:var(--teal);min-height:36px}
 .fin{background:var(--tealbg);border-radius:12px;padding:16px;margin-top:16px}.fin h3{margin:0 0 6px;font-size:18px}.fin ol{margin:8px 0 12px;padding-left:20px}.fin li{margin:6px 0}
 .pm{display:flex;gap:16px;align-items:center;padding:14px;border-radius:14px;background:var(--tealbg);margin:12px 0 14px;break-inside:avoid}
@@ -239,7 +239,7 @@ details{margin:6px 0}summary{cursor:pointer;color:var(--teal);font-weight:600}su
   <div id="oRet"></div>
   <div id="oGoals"></div>
   <div class="total"><small>Total financial need</small><strong id="oTotal">₹0</strong><small id="oWords"></small></div>
-  <div id="tlBox" hidden><h3 class="ph" id="tlH"></h3><p class="hint" id="tlHint"></p><div class="tlist" id="tlList"></div><div class="wic" id="wiCtl"><label for="wiR" id="wiL"></label><input type="range" id="wiR" min="0" max="50000" step="1000" value="0"><div class="words" id="wiV"></div><p class="hint" id="wiN"></p></div></div>
+  <div id="tlBox" hidden><h3 class="ph" id="tlH"></h3><p class="hint" id="tlHint"></p><div class="tlist" id="tlList"></div><div class="wic" id="wiCtl"><div id="wiL" class="wil"></div><div class="wiopts" id="wiOpts" role="group" aria-label="Additional monthly savings"></div><label for="wiCustom" id="wiCustomL"></label><input id="wiCustom" type="number" min="0" max="1000000" step="500" inputmode="numeric" placeholder="₹"><div class="words" id="wiV"></div><p class="hint" id="wiN"></p></div></div>
   <div id="wtBox" hidden><h3 class="ph" id="wtH"></h3><p class="hint" id="wtHint"></p><div class="seg" role="group" id="wtSeg"></div><div class="tlist" id="wtList"></div><p class="hint" id="wtN"></p></div>
   <div class="viz" id="charts"></div>
   <div class="fin" id="finBox" hidden></div>
@@ -756,6 +756,9 @@ AR([["Savings and cover of {0}, minus loans of {1}, divided by monthly expenses 
 AR([["With expenses rising {0}% a year (current inflation), the same money would last about {1} years.", "खर्च हर साल {0}% बढ़ने पर (मौजूदा महँगाई), यही पैसा लगभग {1} साल चलेगा।", "ખર્ચ દર વર્ષે {0}% વધે (હાલની મોંઘવારી), તો આ જ પૈસા લગભગ {1} વર્ષ ચાલશે.", "செலவு ஆண்டுக்கு {0}% உயர்ந்தால் (தற்போதைய பணவீக்கம்), இதே பணம் சுமார் {1} ஆண்டுகள் நீடிக்கும்.", "ചെലവ് വർഷം തോറും {0}% കൂടിയാൽ (ഇപ്പോഴത്തെ പണപ്പെരുപ്പം), ഇതേ പണം ഏകദേശം {1} വർഷം നിലനിൽക്കും.", "ಖರ್ಚು ವರ್ಷಕ್ಕೆ {0}% ಏರಿದರೆ (ಈಗಿನ ಹಣದುಬ್ಬರ), ಇದೇ ಹಣ ಸುಮಾರು {1} ವರ್ಷ ಸಾಗುತ್ತದೆ.", "खर्च दरवर्षी {0}% वाढला (सध्याची महागाई), तर हाच पैसा सुमारे {1} वर्षे पुरेल."], ["The first figure uses today's expenses. Returns on your savings are not counted.", "पहला आँकड़ा आज के खर्च पर है। बचत पर मिलने वाला रिटर्न नहीं जोड़ा गया।", "પહેલો આંકડો આજના ખર્ચ પર છે. બચત પરનું રિટર્ન ગણ્યું નથી.", "முதல் எண் இன்றைய செலவை அடிப்படையாகக் கொண்டது. சேமிப்பின் மீதான வருமானம் சேர்க்கப்படவில்லை.", "ആദ്യത്തെ കണക്ക് ഇന്നത്തെ ചെലവിനെ അടിസ്ഥാനമാക്കിയാണ്. സമ്പാദ്യത്തിലെ റിട്ടേൺ ചേർത്തിട്ടില്ല.", "ಮೊದಲ ಅಂಕಿ ಇಂದಿನ ಖರ್ಚಿನ ಮೇಲೆ ಆಧಾರಿತ. ಉಳಿತಾಯದ ಮೇಲಿನ ರಿಟರ್ನ್ ಸೇರಿಸಿಲ್ಲ.", "पहिला आकडा आजच्या खर्चावर आधारित आहे. बचतीवरील रिटर्न धरलेला नाही."]]);
 AR([["With expenses rising {0}% a year (current inflation), the same money would last about {1} months.", "खर्च हर साल {0}% बढ़ने पर (मौजूदा महँगाई), यही पैसा लगभग {1} महीने चलेगा।", "ખર્ચ દર વર્ષે {0}% વધે (હાલની મોંઘવારી), તો આ જ પૈસા લગભગ {1} મહિના ચાલશે.", "செலவு ஆண்டுக்கு {0}% உயர்ந்தால் (தற்போதைய பணவீக்கம்), இதே பணம் சுமார் {1} மாதங்கள் நீடிக்கும்.", "ചെലവ് വർഷം തോറും {0}% കൂടിയാൽ (ഇപ്പോഴത്തെ പണപ്പെരുപ്പം), ഇതേ പണം ഏകദേശം {1} മാസം നിലനിൽക്കും.", "ಖರ್ಚು ವರ್ಷಕ್ಕೆ {0}% ಏರಿದರೆ (ಈಗಿನ ಹಣದುಬ್ಬರ), ಇದೇ ಹಣ ಸುಮಾರು {1} ತಿಂಗಳು ಸಾಗುತ್ತದೆ.", "खर्च दरवर्षी {0}% वाढला (सध्याची महागाई), तर हाच पैसा सुमारे {1} महिने पुरेल."]]);
 AR([["If something happened to you today, your savings and cover could support your family for about {0} months.", "अगर आज आपको कुछ हो जाए, तो आपकी बचत और कवर आपके परिवार को लगभग {0} महीने तक सहारा दे सकते हैं।", "જો આજે તમને કંઈ થઈ જાય, તો તમારી બચત અને કવર તમારા પરિવારને લગભગ {0} મહિના સુધી સહારો આપી શકે છે.", "இன்று உங்களுக்கு ஏதாவது நேர்ந்தால், உங்கள் சேமிப்பும் காப்பீடும் உங்கள் குடும்பத்தை சுமார் {0} மாதங்கள் ஆதரிக்க முடியும்.", "ഇന്ന് നിങ്ങൾക്ക് എന്തെങ്കിലും സംഭവിച്ചാൽ, നിങ്ങളുടെ സമ്പാദ്യവും കവറും കുടുംബത്തിന് ഏകദേശം {0} മാസം താങ്ങാകും.", "ಇಂದು ನಿಮಗೆ ಏನಾದರೂ ಆದರೆ, ನಿಮ್ಮ ಉಳಿತಾಯ ಮತ್ತು ಕವರ್ ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಸುಮಾರು {0} ತಿಂಗಳು ಆಸರೆಯಾಗಬಲ್ಲವು.", "आज तुम्हाला काही झाले, तर तुमची बचत आणि कव्हर तुमच्या कुटुंबाला सुमारे {0} महिने आधार देऊ शकतात."], ["If something happened to you today, your savings and cover could support your family for about 1 month.", "अगर आज आपको कुछ हो जाए, तो आपकी बचत और कवर आपके परिवार को लगभग 1 महीने तक सहारा दे सकते हैं।", "જો આજે તમને કંઈ થઈ જાય, તો તમારી બચત અને કવર તમારા પરિવારને લગભગ 1 મહિના સુધી સહારો આપી શકે છે.", "இன்று உங்களுக்கு ஏதாவது நேர்ந்தால், உங்கள் சேமிப்பும் காப்பீடும் உங்கள் குடும்பத்தை சுமார் 1 மாதம் ஆதரிக்க முடியும்.", "ഇന്ന് നിങ്ങൾക്ക് എന്തെങ്കിലും സംഭവിച്ചാൽ, നിങ്ങളുടെ സമ്പാദ്യവും കവറും കുടുംബത്തിന് ഏകദേശം 1 മാസം താങ്ങാകും.", "ಇಂದು ನಿಮಗೆ ಏನಾದರೂ ಆದರೆ, ನಿಮ್ಮ ಉಳಿತಾಯ ಮತ್ತು ಕವರ್ ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಸುಮಾರು 1 ತಿಂಗಳು ಆಸರೆಯಾಗಬಲ್ಲವು.", "आज तुम्हाला काही झाले, तर तुमची बचत आणि कव्हर तुमच्या कुटुंबाला सुमारे 1 महिना आधार देऊ शकतात."], ["If something happened to you today, your savings and cover could support your family for less than one month.", "अगर आज आपको कुछ हो जाए, तो आपकी बचत और कवर आपके परिवार को एक महीने से भी कम समय तक सहारा दे सकते हैं।", "જો આજે તમને કંઈ થઈ જાય, તો તમારી બચત અને કવર તમારા પરિવારને એક મહિનાથી ઓછા સમય સુધી સહારો આપી શકે છે.", "இன்று உங்களுக்கு ஏதாவது நேர்ந்தால், உங்கள் சேமிப்பும் காப்பீடும் உங்கள் குடும்பத்தை ஒரு மாதத்துக்கும் குறைவான காலம் ஆதரிக்க முடியும்.", "ഇന്ന് നിങ്ങൾക്ക് എന്തെങ്കിലും സംഭവിച്ചാൽ, നിങ്ങളുടെ സമ്പാദ്യവും കവറും കുടുംബത്തിന് ഒരു മാസത്തിൽ കുറഞ്ഞ കാലം താങ്ങാകും.", "ಇಂದು ನಿಮಗೆ ಏನಾದರೂ ಆದರೆ, ನಿಮ್ಮ ಉಳಿತಾಯ ಮತ್ತು ಕವರ್ ನಿಮ್ಮ ಕುಟುಂಬಕ್ಕೆ ಒಂದು ತಿಂಗಳಿಗಿಂತ ಕಡಿಮೆ ಕಾಲ ಆಸರೆಯಾಗಬಲ್ಲವು.", "आज तुम्हाला काही झाले, तर तुमची बचत आणि कव्हर तुमच्या कुटुंबाला एका महिन्यापेक्षा कमी काळ आधार देऊ शकतात."]]);
+TD["Or enter your own monthly amount (₹)"]=["Or enter your own monthly amount (₹)","या अपनी मासिक राशि दर्ज करें (₹)","અથવા તમારી માસિક રકમ દાખલ કરો (₹)","அல்லது உங்கள் மாதத் தொகையை உள்ளிடவும் (₹)","അല്ലെങ്കിൽ പ്രതിമാസ തുക നൽകുക (₹)","ಅಥವಾ ಮಾಸಿಕ ಮೊತ್ತ ನಮೂದಿಸಿ (₹)","किंवा मासिक रक्कम भरा (₹)"];
+TD["Monthly allocation: {0}; saved by goal date: {1} ({2}%); remaining: {3}"]=["Monthly allocation: {0}; saved by goal date: {1} ({2}%); remaining: {3}","मासिक आवंटन: {0}; लक्ष्य तक बचत: {1} ({2}%); शेष: {3}","માસિક ફાળવણી: {0}; લક્ષ્ય સુધી બચત: {1} ({2}%); બાકી: {3}","மாத ஒதுக்கீடு: {0}; இலக்கு நாளில் சேமிப்பு: {1} ({2}%); மீதி: {3}","പ്രതിമാസ വിഹിതം: {0}; ലക്ഷ്യസമയത്തെ സമ്പാദ്യം: {1} ({2}%); ബാക്കി: {3}","ಮಾಸಿಕ ಹಂಚಿಕೆ: {0}; ಗುರಿಯ ವೇಳೆಗೆ ಉಳಿತಾಯ: {1} ({2}%); ಬಾಕಿ: {3}","मासिक वाटप: {0}; उद्दिष्टापर्यंत बचत: {1} ({2}%); उर्वरित: {3}"];
+TD["One monthly amount is split across future goals in proportion to each goal's monthly savings need. Contributions only; no investment returns or inflation growth. Life cover is separate."]=["One monthly amount is split across future goals in proportion to each goal's monthly savings need. Contributions only; no investment returns or inflation growth. Life cover is separate.","मासिक राशि भविष्य के लक्ष्यों की मासिक जरूरत के अनुपात में बाँटी जाती है। केवल जमा राशि; रिटर्न या महँगाई वृद्धि नहीं। जीवन बीमा अलग है।","માસિક રકમ ભવિષ્યનાં લક્ષ્યોની માસિક જરૂરિયાત મુજબ વહેંચાય છે. માત્ર જમા રકમ; વળતર કે મોંઘવારી વધારો નહીં. જીવન વીમો અલગ છે.","மாதத் தொகை எதிர்கால இலக்குகளின் மாதத் தேவைக்கேற்ப பகிரப்படுகிறது. செலுத்திய தொகை மட்டும்; வருமானம் அல்லது பணவீக்க உயர்வு இல்லை. ஆயுள் காப்பீடு தனி.","പ്രതിമാസ തുക ഭാവി ലക്ഷ്യങ്ങളുടെ ആവശ്യാനുപാതത്തിൽ വിഭജിക്കുന്നു. നിക്ഷേപിച്ച തുക മാത്രം; വരുമാനമോ പണപ്പെരുപ്പ വർധനയോ ഇല്ല. ലൈഫ് കവർ വേറെയാണ്.","ಮಾಸಿಕ ಮೊತ್ತ ಭವಿಷ್ಯದ ಗುರಿಗಳ ಅಗತ್ಯಕ್ಕೆ ಅನುಗುಣವಾಗಿ ಹಂಚಲಾಗಿದೆ. ಜಮಾ ಮೊತ್ತ ಮಾತ್ರ; ಲಾಭ ಅಥವಾ ಹಣದುಬ್ಬರ ಏರಿಕೆ ಇಲ್ಲ. ಜೀವ ವಿಮೆ ಪ್ರತ್ಯೇಕ.","मासिक रक्कम भविष्यातील उद्दिष्टांच्या गरजेनुसार विभागली जाते. फक्त जमा रक्कम; परतावा किंवा महागाई वाढ नाही. जीवन विमा स्वतंत्र."];
 /*R3*/
 function tx(s){if(LANG==="en")return s;var r=TD[s];return (r&&r[LI[LANG]])||s}
 function fmt(s){var a=arguments;return tx(s).replace(/\{(\d)\}/g,function(m,i){return a[+i+1]})}
@@ -985,6 +988,7 @@ function navUi(){
 }
 function go(n){cur=Math.max(0,Math.min(STEPS.length-1,n));render();try{window.scrollTo(0,0)}catch(e){}}
 var WI=0;
+function savingsSplit(items,monthly){var eligible=items.filter(function(it){return it.y>0&&it.v>0}),weights=eligible.map(function(it){return it.v/(12*it.y)}),sum=weights.reduce(function(a,b){return a+b},0);return eligible.map(function(it,i){var share=sum?monthly*weights[i]/sum:0,contributed=share*12*it.y;return {k:it.k,monthly:share,covered:Math.min(it.v,contributed),remaining:Math.max(0,it.v-contributed),pct:Math.min(100,Math.round(contributed/it.v*100))}})}
 function nmOf(el){return String(el&&el.value||"").replace(/[<>&"]/g,"").trim().slice(0,20)}
 var WT=3;
 function renderWt(items){
@@ -1004,16 +1008,19 @@ function pcat(t){var T=t.t,H,N,Ls="";if(!T)return"";
   else return"";
   return '<div class="pcat"><b>'+esc(tx(H))+'</b><span>'+esc(tx(N))+'</span>'+(Ls?'<em>'+esc(Ls)+'</em>':'')+'</div>'}
 function renderTl(a,ret,gap,items){
-  var box=$("tlBox"),e=num($("exp").value),L=[],wi=+$("wiR").value||0;WI=wi;
-  if(gap>0)L.push({y:-1,t:"gap",w:tx("Now"),n:tx("Extra cover needed"),v:rs(gap)});
-  items.forEach(function(it){L.push({y:it.y,t:it.t,w:it.y?fmt("in {0} yrs",it.y):tx("Now"),n:it.n,v:rs(it.v),s:(wi>0&&it.y>0)?fmt("Extra saving by then: {0} ({1}% of this goal)",rs(wi*12*it.y),Math.min(100,Math.round(wi*12*it.y/it.v*100))):""})});
-  if(a&&e&&ret>a){var y=ret-a,f=e*Math.pow(1+infl()/100,y);L.push({y:y,t:"ret",w:fmt("in {0} yrs",y),n:tx("Retirement"),v:fmt("{0} a month needed",rs(f))})}
-  L.sort(function(p,q){return p.y-q.y});
-  box.hidden=!L.length;
-  $("tlH").textContent=tx("Your life timeline");$("tlHint").textContent=tx("A simple picture of the years ahead.");
-  $("tlList").innerHTML=L.map(function(t){return '<div class="tls"><div class="tw">'+esc(t.w)+'</div><div class="tn">'+esc(t.n)+'</div><div class="tv">'+esc(t.v)+'</div>'+(t.s?'<div class="ts">'+esc(t.s)+'</div>':'')+pcat(t)+'</div>'}).join("")+'<p class="pcat pcatd">'+esc(tx("A guide for discussion. The actual plan, benefits and price come only from the official brochure and quote."))+'</p>';
-  $("wiCtl").hidden=!items.length;
-  $("wiL").textContent=tx("What if you save more each month?");$("wiV").textContent=wi?fmt("Extra saving: {0} a month",rs(wi)):"";$("wiN").textContent=tx("Slide to try it. Simple saving, no returns counted.");
+ var box=$("tlBox"),e=num($("exp").value),L=[],wi=WI,shares=savingsSplit(items,wi),byKey={};
+ shares.forEach(function(sh){byKey[sh.k]=sh});
+ if(gap>0)L.push({y:-1,t:"gap",w:tx("Now"),n:tx("Extra cover needed"),v:rs(gap)});
+ items.forEach(function(it){var sh=byKey[it.k];L.push({y:it.y,t:it.t,w:it.y?fmt("in {0} yrs",it.y):tx("Now"),n:it.n,v:rs(it.v),s:wi>0&&sh?fmt("Monthly allocation: {0}; saved by goal date: {1} ({2}%); remaining: {3}",rs(sh.monthly),rs(sh.covered),sh.pct,rs(sh.remaining)):""})});
+ if(a&&e&&ret>a){var y=ret-a,f=e*Math.pow(1+infl()/100,y);L.push({y:y,t:"ret",w:fmt("in {0} yrs",y),n:tx("Retirement"),v:fmt("{0} a month needed",rs(f))})}
+ L.sort(function(p,q){return p.y-q.y});box.hidden=!L.length;
+ $("tlH").textContent=tx("Your life timeline");$("tlHint").textContent=tx("A simple picture of the years ahead.");
+ $("tlList").innerHTML=L.map(function(t){return '<div class="tls"><div class="tw">'+esc(t.w)+'</div><div class="tn">'+esc(t.n)+'</div><div class="tv">'+esc(t.v)+'</div>'+(t.s?'<div class="ts">'+esc(t.s)+'</div>':'')+pcat(t)+'</div>'}).join("")+'<p class="pcat pcatd">'+esc(tx("A guide for discussion. The actual plan, benefits and price come only from the official brochure and quote."))+'</p>';
+ $("wiCtl").hidden=!shares.length;$("wiL").textContent=tx("What if you save more each month?");
+ $("wiCustomL").textContent=tx("Or enter your own monthly amount (₹)");
+ $("wiOpts").innerHTML=[5000,10000,15000,20000,25000,50000].map(function(n){return '<button type="button" data-wi="'+n+'" aria-pressed="'+(WI===n)+'">'+rs(n)+'</button>'}).join("");
+ $("wiV").textContent=wi?fmt("Extra saving: {0} a month",rs(wi)):"";
+ $("wiN").textContent=tx("One monthly amount is split across future goals in proportion to each goal's monthly savings need. Contributions only; no investment returns or inflation growth. Life cover is separate.");
 }
 function rwY(a,ret,A,B,C,D,ex){if(!(a&&ex>0))return null;var net=C+D-B,mo=Math.max(0,net)/(ex/12);return {w:Math.max(0,ret-a),have:C+D,loans:B,net:net,mon:ex/12,mo:Math.round(mo),y:Math.round(mo/12*10)/10}}
 function rwInf(N,E,g){g=(+g||0)/100;if(!(N>0&&E>0))return 0;return g>0?Math.log(1+N*g/E)/Math.log(1+g):N/E}
@@ -1237,6 +1244,7 @@ document.addEventListener("click",function(e){
     $("qMsg").hidden=true;WHO=1;applyWho();setMode("age");$("age").value=qa;$("inc").value=qi;$("exp").value=$("qexp").value;
     QS=false;QSM=true;EXM=false;go(4);return}
   var wh=e.target.closest("button[data-who]");if(wh){QSM=false;EXM=false;WHO=+wh.dataset.who;applyWho();go(1);return}
+  var sb=e.target.closest("button[data-wi]");if(sb){WI=+sb.dataset.wi;$("wiCustom").value=WI;render();return}
   var wb=e.target.closest("button[data-wt]");if(wb){WT=+wb.dataset.wt;render();return}
   var rb=e.target.closest("button[data-rec]");
   if(rb){showRec=rb.dataset.rec==="1";render();return}
@@ -1251,6 +1259,7 @@ document.addEventListener("click",function(e){
 document.addEventListener("toggle",function(e){if(e.target.classList&&e.target.classList.contains("gc"))render()},true);
 $("resetBtn").onclick=function(){location.reload()};
 document.addEventListener("input",function(e){
+  if(e.target.id==="wiCustom"){WI=Math.max(0,Math.min(1000000,Number(e.target.value)||0));render();return}
   if(e.target.classList.contains("money"))money(e.target);
   render();
 });
