@@ -1,7 +1,11 @@
 # Project State: Life Cover Needs Finder
 
-Last updated: 2026-11-07 — M48 compliance export hardening; M47 dashboard; M46 earlier.
+Last updated: 2026-11-07 — M49 primary insurer claim ratio verification and correction.
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
+
+## M49 — Claim-settlement figures reconciled to insurer primary publications
+- Updated FY2025–26 individual death-claim settlement figure to 99.52% per insurer homepage; retained FY2024–25 99.43% per insurer annual report. The FY26 press release separately cites 99.6% without matching explicit metric definition; FY25 overall individual+group is 99.38%. App now clarifies distinctions and links primary sources. See `docs/CLAIMS_SOURCE_AUDIT_M49.md`.
+- Automated regression test added. IRDAI official handbook independent reconciliation and compliance sign-off still outstanding; financial calculations and exports unchanged.
 
 ## M48 — Compliance hardening without formula changes
 - Saved customer-summary exporter now uses an explicit allowlist of six panels, preventing future advisor-only sections from being accidentally included. Quick-start, objection, sales talking points, voice and product suggestion UI excluded. Training disclaimer remains. Automated regression tests added.
