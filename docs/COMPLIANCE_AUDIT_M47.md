@@ -4,6 +4,10 @@ Date: 2026-11-07
 Status: **Preliminary code/content audit completed; formal compliance approval NOT granted.**
 Scope: GitHub `main` application (M46 baseline, followed by M47 saved-summary layout-only change), advisor guidance, financial illustrations, protection/goal language, disclosure, source references, export controls. This review is not legal, regulatory, actuarial or insurer compliance certification.
 
+## M49 C01 primary-source reconciliation update (2026-11-07)
+- Displayed FY2025–26 claim ratio corrected from 99.6% to **99.52% individual death claims** per official insurer website. FY2024–25 **99.43% individual** confirmed in official insurer annual report. FY26 press release's 99.6% statement lacks the same explicit denominator/category and cannot be assumed to be a simple rounding of 99.52%; FY25 **99.38%** is a different overall individual+group measure.
+- **C01 insurer-primary-source verification complete for displayed figures; independent IRDAI workbook reconciliation and compliance/legal wording sign-off remain OPEN.** Details and links in `docs/CLAIMS_SOURCE_AUDIT_M49.md`. No formal regulatory approval claimed.
+
 ## M48 remediation and closure evidence (2026-11-07)
 
 **Remediated in code, pending real-output QA:** C06 — saved-summary HTML now exports an explicit allowlist of six customer-visible sections (`nmBox`, `rwBox`, `pmBox`, `tlBox`, `mdBox`, `finBox`) instead of indiscriminately serializing any new section. The advisor-only `tpBox`, `objBox`, `ccBox`, `sayBox`, `qsBox`, voice controls, suggestions and product category blocks are excluded. Training-only disclaimer remains visible. M48 automated regression tests cover populated advisor sections and disclaimer. This is a **technical mitigation**, not a compliance sign-off; real iPhone print, HTML, PDF and WhatsApp inspection is still needed.
