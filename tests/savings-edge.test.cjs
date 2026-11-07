@@ -1,0 +1,15 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const html=fs.readFileSync(require('node:path').join(__dirname,'../needs-finder.html'),'utf8');
+const begin=html.indexOf('function savingsSplit('),end=html.indexOf('function nmOf(',begin);
+assert.ok(begin>=0&&end>begin,'Savings allocation function found');
+const ctx={Math};vm.createContext(ctx);vm.runInContext(html.slice(begin,end),ctx);
+const split=(items,monthly)=>Array.from(ctx.savingsSplit(items,monthly),x=>({...x}));
+test('due-now, past-due and zero-value goals are not assigned future savings',()=>{const x=split([{k:'now',y:0,v:5000},{k:'past',y:-1,v:5000},{k:'empty',y:2,v:0},{k:'future',y:2,v:24000}],1000);assert.deepEqual(x.map(v=>v.k),['future']);assert.equal(x[0].monthly,1000)});
+test('fully funded goal caps covered and remaining at its goal amount',()=>{const x=split([{k:'a',y:1,v:1200}],1000000);assert.equal(x[0].covered,1200);assert.equal(x[0].remaining,0);assert.equal(x[0].pct,100)});
+test('zero monthly savings produces zero contributions',()=>{const x=split([{k:'a',y:2,v:24000}],0);assert.equal(x[0].covered,0);assert.equal(x[0].remaining,24000)});
+test('maximum allowed custom amount stays finite with ordinary goals',()=>{const x=split([{k:'a',y:1,v:120000},{k:'b',y:10,v:1200000}],1000000);assert.ok(x.every(v=>Object.values(v).filter(n=>typeof n==='number').every(Number.isFinite)));assert.ok(Math.abs(x.reduce((s,v)=>s+v.monthly,0)-1000000)<1e-7)});
+test('proportional allocations conserve monthly budget within floating-point tolerance',()=>{const x=split([{k:'a',y:3,v:100001},{k:'b',y:7,v:345678},{k:'c',y:13,v:999999}],25000);assert.ok(Math.abs(x.reduce((s,v)=>s+v.monthly,0)-25000)<1e-7);assert.ok(x.every(v=>v.covered>=0&&v.remaining>=0&&v.pct<=100))});
+test('zero eligible goals yield no allocations',()=>assert.equal(split([{k:'now',y:0,v:1000}],5000).length,0));
