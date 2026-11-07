@@ -4,6 +4,7 @@ Last updated: 2026-11-07 (M45 UX1-UX8 built; PREVIOUS MILESTONE 43; CURRENT M44:
 Rule: GitHub main is authoritative. Update this file with milestone changes and commit to main. Google Drive is intentionally frozen at e5a2eff; Claude Project/artifact synchronization must be verified separately, never assumed.
 
 ## UX program (2026-11-07): UX1-UX8, see AI_HANDOVER.md. Built so far (in order): see lines below.
+- UX9 DONE: Objection answers have no-gap wording when the customer is fully covered (gap Rs 0); Returns are poor answer improved (M46) (branch stable-2026-11-07-ux9)
 - UX8 DONE: Saved summary: header shows Prepared for <name> and date, training disclaimer at top, compact print layout (A4), detail section starts on its own page. Not a strict one-pager: the example family prints on 3 pages (UX8) (branch stable-2026-11-07-ux8)
 - UX7 DONE: Polish: red cover gap / green when covered (colour tokens, dark mode too), 44px tap targets on touch screens, larger Indic line spacing (UX7) (branch stable-2026-11-07-ux7)
 - UX6 DONE: Language switcher: larger 44px select with globe icon, native-script names kept, no iPhone zoom (16px) (UX6) (branch stable-2026-11-07-ux6)

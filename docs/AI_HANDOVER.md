@@ -1,9 +1,15 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-07 (M45 UX1-UX8 current; M44, M43 earlier)
+Updated: 2026-11-07 (M46 objection no-gap fix; M45 UX1-UX8; M44, M43 earlier)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## M46: objection answers when cover gap is zero (Claude, 2026-11-07)
+- Bug from user screenshot: with a fully covered customer (gap Rs 0) answers said "protect the gap of Rs 0". Fix: each affected objection in OBJS now has an optional `z` object (no-gap wording for d/e/x/w); renderObj uses it when CC.gap<=0 (Object.assign merge). Objections with z: too expensive, think about it, already have insurance, mutual funds, spouse/parents (w only), liquidity, returns are poor. Others never mention the gap.
+- "Returns are poor" was also improved for gap>0: cover gives a fixed sum; growing money is spread part safe, part growing. No-gap version: protection is done, safe money grows slowly and growing money is not safe, spread by years left. No returns promised.
+- 18 new strings x 7 languages (translation-review.csv, tag OBJ0); native-speaker review pending. Old Returns d/x rows are now unused (harmless).
+- Rollback: stable-2026-11-07-pre-obj0 (before), stable-2026-11-07-ux9 (after).
 
 ## M45: UX1-UX8 DONE (Claude, 2026-11-07) - read this before touching the UI
 - Rollback: `stable-2026-11-07-pre-ux` (before all), plus `-pre-uxN` / `-uxN` per step. Tests green at each step (runway 9, inflation 5, mobile-smoke 8).
