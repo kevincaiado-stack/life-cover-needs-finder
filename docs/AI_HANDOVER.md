@@ -1,9 +1,15 @@
 # AI Handover — Life Cover Needs Finder
 
-Updated: 2026-11-08 (M50 export privacy hardening; M49 claims; M48 compliance)
+Updated: 2026-11-08 (M51 language audit; M50 export privacy; M49 claims)
 Repository: https://github.com/kevincaiado-stack/life-cover-needs-finder
 Production: https://life-cover-needs-finder.vercel.app/
 Canonical branch: main
+
+## M51 — Priority 4 translation audit and review-register reconciliation (2026-11-08)
+- Audited 468 runtime translation keys in English + six Indian languages. No blank translations or numbered-placeholder mismatches found. Added automated runtime dictionary/CSV parity and language formatting checks.
+- Reconciled `docs/translation-review.csv`: updated obsolete source/translations for IDs **213** (official CPI), **360** (runway objection), **389** (shared decision objection), and registered missing **468** (joint-decision objection). Existing app translations copied unchanged; no new translation invented. M44 savings, M45 UX and M46 zero-gap scripts remain flagged for native-speaker review. See `docs/LANGUAGE_AUDIT_M51.md`.
+- **P0 native-speaker and compliance sign-off remains OPEN**, including English-only M47/M49 newly authored content. Financial calculations, claim ratios and privacy/export logic unchanged. Next Priority 5: real iPhone Safari / print dashboard QA, with Start/Skip.
+- Pre-change rollback: `stable-2026-11-08-pre-m51-language-audit`.
 
 ## M50 — Priority 3 export privacy audit and direct-print fix (2026-11-08)
 - **Found/fixed:** Browser direct print of the live advisor workspace bypassed the standalone saved-summary allowlist. App print CSS now suppresses the live workspace and instructs users to use the in-app Print or save as PDF action, which prints the sanitized landscape dashboard with overflow appendix.
