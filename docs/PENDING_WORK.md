@@ -1,8 +1,13 @@
 # Deferred Work Register — Life Cover Needs Finder
 
-Updated: 2026-11-07 | Current application milestone: **M51** | Source of truth: GitHub `main`
+Updated: 2026-11-07 | Current application milestone: **M52** | Source of truth: GitHub `main`
 
 This is the **authoritative future-work queue** shared by Claude and ChatGPT. Read alongside `docs/AI_HANDOVER.md` and `docs/PROJECT_STATE.md`. No item below is permission to change financial rules or publish unapproved advice. Update status and evidence links as tasks are completed. Priorities reflect risk, not a commitment to build without user approval.
+
+## M52 — Priority 5 iPhone/print QA: automated fixes complete, physical sign-off open
+- **P1 IPHONE / PRINT technical remediation DONE:** A4 landscape first page measured at 194mm printable height; 281mm width, conditional appendix retaining every panel, font-ready print, PDF regression and seven-language export checks. **19/19 Chromium tests passed.** See `docs/IPHONE_PRINT_AUDIT_M52.md`.
+- **P1 physical iPhone Safari verification OPEN:** customer/advisor modes, tap targets, real iOS print preview/PDF, saved HTML, WhatsApp external UI, long multi-goal appendix and Indic-script clipping. Require screenshots without customer data and iOS version. Do not call this complete until actual device review.
+- **Next Priority 6 — P1 CPI:** verify official MoSPI/PIB freshness, stale/offline behavior, month label and recalculation, Start or Skip. Do not change financial rules without approval.
 
 ## M51 — Priority 4 language audit: structural fix completed, approvals open
 - **P0 LANGUAGE automated integrity: DONE.** 468 runtime keys checked across six translations; no blanks or placeholder mismatches. CSV review register reconciled (IDs 213, 360, 378, 389 updated, 468 added), automated source-key parity test added. See `docs/LANGUAGE_AUDIT_M51.md`.
