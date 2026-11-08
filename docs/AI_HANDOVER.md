@@ -1,5 +1,11 @@
 # AI Handover
 
+## M75/M76 user acceptance + safe rollback point (2026-11-08, 20:14 IST)
+- User tested on a real iPhone: saved-summary **Fit page / Larger / Largest** works (M75), and the sharper **Download summary PDF** (M76, capture scale 3) is "perfect". Treat both as **accepted by the user**. This closes the phone-read-view and PDF-sharpness requests only; native-speaker review of the 3 new button labels (READVIEW rows in `translation-review.csv`), compliance sign-off and all-7-language real-device checks remain open.
+- Verified: GitHub `main` = `02d756aa024fd88aaa5e7408ac170a8fb8910c7b`; Vercel production deployment `dpl_6kQbPSsXo39u33ynYUUYU7AiBfjw` is READY on the **same SHA**; all 17 test files pass (M75b).
+- **Safe rollback point:** branch `stable-2026-11-08-m76-user-accepted` at `02d756a`. Do not modify it. Earlier points: `stable-2026-11-08-pre-sharppdf`, `stable-2026-11-08-readview`, `stable-2026-11-08-pre-readview`, `stable-2026-11-08-m66-user-accepted-pdf`.
+- Only documentation changed in this checkpoint; no app code.
+
 ## M76 — Sharper downloaded PDF (Claude, 2026-11-08)
 - User confirmed Larger/Largest works on the saved summary page, but asked for the same on "Download summary PDF". A PDF image cannot hold buttons, so (user chose "Sharper PDF") html2canvas capture scale raised 2 -> 3 (line ~1373) so pinch-zoom on a phone stays crisp. Same 3 pages, same layout, jsPDF/CDN flow unchanged. Test added in `tests/pdf-download.test.cjs` (7 tests).
 - Not verified: real iPhone PDF (could not run html2canvas offline here). Expected page canvas ~3190x2190 px (~7M px, under iOS canvas limit) but if download fails on iPhone, set scale back to 2 (rollback branch `stable-2026-11-08-pre-sharppdf`). Other options offered but not chosen: phone-size PDF; button opening Larger view.

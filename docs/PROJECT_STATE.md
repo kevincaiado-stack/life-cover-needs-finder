@@ -403,3 +403,5 @@ M75 DONE (2026-11-08): phone read view (Fit page/Larger/Largest) in saved summar
 M75b DONE (2026-11-08): fixed 2 stale CPI tests + api/inflation.js rejects current unpublished month; all 17 test files pass.
 
 M76 DONE (2026-11-08): PDF capture scale 3 for sharper phone zoom; needs real iPhone check.
+
+M76 ACCEPTED (2026-11-08 20:14 IST): user confirmed phone read view + sharper PDF on real iPhone. Rollback branch stable-2026-11-08-m76-user-accepted at 02d756a. Production READY on same SHA.
