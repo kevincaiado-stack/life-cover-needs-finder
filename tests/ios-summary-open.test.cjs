@@ -1,6 +1,5 @@
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const s=fs.readFileSync(require('node:path').join(__dirname,'../needs-finder.html'),'utf8');
-test('iOS detection includes iPhone iPad and touch Mac iPadOS',()=>{assert.match(s,/function isIOSSummaryDevice\(\)/);assert.match(s,/iPad\|iPhone\|iPod/);assert.match(s,/navigator\.maxTouchPoints>1/)});
-test('iOS summary opens synchronously before any await',()=>{const p=s.indexOf('$("dlBtn").onclick=async function()'),i=s.indexOf('if(isIOSSummaryDevice())',p),a=s.indexOf('await ',p);assert.ok(p>0&&i>p&&a>i);assert.match(s.slice(i,a),/openSavedSummaryPreview\(html\)/)});
-test('iOS preview writes the same generated summary to a new tab',()=>{assert.match(s,/var w=window\.open\("","_blank"\)/);assert.match(s,/w\.document\.write\(html\)/)});
-test('desktop retains downloadable HTML and revokes blob URL',()=>{assert.match(s,/a\.download=name/);assert.match(s,/URL\.revokeObjectURL\(url\)/)});
-test('three landscape sheets and export privacy remain intact',()=>{assert.match(s,/id="summaryPage"/);assert.match(s,/id="summaryAppendix"/);assert.match(s,/id="summaryDetail"/);assert.match(s,/Explicit allowlist: never export future advisor-only UI/);assert.match(s,/@page\{size:A4 landscape;margin:8mm\}/)});
+test('M65 supersedes M64 iOS HTML preview with direct PDF download',()=>{assert.match(s,/\$\("dlBtn"\)\.onclick=function\(\)\{downloadSummaryPdf\(\)\}/);assert.doesNotMatch(s,/openSavedSummaryPreview/)});
+test('direct PDF download works through browser save link',()=>{assert.match(s,/link\.download="life-cover-needs-summary\.pdf"/);assert.match(s,/link\.click\(\)/)});
+test('three-sheet landscape export preserved',()=>{assert.match(s,/id="summaryPage"/);assert.match(s,/id="summaryAppendix"/);assert.match(s,/id="summaryDetail"/);assert.match(s,/@page\{size:A4 landscape;margin:8mm\}/)});
+test('privacy allowlist unchanged',()=>{assert.match(s,/Explicit allowlist: never export future advisor-only UI/)});
