@@ -1,0 +1,19 @@
+name: M70 language coverage and gap ledger
+on:
+  push:
+    branches: [main]
+    paths:
+      - needs-finder.html
+      - docs/translation-review.csv
+      - tests/language-gaps-m70.test.cjs
+      - .github/workflows/language-gaps-m70.yml
+  workflow_dispatch:
+jobs:
+  language:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/language-gaps-m70.test.cjs
