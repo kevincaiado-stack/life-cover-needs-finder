@@ -1,5 +1,10 @@
 # AI Handover
 
+## M77 user acceptance + safe rollback point (2026-11-08, 20:21 IST)
+- User checked on a real iPhone: the translated **Download summary PDF** button, tip line and messages work in the selected language ("Yes it works"). M77 is **accepted by the user**. Native-speaker approval of the 8 new texts (`docs/native-review-buttons-M75-M77.csv`) is still pending.
+- **Safe rollback point:** branch `stable-2026-11-08-m77-user-accepted` at commit `7e5aa5b` (app code from M77 `26f5553` plus a test-pattern fix). Previous accepted point: `stable-2026-11-08-m76-user-accepted`.
+- Documentation-only checkpoint; no app code changed.
+
 ## M77 — Download summary PDF button translated in all 7 languages (Claude, 2026-11-08)
 - User asked that buttons change with the selected language. Audit (Hindi, Tamil, then all 7): the Fit page/Larger/Largest buttons and Print button already translated; only **Download summary PDF**, its tip line (`#dlHint`, contains `<b>`) and the three status messages (preparing / requested / could not be prepared with `{0}`) were hard-coded English. Added 5 `AR` rows (tag DLPDF in `translation-review.csv`) and wrapped the messages in `tx()`/`fmt()`. No layout, PDF, formula or privacy change.
 - Verified in Chromium for en/hi/gu/ta/ml/kn/mr: button, hint (bold kept) and messages show the right language, no page errors; all 18 test files pass (`tests/pdf-download.test.cjs` now 8 tests).
