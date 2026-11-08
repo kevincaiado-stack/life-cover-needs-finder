@@ -405,3 +405,5 @@ M75b DONE (2026-11-08): fixed 2 stale CPI tests + api/inflation.js rejects curre
 M76 DONE (2026-11-08): PDF capture scale 3 for sharper phone zoom; needs real iPhone check.
 
 M76 ACCEPTED (2026-11-08 20:14 IST): user confirmed phone read view + sharper PDF on real iPhone. Rollback branch stable-2026-11-08-m76-user-accepted at 02d756a. Production READY on same SHA.
+
+M77 DONE (2026-11-08): Download summary PDF button/hint/messages translated in 7 languages; native review list docs/native-review-buttons-M75-M77.csv; pending user check.

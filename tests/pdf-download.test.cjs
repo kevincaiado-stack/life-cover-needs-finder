@@ -7,3 +7,4 @@ test('financial panel privacy allowlist and print unchanged',()=>{assert.match(s
 
 test('PDF rasterization avoids CSS zoom text overlap',()=>{assert.match(s,/inner\.style\.zoom="1"/);assert.match(s,/stage\.style\.zoom="1"/);assert.match(s,/window\.html2canvas\(inner,/);assert.doesNotMatch(s,/window\.html2canvas\(sheets\[i\]/);assert.match(s,/ratio=Math\.min\(maxW\/canvas\.width,maxH\/canvas\.height\)/)});
 test('PDF capture uses scale 3 for sharp pinch-zoom text',()=>{assert.match(s,/html2canvas\(inner,\{scale:3,/)});
+test('PDF download button, hint and messages are translated (no hard-coded English)',()=>{assert.match(s,/dlNote\(tx\("Preparing your three-page PDF download/);assert.match(s,/dlNote\(fmt\("PDF download could not be prepared/);assert.match(s,/\["Download summary PDF","/)});

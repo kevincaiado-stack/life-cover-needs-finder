@@ -1,5 +1,11 @@
 # AI Handover
 
+## M77 — Download summary PDF button translated in all 7 languages (Claude, 2026-11-08)
+- User asked that buttons change with the selected language. Audit (Hindi, Tamil, then all 7): the Fit page/Larger/Largest buttons and Print button already translated; only **Download summary PDF**, its tip line (`#dlHint`, contains `<b>`) and the three status messages (preparing / requested / could not be prepared with `{0}`) were hard-coded English. Added 5 `AR` rows (tag DLPDF in `translation-review.csv`) and wrapped the messages in `tx()`/`fmt()`. No layout, PDF, formula or privacy change.
+- Verified in Chromium for en/hi/gu/ta/ml/kn/mr: button, hint (bold kept) and messages show the right language, no page errors; all 18 test files pass (`tests/pdf-download.test.cjs` now 8 tests).
+- Note: a status message already on screen does not re-translate until the next click (minor, accepted).
+- Review list for native speakers: `docs/native-review-buttons-M75-M77.csv` (8 rows: READVIEW 3 + DLPDF 5). **Pending native-speaker approval.** Rollback: `stable-2026-11-08-pre-dltr` (before) and `stable-2026-11-08-m76-user-accepted` (last accepted).
+
 ## M75/M76 user acceptance + safe rollback point (2026-11-08, 20:14 IST)
 - User tested on a real iPhone: saved-summary **Fit page / Larger / Largest** works (M75), and the sharper **Download summary PDF** (M76, capture scale 3) is "perfect". Treat both as **accepted by the user**. This closes the phone-read-view and PDF-sharpness requests only; native-speaker review of the 3 new button labels (READVIEW rows in `translation-review.csv`), compliance sign-off and all-7-language real-device checks remain open.
 - Verified: GitHub `main` = `02d756aa024fd88aaa5e7408ac170a8fb8910c7b`; Vercel production deployment `dpl_6kQbPSsXo39u33ynYUUYU7AiBfjw` is READY on the **same SHA**; all 17 test files pass (M75b).
