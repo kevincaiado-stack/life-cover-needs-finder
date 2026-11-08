@@ -1,3 +1,13 @@
+# AI Handover
+
+## M75 — Phone read view for the saved summary, same layout (Claude, 2026-11-08)
+- User asked: "add a phone friendly view but ensure the layout stays identical." Built on top of M62/M63 (3 fixed A4-landscape sheets, viewport width=1062) and merged with the other AI's M64–M74 (all auto-merged, no conflicts).
+- Change (only inside the saved-summary export, `SUM_CSS` + summary script + summary body HTML): a bottom toolbar `#viewBar` with three buttons **Fit page** (default, whole sheet fits phone), **Larger**, **Largest**. Shown only on touch devices with screen <900px; hidden in print/PDF (`.tb{display:none!important}`). `setView(n)` swaps `<meta viewport>` between `width=1062` and `width=device-width,initial-scale=1`, adds `body.rd`, sets stage zoom = clientWidth/1062 × 2.2 (Larger) or 3.2 (Largest); `.vp` wrapper scrolls sideways. Sheets, panels, order and print/PDF output are unchanged (same 3 sheets; Chromium check: sheet width/height ratio identical, PDF still 3 pages, no `{n}` placeholders).
+- 3 new labels in 7 languages (rows in `AR`, tag READVIEW in `docs/translation-review.csv`) — **native-speaker review pending**.
+- Test added to `tests/summary-layout.test.cjs` (8 tests). Rollback branches: `stable-2026-11-08-pre-readview` (before this change) and `stable-2026-11-08-readview` (after).
+- **Not verified:** real iPhone Safari (dynamic viewport-meta switching is only tested in Chromium emulation). If Larger/Largest do not zoom on a real iPhone, fall back to zoom only (keep width=1062) and scroll in `.vp`. The M66 html2canvas PDF capture is untouched (toolbar is outside the sheets); source tests pass but a fresh iPhone PDF check is advised.
+- **Pre-existing failures on origin/main (not from M75, not fixed):** `tests/mobile-smoke.test.cjs` test 6 (CPI official API: 5.54 !== 6.54) and `tests/cpi-rollover-m71.test.cjs` (SyntaxError: Unexpected token '}'). Owner: whoever continues M71–M74 CPI work.
+
 # AI Handover — Life Cover Needs Finder
 
 ## M63 current-state verification — ChatGPT, 2026-11-08 14:10 IST
