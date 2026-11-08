@@ -6,3 +6,4 @@ test('download uses PDF extension and releases resources',()=>{assert.match(s,/l
 test('financial panel privacy allowlist and print unchanged',()=>{assert.match(s,/var panelIds=\["nmBox","rwBox","pmBox","tlBox","mdBox","finBox"\]/);assert.match(s,/Explicit allowlist: never export future advisor-only UI/);assert.match(s,/@page\{size:A4 landscape;margin:8mm\}/)});
 
 test('PDF rasterization avoids CSS zoom text overlap',()=>{assert.match(s,/inner\.style\.zoom="1"/);assert.match(s,/stage\.style\.zoom="1"/);assert.match(s,/window\.html2canvas\(inner,/);assert.doesNotMatch(s,/window\.html2canvas\(sheets\[i\]/);assert.match(s,/ratio=Math\.min\(maxW\/canvas\.width,maxH\/canvas\.height\)/)});
+test('PDF capture uses scale 3 for sharp pinch-zoom text',()=>{assert.match(s,/html2canvas\(inner,\{scale:3,/)});

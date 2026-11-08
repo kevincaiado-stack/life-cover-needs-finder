@@ -1,5 +1,9 @@
 # AI Handover
 
+## M76 — Sharper downloaded PDF (Claude, 2026-11-08)
+- User confirmed Larger/Largest works on the saved summary page, but asked for the same on "Download summary PDF". A PDF image cannot hold buttons, so (user chose "Sharper PDF") html2canvas capture scale raised 2 -> 3 (line ~1373) so pinch-zoom on a phone stays crisp. Same 3 pages, same layout, jsPDF/CDN flow unchanged. Test added in `tests/pdf-download.test.cjs` (7 tests).
+- Not verified: real iPhone PDF (could not run html2canvas offline here). Expected page canvas ~3190x2190 px (~7M px, under iOS canvas limit) but if download fails on iPhone, set scale back to 2 (rollback branch `stable-2026-11-08-pre-sharppdf`). Other options offered but not chosen: phone-size PDF; button opening Larger view.
+
 ## M75 — Phone read view for the saved summary, same layout (Claude, 2026-11-08)
 - User asked: "add a phone friendly view but ensure the layout stays identical." Built on top of M62/M63 (3 fixed A4-landscape sheets, viewport width=1062) and merged with the other AI's M64–M74 (all auto-merged, no conflicts).
 - Change (only inside the saved-summary export, `SUM_CSS` + summary script + summary body HTML): a bottom toolbar `#viewBar` with three buttons **Fit page** (default, whole sheet fits phone), **Larger**, **Largest**. Shown only on touch devices with screen <900px; hidden in print/PDF (`.tb{display:none!important}`). `setView(n)` swaps `<meta viewport>` between `width=1062` and `width=device-width,initial-scale=1`, adds `body.rd`, sets stage zoom = clientWidth/1062 × 2.2 (Larger) or 3.2 (Largest); `.vp` wrapper scrolls sideways. Sheets, panels, order and print/PDF output are unchanged (same 3 sheets; Chromium check: sheet width/height ratio identical, PDF still 3 pages, no `{n}` placeholders).

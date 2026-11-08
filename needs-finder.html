@@ -1370,7 +1370,7 @@ async function downloadSummaryPdf(){
       sheet.style.zoom="1";sheet.style.transform="none";
       // Force a normal layout before rasterizing; never capture scaled text.
       void inner.offsetHeight;
-      var canvas=await window.html2canvas(inner,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false,windowWidth:1100,scrollX:0,scrollY:0});
+      var canvas=await window.html2canvas(inner,{scale:3,backgroundColor:"#ffffff",useCORS:true,logging:false,windowWidth:1100,scrollX:0,scrollY:0});
       if(i)pdf.addPage("a4","landscape");
       var maxW=281,maxH=193,ratio=Math.min(maxW/canvas.width,maxH/canvas.height);
       var outW=canvas.width*ratio,outH=canvas.height*ratio;

@@ -401,3 +401,5 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 M75 DONE (2026-11-08): phone read view (Fit page/Larger/Largest) in saved summary, layout identical; merged with M64–M74; known failing: mobile-smoke test 6 and cpi-rollover-m71 syntax (pre-existing).
 
 M75b DONE (2026-11-08): fixed 2 stale CPI tests + api/inflation.js rejects current unpublished month; all 17 test files pass.
+
+M76 DONE (2026-11-08): PDF capture scale 3 for sharper phone zoom; needs real iPhone check.
