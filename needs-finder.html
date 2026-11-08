@@ -1320,13 +1320,28 @@ function buildSummary(){
 }
 
 function dlNote(t){$("dlHint").textContent=t}
+function isIOSSummaryDevice(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1)}
+function openSavedSummaryPreview(html){
+  // Open synchronously on tap: iOS blocks windows opened after an async download.
+  var w=window.open("","_blank");
+  if(!w){dlNote("Safari blocked the summary preview. Open this website directly in Safari and allow pop-ups, or use Print or save as PDF.");return false}
+  try{w.document.open();w.document.write(html);w.document.close();w.focus();return true}
+  catch(e){try{w.close()}catch(_){}dlNote("Unable to open the summary preview. Use Print or save as PDF in Safari.");return false}
+}
 $("dlBtn").onclick=async function(){
   var html=buildSummary(),name="life-cover-needs-summary.html";
+  // iOS Files/Quick Look may reject standalone HTML even when its contents are valid.
+  // Show the same generated three-sheet HTML in a browser tab; Safari Share > Print
+  // or the document's Print button saves an interoperable PDF.
+  if(isIOSSummaryDevice()){
+    if(openSavedSummaryPreview(html))dlNote("Summary opened in a new Safari tab. To keep a copy, tap Print or save as PDF, then save the PDF to Files. iPhone Files may not open downloaded .html files.");
+    return;
+  }
   try{
     var dl=(typeof claude!=="undefined"&&claude.use)?await claude.use("downloads"):null;
     if(dl){await dl.save({filename:name,data:html});return}
   }catch(e){if(e&&e.code==="declined")return;dlNote(tx("Saving did not work here. Please try again."));return}
-  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));a.download=name;document.body.appendChild(a);a.click();a.remove();
+  var a=document.createElement("a"),url=URL.createObjectURL(new Blob([html],{type:"text/html;charset=utf-8"}));a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},60000);
 };
 $("printBtn").onclick=function(){try{var w=window.open("","_blank");if(!w)throw Error("blocked");w.document.open();w.document.write(buildSummary());w.document.close();var run=function(){try{if(w.closed)return;if(typeof w.summaryDashboardLayout==="function")w.summaryDashboardLayout();w.focus();w.print()}catch(e){dlNote(tx("The print window is blocked here. Tap Save summary file instead."))}};var ready=w.document.fonts&&w.document.fonts.ready;if(ready)ready.then(run,run);else setTimeout(run,500);}catch(e){dlNote(tx("The print window is blocked here. Tap Save summary file instead."))}};
 var reopen=[];
