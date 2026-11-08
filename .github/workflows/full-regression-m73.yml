@@ -1,0 +1,33 @@
+name: M73 full regression gate
+on:
+  push:
+    branches: [main]
+    paths:
+      - needs-finder.html
+      - api/**
+      - tests/**
+      - docs/translation-review.csv
+      - .github/workflows/full-regression-m73.yml
+  workflow_dispatch:
+jobs:
+  all-node-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check api/inflation.js
+          find tests -name '*.test.cjs' -print0 | xargs -0 -n1 node --check
+      - name: Run all Node regression tests
+        run: node --test tests/*.test.cjs
+      - name: Check critical files are tracked
+        run: |
+          test -s needs-finder.html
+          test -s docs/translation-review.csv
+          test -s docs/AI_HANDOVER.md
+          test -s docs/PROJECT_STATE.md
+          test -s docs/PENDING_WORK.md
