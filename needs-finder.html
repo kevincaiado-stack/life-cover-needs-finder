@@ -264,8 +264,8 @@ html.simple .rw p:first-of-type{font-size:18px;font-weight:600;line-height:1.4}h
   </details>
   <div class="fin" id="finBox" hidden></div>
   <p class="pdate" id="pdate"></p>
-  <div class="acts"><button type="button" class="add" id="waBtn">Share summary on WhatsApp</button> <button type="button" class="add" id="printBtn">Print or save as PDF</button> <button type="button" class="add" id="dlBtn">Save summary file</button> <button type="button" class="add" id="resetBtn">Start over</button></div>
-  <p class="hint" id="dlHint">If the print window does not open, tap <b>Save summary file</b>, open the saved file, and print or save as PDF from there.</p>
+  <div class="acts"><button type="button" class="add" id="waBtn">Share summary on WhatsApp</button> <button type="button" class="add" id="printBtn">Print or save as PDF</button> <button type="button" class="add" id="dlBtn">Download summary PDF</button> <button type="button" class="add" id="resetBtn">Start over</button></div>
+  <p class="hint" id="dlHint">Tap <b>Download summary PDF</b> to save a three-page PDF to your browser downloads. The file is generated on your device.</p>
 </aside>
 </div>
 <div class="tour" id="tour" hidden role="dialog" aria-modal="true"><div class="tb"><button type="button" class="tx" id="tourX" aria-label="Close">&times;</button><div class="tn" id="tourN"></div><h3 id="tourH"></h3><p id="tourT"></p><div class="qrow"><button type="button" class="add" id="tourBack"></button><button type="button" class="add qs" id="tourNext"></button></div></div></div>
@@ -987,10 +987,26 @@ var UI=INFL,LIVE=false,INFL_SOURCE="https://www.pib.gov.in/PressReleasePage.aspx
 function pnum(t){var v=parseFloat(String(t).replace(",",".").trim());return isFinite(v)?v:INFL}
 function infl(){return Math.max(INFL,Math.min(30,pnum(UI)))}
 function ym(t){var p=String(t).split("/");return (+p[1])*12+(+p[0])}
-function loadInfl(){try{var sv=JSON.parse(localStorage.getItem("ncInfl")||"null");if(sv&&sv.rate>0&&sv.rate<25&&ym(sv.on)>ym(INFL_ON)){INFL=sv.rate;INFL_ON=sv.on;UI=INFL}}catch(e){}
+function officialCpiLink(url){return /^https:\/\/www\.pib\.gov\.in\/PressReleasePage\.aspx\?PRID=\d+(?:&|$)/.test(String(url||""))}
+function cpiObservation(d){return d&&Number.isFinite(d.rate)&&d.rate>0&&d.rate<25&&/^\d{2}\/20\d{2}$/.test(String(d.on))&&(+String(d.on).slice(0,2)>=1)&&(+String(d.on).slice(0,2)<=12)&&officialCpiLink(d.sourceUrl)}
+function loadInfl(){
+  // Keep the last official month, rate and matching source URL together.
+  // Legacy cache entries without a verifiable source URL are ignored.
+  try{var sv=JSON.parse(localStorage.getItem("ncInfl")||"null");
+    if(cpiObservation(sv)&&ym(sv.on)>ym(INFL_ON)){INFL=sv.rate;INFL_ON=sv.on;INFL_SOURCE=sv.sourceUrl;UI=INFL}
+  }catch(e){}
   try{var c=new AbortController(),to=setTimeout(function(){c.abort()},8000);
-  fetch(INFL_API+"?t="+Date.now(),{signal:c.signal,cache:"no-store"}).then(function(r){return r.json()}).then(function(d){clearTimeout(to);
-    if(d&&d.ok&&d.rate>0&&d.rate<25&&/^\d{2}\/20\d{2}$/.test(String(d.on))&&ym(d.on)>=ym(INFL_ON)){var was=(UI===INFL);INFL=d.rate;INFL_ON=d.on;LIVE=true;if(/^https:\/\/www\.pib\.gov\.in\/PressReleasePage\.aspx\?PRID=\d+/.test(String(d.sourceUrl)))INFL_SOURCE=d.sourceUrl;try{localStorage.setItem("ncInfl",JSON.stringify({rate:d.rate,on:d.on}))}catch(e){}if(was||pnum(UI)<INFL)UI=INFL;render()}}).catch(function(){})}catch(e){}}
+    fetch(INFL_API+"?t="+Date.now(),{signal:c.signal,cache:"no-store"}).then(function(r){return r.json()}).then(function(d){clearTimeout(to);
+      // A failed/stale/older official response must never replace the last verified observation.
+      if(d&&d.ok&&!d.stale&&cpiObservation(d)&&ym(d.on)>=ym(INFL_ON)){
+        var was=(UI===INFL),newer=ym(d.on)>ym(INFL_ON);
+        INFL=d.rate;INFL_ON=d.on;INFL_SOURCE=d.sourceUrl;LIVE=true;
+        try{localStorage.setItem("ncInfl",JSON.stringify({rate:d.rate,on:d.on,sourceUrl:d.sourceUrl}))}catch(e){}
+        if(was||newer&&pnum(UI)<INFL)UI=INFL;
+        render();
+      }
+    }).catch(function(){clearTimeout(to)})}catch(e){}
+}
 function stepInfl(d){UI=Math.max(INFL,Math.min(30,Math.round((infl()+d)*100)/100));render()}
 function renderRet(a,ret){
   var e=num($("exp").value),box=$("retBox"),sm=$("oRet"),i=infl();
@@ -1321,14 +1337,54 @@ function buildSummary(){
 }
 
 function dlNote(t){$("dlHint").textContent=t}
-$("dlBtn").onclick=async function(){
-  var html=buildSummary(),name="life-cover-needs-summary.html";
+function loadPdfLibrary(url,check){
+  if(check())return Promise.resolve();
+  return new Promise(function(resolve,reject){
+    var el=document.createElement("script");el.src=url;el.onload=function(){check()?resolve():reject(Error("PDF library unavailable"))};el.onerror=function(){reject(Error("PDF library download failed"))};document.head.appendChild(el);
+  });
+}
+async function downloadSummaryPdf(){
+  var btn=$("dlBtn"),frame=null;
+  btn.disabled=true;dlNote("Preparing your three-page PDF download…");
   try{
-    var dl=(typeof claude!=="undefined"&&claude.use)?await claude.use("downloads"):null;
-    if(dl){await dl.save({filename:name,data:html});return}
-  }catch(e){if(e&&e.code==="declined")return;dlNote(tx("Saving did not work here. Please try again."));return}
-  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([html],{type:"text/html"}));a.download=name;document.body.appendChild(a);a.click();a.remove();
-};
+    // Render entirely in the browser; personal financial information is not uploaded.
+    await loadPdfLibrary("https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js",function(){return typeof window.html2canvas==="function"});
+    await loadPdfLibrary("https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js",function(){return !!(window.jspdf&&window.jspdf.jsPDF)});
+    frame=document.createElement("iframe");frame.setAttribute("title","Temporary PDF summary renderer");frame.setAttribute("aria-hidden","true");
+    frame.style.cssText="position:fixed;left:-12000px;top:0;width:1100px;height:900px;border:0;visibility:visible;pointer-events:none";
+    document.body.appendChild(frame);
+    var doc=frame.contentDocument;doc.open();doc.write(buildSummary());doc.close();
+    if(doc.fonts&&doc.fonts.ready)await doc.fonts.ready;
+    await new Promise(function(r){requestAnimationFrame(function(){requestAnimationFrame(r)})});
+    // html2canvas mispositions and overlaps text inside CSS zoom (notably iOS Safari).
+    // Capture each sheet's content at its natural, unzoomed size, then fit that
+    // single image into the same A4 landscape printable area in the PDF.
+    var sheets=Array.from(doc.querySelectorAll(".stage > .sheet"));
+    if(sheets.length!==3)throw Error("Expected three summary sheets");
+    var stage=doc.querySelector(".stage");stage.style.zoom="1";
+    var pdf=new window.jspdf.jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
+    for(var i=0;i<sheets.length;i++){
+      var sheet=sheets[i],inner=sheet.querySelector(".si");
+      if(!inner)throw Error("Summary sheet content missing");
+      inner.style.zoom="1";inner.style.transform="none";
+      sheet.style.zoom="1";sheet.style.transform="none";
+      // Force a normal layout before rasterizing; never capture scaled text.
+      void inner.offsetHeight;
+      var canvas=await window.html2canvas(inner,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false,windowWidth:1100,scrollX:0,scrollY:0});
+      if(i)pdf.addPage("a4","landscape");
+      var maxW=281,maxH=193,ratio=Math.min(maxW/canvas.width,maxH/canvas.height);
+      var outW=canvas.width*ratio,outH=canvas.height*ratio;
+      pdf.addImage(canvas.toDataURL("image/png"),"PNG",8+(maxW-outW)/2,8,outW,outH,undefined,"FAST");
+    }
+    var blob=pdf.output("blob"),url=URL.createObjectURL(blob),link=document.createElement("a");
+    link.href=url;link.download="life-cover-needs-summary.pdf";document.body.appendChild(link);link.click();link.remove();
+    setTimeout(function(){URL.revokeObjectURL(url)},60000);
+    dlNote("PDF download requested. Check Safari Downloads or Files > Downloads. If your browser shows the PDF instead, use Share > Save to Files.");
+  }catch(e){
+    dlNote("PDF download could not be prepared ("+(e&&e.message?e.message:"browser error")+"). Try Print or save as PDF in Safari.");
+  }finally{if(frame)frame.remove();btn.disabled=false}
+}
+$("dlBtn").onclick=function(){downloadSummaryPdf()};
 $("printBtn").onclick=function(){try{var w=window.open("","_blank");if(!w)throw Error("blocked");w.document.open();w.document.write(buildSummary());w.document.close();var run=function(){try{if(w.closed)return;if(typeof w.summaryDashboardLayout==="function")w.summaryDashboardLayout();w.focus();w.print()}catch(e){dlNote(tx("The print window is blocked here. Tap Save summary file instead."))}};var ready=w.document.fonts&&w.document.fonts.ready;if(ready)ready.then(run,run);else setTimeout(run,500);}catch(e){dlNote(tx("The print window is blocked here. Tap Save summary file instead."))}};
 var reopen=[];
 window.addEventListener("beforeprint",function(){

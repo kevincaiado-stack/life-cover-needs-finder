@@ -7,10 +7,13 @@ function parseRelease(html,url){
  const text=String(html).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]*>/g,' ').replace(/&nbsp;|&#160;|&amp;/gi,' ').replace(/\s+/g,' ');
  const heading=/PRESS RELEASE OF CONSUMER PRICE INDEX ON BASE 2024=100 FOR\s+(January|February|March|April|May|June|July|August|September|October|November|December),?\s*(20\d{2})/i.exec(text);
  if(!heading||!/Ministry of Statistics/i.test(text))return null;
- const rate=/Year-on-year inflation rate based on All India Consumer Price Index \(CPI\)[^.!]{0,240}?\bis\s+(-?\d{1,2}(?:\.\d{1,2})?)\s*%/i.exec(text)
- || /Retail inflation based on Consumer Price Index in\s+(?:January|February|March|April|May|June|July|August|September|October|November|December),?\s*20\d{2}\s+is\s+(-?\d{1,2}(?:\.\d{1,2})?)\s*%/i.exec(text);
- if(!rate)return null;
- return {month:MONTHS.findIndex(x=>x.toLowerCase()===heading[1].toLowerCase())+1,year:Number(heading[2]),rate:Number(rate[1]),sourceUrl:url};
+ // Bind the rate's reporting month/year to the official release headline.
+ const monthPattern='(January|February|March|April|May|June|July|August|September|October|November|December)';
+ const primary=new RegExp('Year-on-year inflation rate based on All India Consumer Price Index \\(CPI\\)[^.!]{0,240}?for the month of\\s+'+monthPattern+',?\\s*(20\\d{2})[^.!]{0,150}?\\bis\\s+(-?\\d{1,2}(?:\\.\\d{1,2})?)\\s*%','i');
+ const secondary=new RegExp('Retail inflation based on Consumer Price Index in\\s+'+monthPattern+',?\\s*(20\\d{2})\\s+is\\s+(-?\\d{1,2}(?:\\.\\d{1,2})?)\\s*%','i');
+ const rate=primary.exec(text)||secondary.exec(text);
+ if(!rate||rate[1].toLowerCase()!==heading[1].toLowerCase()||rate[2]!==heading[2])return null;
+ return {month:MONTHS.findIndex(x=>x.toLowerCase()===heading[1].toLowerCase())+1,year:Number(heading[2]),rate:Number(rate[3]),sourceUrl:url};
 }
 function valid(p,now=new Date()){if(!p||!Number.isFinite(p.rate)||p.rate<=-25||p.rate>=25)return false;const n=now.getUTCFullYear()*12+now.getUTCMonth()+1,k=p.year*12+p.month;return p.month>=1&&p.month<=12&&k<=n&&n-k<=4}
 function candidates(html){const out=[];const rx=/<a\b[^>]*href=['"]([^'"]+)['"][^>]*>([\s\S]*?)<\/a>/gi;let m;while((m=rx.exec(String(html)))){const label=m[2].replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');if(!/PRESS RELEASE OF CONSUMER PRICE INDEX ON BASE 2024=100 FOR/i.test(label))continue;const id=/PRID=(\d+)/i.exec(m[1]);if(id)out.push(PIB+'/PressReleasePage.aspx?PRID='+id[1]+'&lang=1&reg=3')}return [...new Set(out)]}

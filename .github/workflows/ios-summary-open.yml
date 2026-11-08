@@ -1,0 +1,21 @@
+name: M64 iOS saved summary opening
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'needs-finder.html'
+      - 'tests/ios-summary-open.test.cjs'
+      - '.github/workflows/ios-summary-open.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ios-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/ios-summary-open.test.cjs tests/summary-layout.test.cjs
+      - run: node --test tests/approved-product-copy.test.cjs tests/eligibility-boundaries.test.cjs tests/income-suitability.test.cjs tests/savings-edge.test.cjs tests/product-catalog-consistency.test.cjs

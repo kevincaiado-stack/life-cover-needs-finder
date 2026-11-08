@@ -1,0 +1,17 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const vm=require('node:vm');
+const src=fs.readFileSync(path.join(__dirname,'../needs-finder.html'),'utf8');
+const csv=fs.readFileSync(path.join(__dirname,'../docs/translation-review.csv'),'utf8');
+const locales=['en','hi','gu','ta','ml','kn','mr'];
+const start=src.indexOf('var ROWS=['),end=src.indexOf('function tx(',start);assert.ok(start>=0&&end>start);
+const runtime={TD:{}};vm.runInNewContext(src.slice(start,end),runtime,{timeout:5000});
+const rows=Object.values(runtime.TD);
+const placeholders=s=>(String(s).match(/\{\d+\}/g)||[]).sort();
+test('seven locale selector and complete assembled translated dictionary',()=>{for(const lang of locales)assert.match(src,new RegExp('\\["'+lang+'","'));assert.ok(rows.length>=468);for(const [i,row] of rows.entries()){assert.equal(row.length,7,'row '+(i+1));for(const [j,v] of row.entries())assert.ok(typeof v==='string'&&v.trim(),'empty translation row '+(i+1)+' column '+j)}});
+test('all translated placeholder multisets match English',()=>{for(const [i,row] of rows.entries())for(let j=1;j<7;j++)assert.deepEqual(placeholders(row[j]),placeholders(row[0]),'row '+(i+1)+' locale '+locales[j])});
+test('translation register includes every active English source key',()=>{for(const row of rows)assert.ok(csv.includes('"'+row[0].replace(/"/g,'""')+'"'),'missing register key: '+row[0].slice(0,80))});
+test('product and claims disclosures requiring professional translation are tracked as gaps',()=>{assert.match(src,/Canara HSBC Life individual death claims settled \(by number\)/);assert.match(src,/The FY2025-26 press release quotes a rounded 99\.6%/);assert.match(src,/Minimum premium varies by variant and premium paying term/);assert.match(src,/Minimum premium varies by option/);for(const term of ['Canara HSBC Life individual death claims settled (by number):','The FY2025-26 press release quotes','Minimum premium varies by variant and premium paying term'])assert.equal(csv.includes(term),false,'previously unregistered hardcoded disclosure changed: review audit inventory')});
+test('runtime English fallback is explicit and cannot be called a translation',()=>{assert.match(src,/function tx\(s\)\{if\(LANG==="en"\)return s;var r=TD\[s\];return \(r&&r\[LI\[LANG\]\]\)\|\|s\}/)});

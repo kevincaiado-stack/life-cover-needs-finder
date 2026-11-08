@@ -1,0 +1,20 @@
+name: M72 automatic CPI source link
+on:
+  push:
+    branches: [main]
+    paths:
+      - needs-finder.html
+      - api/inflation.js
+      - tests/cpi-source-link-m72.test.cjs
+      - tests/cpi-rollover-m71.test.cjs
+      - .github/workflows/cpi-source-link-m72.yml
+  workflow_dispatch:
+jobs:
+  cpi-source-link:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/cpi-source-link-m72.test.cjs tests/cpi-rollover-m71.test.cjs tests/inflation.test.cjs
