@@ -10,5 +10,6 @@ test('saved summary uses one fixed A4 landscape sheet layout on every screen (no
 test('summary has aligned number columns and full-width key panels',()=>{assert.match(ctx.SUM_CSS,/font-variant-numeric:tabular-nums/);assert.match(ctx.SUM_CSS,/#panel-nmBox,#panel-mdBox\{grid-column:1\/-1\}/)});
 test('print preserves A4 landscape with one page per sheet',()=>{assert.match(ctx.SUM_CSS,/@page\{size:A4 landscape;margin:8mm\}/);assert.doesNotMatch(ctx.SUM_CSS,/margin:9mm/);assert.match(ctx.SUM_CSS,/break-after:page/)});
 test('generated summary keeps only explicitly allowed result panels',()=>{assert.match(src,/var panelIds=\["nmBox","rwBox","pmBox","tlBox","mdBox","finBox"\]/);assert.match(src,/Explicit allowlist: never export future advisor-only UI/)});
-test('overflowing sheets shrink to fit instead of splitting or deleting content',()=>{assert.match(src,/function summaryDashboardLayout\(\)/);assert.match(src,/c\.style\.zoom=Math\.max\(\.35,avail\/h/)});
+test('overflowing sheets shrink to fit instead of splitting or deleting content',()=>{assert.match(src,/function summaryDashboardLayout\(\)/);assert.match(src,/var z=Math\.max\(\.1,avail\/h/)});
 test('summary builder retains print action and disclaimer',()=>{assert.match(src,/discHtml=disc\?disc\.outerHTML/);assert.match(src,/Print or save as PDF/)});
+test('saved summary tells phones to fit the full 281mm sheet width (no partial page)',()=>{assert.match(src,/<meta name="viewport" content="width=1062">/);assert.doesNotMatch(src,/overflow-x:hidden\}\.stage/);assert.match(ctx.SUM_CSS,/min-width:1062px/)});

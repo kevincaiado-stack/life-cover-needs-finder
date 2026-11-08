@@ -1,5 +1,7 @@
 # Project State: Life Cover Needs Finder
 
+## M63 (2026-11-08): phone fix for saved summary (viewport width=1062, whole page fits screen, pinch to zoom); see AI_HANDOVER.md M63.
+
 ## M62 (2026-11-08): saved summary and Print/PDF share one fixed 3-sheet A4 landscape layout; see AI_HANDOVER.md M62. Tests green.
 
 ## M56 — Priority 9 eligibility and disclosure audit (2026-11-07)
