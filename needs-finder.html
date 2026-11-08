@@ -1339,14 +1339,25 @@ async function downloadSummaryPdf(){
     var doc=frame.contentDocument;doc.open();doc.write(buildSummary());doc.close();
     if(doc.fonts&&doc.fonts.ready)await doc.fonts.ready;
     await new Promise(function(r){requestAnimationFrame(function(){requestAnimationFrame(r)})});
-    if(frame.contentWindow.summaryDashboardLayout)frame.contentWindow.summaryDashboardLayout();
+    // html2canvas mispositions and overlaps text inside CSS zoom (notably iOS Safari).
+    // Capture each sheet's content at its natural, unzoomed size, then fit that
+    // single image into the same A4 landscape printable area in the PDF.
     var sheets=Array.from(doc.querySelectorAll(".stage > .sheet"));
     if(sheets.length!==3)throw Error("Expected three summary sheets");
+    var stage=doc.querySelector(".stage");stage.style.zoom="1";
     var pdf=new window.jspdf.jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
     for(var i=0;i<sheets.length;i++){
-      var canvas=await window.html2canvas(sheets[i],{scale:1.6,backgroundColor:"#ffffff",useCORS:true,logging:false,windowWidth:1100});
+      var sheet=sheets[i],inner=sheet.querySelector(".si");
+      if(!inner)throw Error("Summary sheet content missing");
+      inner.style.zoom="1";inner.style.transform="none";
+      sheet.style.zoom="1";sheet.style.transform="none";
+      // Force a normal layout before rasterizing; never capture scaled text.
+      void inner.offsetHeight;
+      var canvas=await window.html2canvas(inner,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false,windowWidth:1100,scrollX:0,scrollY:0});
       if(i)pdf.addPage("a4","landscape");
-      pdf.addImage(canvas.toDataURL("image/jpeg",0.91),"JPEG",8,8,281,193,undefined,"FAST");
+      var maxW=281,maxH=193,ratio=Math.min(maxW/canvas.width,maxH/canvas.height);
+      var outW=canvas.width*ratio,outH=canvas.height*ratio;
+      pdf.addImage(canvas.toDataURL("image/png"),"PNG",8+(maxW-outW)/2,8,outW,outH,undefined,"FAST");
     }
     var blob=pdf.output("blob"),url=URL.createObjectURL(blob),link=document.createElement("a");
     link.href=url;link.download="life-cover-needs-summary.pdf";document.body.appendChild(link);link.click();link.remove();
