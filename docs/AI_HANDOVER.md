@@ -6,7 +6,7 @@
 - 3 new labels in 7 languages (rows in `AR`, tag READVIEW in `docs/translation-review.csv`) — **native-speaker review pending**.
 - Test added to `tests/summary-layout.test.cjs` (8 tests). Rollback branches: `stable-2026-11-08-pre-readview` (before this change) and `stable-2026-11-08-readview` (after).
 - **Not verified:** real iPhone Safari (dynamic viewport-meta switching is only tested in Chromium emulation). If Larger/Largest do not zoom on a real iPhone, fall back to zoom only (keep width=1062) and scroll in `.vp`. The M66 html2canvas PDF capture is untouched (toolbar is outside the sheets); source tests pass but a fresh iPhone PDF check is advised.
-- **Pre-existing failures on origin/main (not from M75, not fixed):** `tests/mobile-smoke.test.cjs` test 6 (CPI official API: 5.54 !== 6.54) and `tests/cpi-rollover-m71.test.cjs` (SyntaxError: Unexpected token '}'). Owner: whoever continues M71–M74 CPI work.
+- **M75b fixes (2026-11-08):** all 17 test files now pass. (1) `tests/mobile-smoke.test.cjs` test 6: mock CPI response lacked `sourceUrl`, which the app now (correctly) requires — mock updated, app unchanged. (2) `tests/cpi-rollover-m71.test.cjs`: stray `});` syntax error removed. (3) `api/inflation.js` `valid()`: changed `k<=n` to `k<n` so the current, not-yet-published month is rejected (matches the M71 test intent: future months rejected). Re-check this API rule if CPI rollover misbehaves.
 
 # AI Handover — Life Cover Needs Finder
 

@@ -15,7 +15,7 @@ function parseRelease(html,url){
  if(!rate||rate[1].toLowerCase()!==heading[1].toLowerCase()||rate[2]!==heading[2])return null;
  return {month:MONTHS.findIndex(x=>x.toLowerCase()===heading[1].toLowerCase())+1,year:Number(heading[2]),rate:Number(rate[3]),sourceUrl:url};
 }
-function valid(p,now=new Date()){if(!p||!Number.isFinite(p.rate)||p.rate<=-25||p.rate>=25)return false;const n=now.getUTCFullYear()*12+now.getUTCMonth()+1,k=p.year*12+p.month;return p.month>=1&&p.month<=12&&k<=n&&n-k<=4}
+function valid(p,now=new Date()){if(!p||!Number.isFinite(p.rate)||p.rate<=-25||p.rate>=25)return false;const n=now.getUTCFullYear()*12+now.getUTCMonth()+1,k=p.year*12+p.month;return p.month>=1&&p.month<=12&&k<n&&n-k<=4}
 function candidates(html){const out=[];const rx=/<a\b[^>]*href=['"]([^'"]+)['"][^>]*>([\s\S]*?)<\/a>/gi;let m;while((m=rx.exec(String(html)))){const label=m[2].replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');if(!/PRESS RELEASE OF CONSUMER PRICE INDEX ON BASE 2024=100 FOR/i.test(label))continue;const id=/PRID=(\d+)/i.exec(m[1]);if(id)out.push(PIB+'/PressReleasePage.aspx?PRID='+id[1]+'&lang=1&reg=3')}return [...new Set(out)]}
 async function get(url){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),6500);try{const r=await fetch(url,{signal:ctl.signal,cache:'no-store',headers:{accept:'text/html'}});if(!r.ok)throw Error('official HTTP '+r.status);return await r.text()}finally{clearTimeout(to)}}
 module.exports=async(req,res)=>{

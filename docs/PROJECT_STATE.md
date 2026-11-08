@@ -399,3 +399,5 @@ A single-file web app (needs-finder.html) that helps advisors work out a custome
 - Follow-up: after Vercel daily quota resets, deploy latest GitHub HEAD and confirm production alias commit matches; separately inspect Actions UI for M73 full regression and M74 CPI tests/live smoke. Keep existing 5.54% September 2026 CPI and its official source until October official release is verified. No financial calculations changed.
 
 M75 DONE (2026-11-08): phone read view (Fit page/Larger/Largest) in saved summary, layout identical; merged with M64–M74; known failing: mobile-smoke test 6 and cpi-rollover-m71 syntax (pre-existing).
+
+M75b DONE (2026-11-08): fixed 2 stale CPI tests + api/inflation.js rejects current unpublished month; all 17 test files pass.
