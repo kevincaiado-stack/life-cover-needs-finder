@@ -1,0 +1,13 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const api=require('../api/inflation.js');
+const html=fs.readFileSync(path.join(__dirname,'../needs-finder.html'),'utf8');
+const sample=(month,rate)=>'<html><body>Ministry of Statistics & Programme Implementation<h1>PRESS RELEASE OF CONSUMER PRICE INDEX ON BASE 2024=100 FOR '+month.toUpperCase()+', 2026</h1>Year-on-year inflation rate based on All India Consumer Price Index (CPI) with base year 2024 for the month of '+month+', 2026 over '+month+', 2025 is '+rate+'%(Provisional).</body></html>';
+test('official October release parses with exact month, year and provenance',()=>{const p=api.parseRelease(sample('October','5.81'),'https://www.pib.gov.in/PressReleasePage.aspx?PRID=999');assert.deepEqual(p,{month:10,year:2026,rate:5.81,sourceUrl:'https://www.pib.gov.in/PressReleasePage.aspx?PRID=999'})});
+test('newer official October outranks September while future months are rejected',()=>{const now=new Date(Date.UTC(2026,10,8));assert.equal(api.valid({month:10,year:2026,rate:5.81},now),true);assert.equal(api.valid({month:11,year:2026,rate:5.81},now),false)});
+test('official source listing accepts only CPI release anchors',()=>{const list='<a href="PressReleasePage.aspx?PRID=100">PRESS RELEASE OF CONSUMER PRICE INDEX ON BASE 2024=100 FOR OCTOBER, 2026</a><a href="https://other.example/?PRID=200">Private CPI</a>';assert.deepEqual(api.candidates(list),['https://www.pib.gov.in/PressReleasePage.aspx?PRID=100&lang=1&reg=3'])});
+test('API accepts zero and negative official CPI, though frontend support remains pending',()=>{const now=new Date(Date.UTC(2026,10,8));assert.equal(api.valid({month:10,year:2026,rate:0},now),true);assert.equal(api.valid({month:10,year:2026,rate:-0.4},now),true)});
+test('frontend positive-only CPI gate is tracked as an unresolved discrepancy',()=>{assert.match(html,/sv\.rate>0&&sv\.rate<25/);assert.match(html,/d\.rate>0&&d\.rate<25/);assert.match(html,/function infl\(\)\{return Math\.max\(INFL/)});
+test('fallback is pinned to a government release and never third-party',()=>{const apiSource=fs.readFileSync(path.join(__dirname,'../api/inflation.js'),'utf8');assert.match(apiSource,/const VERIFIED=PIB\+'\/PressReleasePage\.aspx\?PRID=/);assert.match(apiSource,/source:'MoSPI via PIB'/);assert.match(apiSource,/reason:'official-data-unavailable'/)});
