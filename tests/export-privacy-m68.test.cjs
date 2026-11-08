@@ -5,7 +5,7 @@ const path=require('node:path');
 const src=fs.readFileSync(path.join(__dirname,'../needs-finder.html'),'utf8');
 const locales=['en','hi','gu','ta','ml','kn','mr'];
 function section(a,b){const start=src.indexOf(a);assert.ok(start>=0,'missing '+a);const end=src.indexOf(b,start+a.length);assert.ok(end>start,'missing end '+b);return src.slice(start,end)}
-const summary=section('function buildSummary(){','function sumText(){');
+const summary=section('function buildSummary(){','function loadPdfLibrary(');
 const share=section('function sumText(){','function waShare(){');
 const pdf=section('async function downloadSummaryPdf(){','$("dlBtn").onclick=');
 test('all seven supported locales are represented in source',()=>{for(const l of locales)assert.match(src,new RegExp('\\b'+l+'\\s*:|["\\x27]'+l+'["\\x27]'))});
