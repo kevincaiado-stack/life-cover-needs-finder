@@ -88,3 +88,8 @@ How it works: the goal opens in "Help me work it out". Cost today x (1 + inflati
 - Native speakers should review the Hindi, Gujarati, Tamil, Malayalam, Kannada and Marathi wording, especially compliance lines.
 - Decide whether to refresh the Drive parts after the next change (the joiner's check code is for b8304b5).
 - Note: a gap of exactly Rs 25 lakh counts as "25 lakh or more". A red Century Milestone note for under-50s with a Rs 40 to 50 lakh gap was dropped earlier.
+
+## Latest accepted milestone (2026-11-08, M76)
+- Saved summary has a phone read view (Fit page / Larger / Largest) with the same 3-sheet layout; Download summary PDF is sharper (capture scale 3). Both confirmed by the user on a real iPhone.
+- Safe rollback branch: `stable-2026-11-08-m76-user-accepted` (commit 02d756a). Full details in `docs/AI_HANDOVER.md` (section M75/M76).
+- Still open: native-speaker review of the 3 new button labels, compliance sign-off. Google Drive is NOT updated unless the user asks.
