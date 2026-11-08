@@ -1,5 +1,11 @@
 # AI Handover — Life Cover Needs Finder
 
+## M61 — Claude sync of M47-M60 (Claude, 2026-11-08 11:5x IST)
+- Claude pulled GitHub main (other AI's M47-M60, head `4fa3bea`) and synced: Claude artifact, Claude Project copies (needs-finder.html, AI_HANDOVER.md, PROJECT_STATE.md, PENDING_WORK.md, translation-review.csv). No app code changed by Claude in this step.
+- Vercel finding: the last production deployment before this step was commit `164b8c8` (M59 docs). M60 commits (`985f691` summary alignment app change, tests, docs) had NOT been deployed (no Vercel deployments after M59; consistent with the earlier build-rate-limit note). This docs commit was pushed once, on a new day, to trigger one deployment of HEAD. Verify production SHA matches main before claiming M60 live.
+- Claude's earlier work (M42-M46: UX1-UX8, objection no-gap wording, rollback branches `stable-2026-11-07-ux1..ux9`, `-pre-ux`, `-pre-obj0`) is part of main; see the M45/M46 sections.
+- Still open: native-speaker review of M45/M46 strings (review CSV), compliance sign-off, physical iPhone check of M60 summary print/PDF, Vercel quota.
+
 ## M56 — Priority 9 eligibility and disclosure audit (2026-11-07)
 - Audited `rec0` and product details (`PD`) in `needs-finder.html`. Existing global recommendation age gate is 18–65, while product detail tables include child entry ages (e.g. Income Now Early Income 0–50) and differing Promise4Future variants (Savings4Future 0–60, Income4Future 0–55). These are **potential scope/eligibility mismatches**, not confirmed product errors; do not change without current insurer brochures and compliance approval.
 - Current guaranteed immediate-income recommendation includes age 50 and excludes 51; PPC display ages 18–50 for Wealth Edge and 18–55 for iSelect wording. Short education goal <5 years suppresses recommendation; exactly 5 years triggers Wealth Edge. Training-only disclosure text exists in the source. No app HTML, approved business rules, formulas, or translations changed.
