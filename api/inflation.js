@@ -7,8 +7,12 @@ function parseRelease(html,url){
  const text=String(html).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]*>/g,' ').replace(/&nbsp;|&#160;|&amp;/gi,' ').replace(/\s+/g,' ');
  const heading=/PRESS RELEASE OF CONSUMER PRICE INDEX ON BASE 2024=100 FOR\s+(January|February|March|April|May|June|July|August|September|October|November|December),?\s*(20\d{2})/i.exec(text);
  if(!heading||!/Ministry of Statistics/i.test(text))return null;
- const rate=/Year-on-year inflation rate based on All India Consumer Price Index \(CPI\)[^.!]{0,240}?\bis\s+(-?\d{1,2}(?:\.\d{1,2})?)\s*%/i.exec(text)
- || /Retail inflation based on Consumer Price Index in\s+(?:January|February|March|April|May|June|July|August|September|October|November|December),?\s*20\d{2}\s+is\s+(-?\d{1,2}(?:\.\d{1,2})?)\s*%/i.exec(text);
+ // Bind the published rate to the SAME month/year as the release headline.
+ // Without this, an October headline with September's rate could be misattributed.
+ const month=heading[1],year=heading[2];
+ const primary=new RegExp('Year-on-year inflation rate based on All India Consumer Price Index \\(CPI\\)[^.!]{0,240}?for the month of '+month+',?\\\\s*'+year+'[^.!]{0,150}?\\\\bis\\\\s+(-?\\\\d{1,2}(?:\\\\.\\\\d{1,2})?)\\\\s*%', 'i');
+ const secondary=new RegExp('Retail inflation based on Consumer Price Index in\\\\s+'+month+',?\\\\s*'+year+'\\\\s+is\\\\s+(-?\\\\d{1,2}(?:\\\\.\\\\d{1,2})?)\\\\s*%', 'i');
+ const rate=primary.exec(text)||secondary.exec(text);
  if(!rate)return null;
  return {month:MONTHS.findIndex(x=>x.toLowerCase()===heading[1].toLowerCase())+1,year:Number(heading[2]),rate:Number(rate[1]),sourceUrl:url};
 }
