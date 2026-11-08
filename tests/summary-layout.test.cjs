@@ -6,9 +6,9 @@ const src=fs.readFileSync(require('node:path').join(__dirname,'../needs-finder.h
 const start=src.indexOf('var SUM_CSS='),end=src.indexOf('function buildSummary()',start);
 assert.ok(start>=0&&end>start,'summary CSS block exists');
 const ctx={};vm.createContext(ctx);vm.runInContext(src.slice(start,end),ctx);
-test('responsive summary uses single-column phone layout',()=>{assert.match(ctx.SUM_CSS,/max-width:700px/);assert.match(ctx.SUM_CSS,/grid-template-columns:minmax\(0,1fr\)/)});
+test('saved summary uses one fixed A4 landscape sheet layout on every screen (no phone-only re-layout)',()=>{assert.doesNotMatch(ctx.SUM_CSS,/max-width:700px/);assert.match(ctx.SUM_CSS,/\.sheet\{width:281mm;height:193mm/)});
 test('summary has aligned number columns and full-width key panels',()=>{assert.match(ctx.SUM_CSS,/font-variant-numeric:tabular-nums/);assert.match(ctx.SUM_CSS,/#panel-nmBox,#panel-mdBox\{grid-column:1\/-1\}/)});
-test('print preserves A4 landscape and appendix',()=>{assert.match(ctx.SUM_CSS,/@page\{size:A4 landscape;margin:9mm\}/);assert.match(ctx.SUM_CSS,/\.appendix\{break-before:page/)});
+test('print preserves A4 landscape with one page per sheet',()=>{assert.match(ctx.SUM_CSS,/@page\{size:A4 landscape;margin:8mm\}/);assert.doesNotMatch(ctx.SUM_CSS,/margin:9mm/);assert.match(ctx.SUM_CSS,/break-after:page/)});
 test('generated summary keeps only explicitly allowed result panels',()=>{assert.match(src,/var panelIds=\["nmBox","rwBox","pmBox","tlBox","mdBox","finBox"\]/);assert.match(src,/Explicit allowlist: never export future advisor-only UI/)});
-test('appendix moves detail and overflow panels without deleting them',()=>{assert.match(src,/extra\.appendChild\(detail\)/);assert.match(src,/extra\.insertBefore\(p,extra\.firstChild\)/);assert.match(src,/app\.hidden=!extra\.children\.length/)});
-test('summary builder retains print action and disclaimer',()=>{assert.match(src,/var discHtml=disc\?disc\.outerHTML/);assert.match(src,/Print or save as PDF/)});
+test('overflowing sheets shrink to fit instead of splitting or deleting content',()=>{assert.match(src,/function summaryDashboardLayout\(\)/);assert.match(src,/c\.style\.zoom=Math\.max\(\.35,avail\/h/)});
+test('summary builder retains print action and disclaimer',()=>{assert.match(src,/discHtml=disc\?disc\.outerHTML/);assert.match(src,/Print or save as PDF/)});

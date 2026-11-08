@@ -1,5 +1,7 @@
 # Project State: Life Cover Needs Finder
 
+## M62 (2026-11-08): saved summary and Print/PDF share one fixed 3-sheet A4 landscape layout; see AI_HANDOVER.md M62. Tests green.
+
 ## M56 — Priority 9 eligibility and disclosure audit (2026-11-07)
 - Audited `rec0` and product details (`PD`) in `needs-finder.html`. Existing global recommendation age gate is 18–65, while product detail tables include child entry ages (e.g. Income Now Early Income 0–50) and differing Promise4Future variants (Savings4Future 0–60, Income4Future 0–55). These are **potential scope/eligibility mismatches**, not confirmed product errors; do not change without current insurer brochures and compliance approval.
 - Current guaranteed immediate-income recommendation includes age 50 and excludes 51; PPC display ages 18–50 for Wealth Edge and 18–55 for iSelect wording. Short education goal <5 years suppresses recommendation; exactly 5 years triggers Wealth Edge. Training-only disclosure text exists in the source. No app HTML, approved business rules, formulas, or translations changed.

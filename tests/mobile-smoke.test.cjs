@@ -24,11 +24,11 @@ test('M47 saved summary is a landscape dashboard and excludes advisor-only conte
  const result=await page.evaluate(()=>({kpis:document.querySelectorAll('.kpi').length,main:document.querySelector('#summaryPage').scrollHeight,appendix:!document.querySelector('#summaryAppendix').hidden,goal:!!document.querySelector('#panel-nmBox'),title:document.title,panels:document.querySelectorAll('.panel').length}));
  assert.equal(result.kpis,3);assert.equal(result.goal,true);assert.ok(result.panels>=1);assert.ok(result.main<900);
 }));
-test('M47 dense saved summary moves details into appendix rather than deleting them',async()=>browserCase(async page=>{
+test('M47 dense saved summary keeps every detail and fits each A4 landscape page (shrink-to-fit, nothing deleted)',async()=>browserCase(async page=>{
  const html=await page.evaluate(()=>{document.querySelector('#age').value='40';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();return buildSummary()});
  await page.setContent(html,{waitUntil:'load'});
- const result=await page.evaluate(()=>{const d=document.querySelector('#summaryDashboard'),p=document.querySelector('#panel-nmBox');for(let i=0;i<45;i++){const n=document.createElement('div');n.className='line';n.textContent='Additional family goal '+i+' ₹1,00,000';p.appendChild(n)}summaryDashboardLayout();return {appendix:!document.querySelector('#summaryAppendix').hidden,kept:document.querySelectorAll('#panel-nmBox .line').length,exists:!!document.querySelector('#panel-nmBox'),main:document.querySelector('#summaryPage').scrollHeight}});
- assert.equal(result.appendix,true);assert.equal(result.exists,true);assert.ok(result.kept>=45);assert.ok(result.main<900);
+ const result=await page.evaluate(()=>{const p=document.querySelector('#panel-nmBox');for(let i=0;i<45;i++){const n=document.createElement('div');n.className='line';n.textContent='Additional family goal '+i+' ₹1,00,000';p.appendChild(n)}summaryDashboardLayout();const sh=[...document.querySelectorAll('.sheet')].map(s=>{const cs=getComputedStyle(s),avail=s.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);return s.firstElementChild.getBoundingClientRect().height<=avail*1.02});return {kept:document.querySelectorAll('#panel-nmBox .line').length,exists:!!p,fits:sh,sheets:sh.length}});
+ assert.equal(result.exists,true);assert.ok(result.kept>=45);assert.ok(result.fits.every(Boolean),'a sheet overflows its A4 page');assert.ok(result.sheets>=2);
 }));
 
 test('M48 customer summary exports only allowlisted panels and retains training warning',async()=>browserCase(async page=>{
@@ -96,13 +96,21 @@ test('M51 translation review register matches runtime dictionary keys',async()=>
  assert.deepEqual(absent,[]);assert.deepEqual(stale,[]);
 }));
 
-test('M52 A4 landscape export keeps first-page content inside printable height and preserves overflow in appendix',async()=>browserCase(async page=>{
- const summary=await page.evaluate(()=>{document.querySelector('#age').value='38';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();const nm=document.querySelector('#nmBox');nm.insertAdjacentHTML('beforeend','<div id="M52_LONG_DETAILS">'+Array.from({length:95},(_,i)=>'<p>Goal '+i+' — detailed illustration retained in appendix</p>').join('')+'</div>');return buildSummary()});
+test('M52 A4 landscape export: every page fits, long content is kept, PDF pages equal sheets',async()=>browserCase(async page=>{
+ const summary=await page.evaluate(()=>{document.querySelector('#age').value='38';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();const nm=document.querySelector('#nmBox');nm.insertAdjacentHTML('beforeend','<div id="M52_LONG_DETAILS">'+Array.from({length:95},(_,i)=>'<p>Goal '+i+' — detailed illustration retained</p>').join('')+'</div>');return buildSummary()});
  await page.setContent(summary,{waitUntil:'load'});await page.evaluate(()=>document.fonts.ready);await page.evaluate(()=>summaryDashboardLayout());
- const x=await page.evaluate(()=>{const p=document.querySelector('#summaryPage'),dash=document.querySelector('#summaryDashboard'),app=document.querySelector('#summaryAppendix'),long=document.querySelector('#M52_LONG_DETAILS');const limit=p.getBoundingClientRect().top+194*96/25.4;return {height:dash.getBoundingClientRect().bottom-p.getBoundingClientRect().top,limit,appendix:!app.hidden,longPresent:!!long,longInAppendix:app.contains(long),panels:document.querySelectorAll('.panel').length,hasKpis:document.querySelectorAll('.kpi').length,css:document.querySelector('style').textContent}});
- assert.ok(x.height<=194*96/25.4+1,'dashboard overflows landscape printable area');assert.equal(x.appendix,true);assert.equal(x.longPresent,true);assert.equal(x.longInAppendix,true);assert.equal(x.hasKpis,3);assert.ok(x.panels>=3);assert.match(x.css,/@page\{size:A4 landscape;margin:8mm\}/);
+ const x=await page.evaluate(()=>{const long=document.querySelector('#M52_LONG_DETAILS');const sh=[...document.querySelectorAll('.sheet')];return {longPresent:!!long,sheets:sh.length,fits:sh.map(s=>{const cs=getComputedStyle(s),avail=s.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);return s.firstElementChild.getBoundingClientRect().height<=avail*1.02}),panels:document.querySelectorAll('.panel').length,hasKpis:document.querySelectorAll('.kpi').length,css:document.querySelector('style').textContent}});
+ assert.equal(x.longPresent,true);assert.ok(x.fits.every(Boolean),'a page overflows the landscape printable area');assert.equal(x.hasKpis,3);assert.ok(x.panels>=3);assert.match(x.css,/@page\{size:A4 landscape;margin:8mm\}/);assert.doesNotMatch(x.css,/margin:9mm/);
  const pdf=await page.pdf({format:'A4',landscape:true,printBackground:true,preferCSSPageSize:true});
  assert.ok(pdf.length>1500);assert.match(pdf.subarray(0,8).toString(),/%PDF-/);
+ const pages=(pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g)||[]).length;assert.equal(pages,x.sheets,'PDF page count must equal the number of saved-summary sheets');
+}));
+test('Saved summary on screen and Print/PDF share one layout (same sheets, same panel positions)',async()=>browserCase(async page=>{
+ const html=await page.evaluate(()=>{document.querySelector('#age').value='40';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='50000';render();return buildSummary()});
+ await page.setViewportSize({width:1280,height:900});await page.setContent(html,{waitUntil:'load'});await page.evaluate(()=>document.fonts.ready);
+ const geo=()=>page.evaluate(()=>{summaryDashboardLayout();const r={};document.querySelectorAll('.sheet').forEach((s,i)=>{const sb=s.getBoundingClientRect(),z=sb.width/(281*96/25.4);s.querySelectorAll('.panel').forEach(pn=>{const b=pn.getBoundingClientRect();r[pn.id]=[i,Math.round((b.left-sb.left)/z),Math.round((b.top-sb.top)/z),Math.round(b.width/z),Math.round(b.height/z)]})});return r});
+ const screen=await geo();await page.emulateMedia({media:'print'});const print=await geo();
+ assert.deepEqual(screen,print,'screen layout differs from print layout');
 }));
 test('M52 summary export maintains data and privacy across seven languages in phone viewport',async()=>browserCase(async page=>{
  const out=await page.evaluate(()=>{document.querySelector('#age').value='38';document.querySelector('#inc').value='1200000';document.querySelector('#exp').value='60000';render();return ['en','hi','gu','ta','ml','kn','mr'].map(l=>{setLang(l);const html=buildSummary();return {l,lang:html.match(/<html lang="([^"]+)"/)?.[1],panels:(html.match(/class="panel"/g)||[]).length,print:html.includes('size:A4 landscape'),advisor:html.includes('id="objBox"'),disclaimer:html.includes('id="sumDisc"'),script:html.includes('summaryDashboardLayout')}})});
