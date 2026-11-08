@@ -1,0 +1,11 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const s=fs.readFileSync(path.join(__dirname,'../needs-finder.html'),'utf8');
+test('claim figures are individual death claims and not rounded press-release substitute',()=>{assert.match(s,/var CSR=\{"v":"99\.52","fy":"2025-26","pv":"99\.43","pfy":"2024-25"\}/);assert.match(s,/individual death claims settled \(by number\)/);assert.match(s,/press release quotes a rounded 99\.6%/);assert.match(s,/99\.38% for individual and group claims combined/)});
+test('claim source links use insurer primary documents',()=>{assert.match(s,/https:\/\/www\.canarahsbclife\.com\/content\/dam\/chli\/pdf\/public-disclosure\/other-disclosure\/annual-report\/13\/annual-report-2024-25\.pdf/);assert.match(s,/canara-hsbc-life-fy-2025-26-financial-results-press-release\.pdf/)});
+test('approved IncomeNow minimum premium exceptions remain intact',()=>{assert.match(s,/Early Income PPT 2 years ₹5,00,000; PPT 3 or 4 years ₹2,00,000/);assert.match(s,/other terms and Step up Income: refer to the current official IncomeNow brochure/)});
+test('approved Promise4Life Assured Term Income exception remains intact',()=>{assert.match(s,/Assured Term Income minimum annual premium ₹36,000/);assert.match(s,/PPT 5 years.*50|PPT5.*50/)});
+test('global adult recommendation gate and retirement cutoff remain unchanged pending approval',()=>{assert.match(s,/if\(a<18\|\|a>65\)return/);assert.match(s,/H=\(t\.y<=2\)\?"Suggested: Immediate income plan"/)});
+test('customer exports do not include claims objection card',()=>{const start=s.indexOf('function buildSummary(){');const end=s.indexOf('function loadPdfLibrary(',start);assert.ok(start>=0&&end>start);const part=s.slice(start,end);assert.match(part,/"objBox"/);assert.match(part,/var panelIds=\["nmBox","rwBox","pmBox","tlBox","mdBox","finBox"\]/)});
