@@ -264,8 +264,8 @@ html.simple .rw p:first-of-type{font-size:18px;font-weight:600;line-height:1.4}h
   </details>
   <div class="fin" id="finBox" hidden></div>
   <p class="pdate" id="pdate"></p>
-  <div class="acts"><button type="button" class="add" id="waBtn">Share summary on WhatsApp</button> <button type="button" class="add" id="printBtn">Print or save as PDF</button> <button type="button" class="add" id="dlBtn">Save summary file</button> <button type="button" class="add" id="resetBtn">Start over</button></div>
-  <p class="hint" id="dlHint">If the print window does not open, tap <b>Save summary file</b>, open the saved file, and print or save as PDF from there.</p>
+  <div class="acts"><button type="button" class="add" id="waBtn">Share summary on WhatsApp</button> <button type="button" class="add" id="printBtn">Print or save as PDF</button> <button type="button" class="add" id="dlBtn">Download summary PDF</button> <button type="button" class="add" id="resetBtn">Start over</button></div>
+  <p class="hint" id="dlHint">Tap <b>Download summary PDF</b> to save a three-page PDF to your browser downloads. The file is generated on your device.</p>
 </aside>
 </div>
 <div class="tour" id="tour" hidden role="dialog" aria-modal="true"><div class="tb"><button type="button" class="tx" id="tourX" aria-label="Close">&times;</button><div class="tn" id="tourN"></div><h3 id="tourH"></h3><p id="tourT"></p><div class="qrow"><button type="button" class="add" id="tourBack"></button><button type="button" class="add qs" id="tourNext"></button></div></div></div>
@@ -1320,29 +1320,43 @@ function buildSummary(){
 }
 
 function dlNote(t){$("dlHint").textContent=t}
-function isIOSSummaryDevice(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1)}
-function openSavedSummaryPreview(html){
-  // Open synchronously on tap: iOS blocks windows opened after an async download.
-  var w=window.open("","_blank");
-  if(!w){dlNote("Safari blocked the summary preview. Open this website directly in Safari and allow pop-ups, or use Print or save as PDF.");return false}
-  try{w.document.open();w.document.write(html);w.document.close();w.focus();return true}
-  catch(e){try{w.close()}catch(_){}dlNote("Unable to open the summary preview. Use Print or save as PDF in Safari.");return false}
+function loadPdfLibrary(url,check){
+  if(check())return Promise.resolve();
+  return new Promise(function(resolve,reject){
+    var el=document.createElement("script");el.src=url;el.onload=function(){check()?resolve():reject(Error("PDF library unavailable"))};el.onerror=function(){reject(Error("PDF library download failed"))};document.head.appendChild(el);
+  });
 }
-$("dlBtn").onclick=async function(){
-  var html=buildSummary(),name="life-cover-needs-summary.html";
-  // iOS Files/Quick Look may reject standalone HTML even when its contents are valid.
-  // Show the same generated three-sheet HTML in a browser tab; Safari Share > Print
-  // or the document's Print button saves an interoperable PDF.
-  if(isIOSSummaryDevice()){
-    if(openSavedSummaryPreview(html))dlNote("Summary opened in a new Safari tab. To keep a copy, tap Print or save as PDF, then save the PDF to Files. iPhone Files may not open downloaded .html files.");
-    return;
-  }
+async function downloadSummaryPdf(){
+  var btn=$("dlBtn"),frame=null;
+  btn.disabled=true;dlNote("Preparing your three-page PDF download…");
   try{
-    var dl=(typeof claude!=="undefined"&&claude.use)?await claude.use("downloads"):null;
-    if(dl){await dl.save({filename:name,data:html});return}
-  }catch(e){if(e&&e.code==="declined")return;dlNote(tx("Saving did not work here. Please try again."));return}
-  var a=document.createElement("a"),url=URL.createObjectURL(new Blob([html],{type:"text/html;charset=utf-8"}));a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},60000);
-};
+    // Render entirely in the browser; personal financial information is not uploaded.
+    await loadPdfLibrary("https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js",function(){return typeof window.html2canvas==="function"});
+    await loadPdfLibrary("https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js",function(){return !!(window.jspdf&&window.jspdf.jsPDF)});
+    frame=document.createElement("iframe");frame.setAttribute("title","Temporary PDF summary renderer");frame.setAttribute("aria-hidden","true");
+    frame.style.cssText="position:fixed;left:-12000px;top:0;width:1100px;height:900px;border:0;visibility:visible;pointer-events:none";
+    document.body.appendChild(frame);
+    var doc=frame.contentDocument;doc.open();doc.write(buildSummary());doc.close();
+    if(doc.fonts&&doc.fonts.ready)await doc.fonts.ready;
+    await new Promise(function(r){requestAnimationFrame(function(){requestAnimationFrame(r)})});
+    if(frame.contentWindow.summaryDashboardLayout)frame.contentWindow.summaryDashboardLayout();
+    var sheets=Array.from(doc.querySelectorAll(".stage > .sheet"));
+    if(sheets.length!==3)throw Error("Expected three summary sheets");
+    var pdf=new window.jspdf.jsPDF({orientation:"landscape",unit:"mm",format:"a4",compress:true});
+    for(var i=0;i<sheets.length;i++){
+      var canvas=await window.html2canvas(sheets[i],{scale:1.6,backgroundColor:"#ffffff",useCORS:true,logging:false,windowWidth:1100});
+      if(i)pdf.addPage("a4","landscape");
+      pdf.addImage(canvas.toDataURL("image/jpeg",0.91),"JPEG",8,8,281,193,undefined,"FAST");
+    }
+    var blob=pdf.output("blob"),url=URL.createObjectURL(blob),link=document.createElement("a");
+    link.href=url;link.download="life-cover-needs-summary.pdf";document.body.appendChild(link);link.click();link.remove();
+    setTimeout(function(){URL.revokeObjectURL(url)},60000);
+    dlNote("PDF download requested. Check Safari Downloads or Files > Downloads. If your browser shows the PDF instead, use Share > Save to Files.");
+  }catch(e){
+    dlNote("PDF download could not be prepared ("+(e&&e.message?e.message:"browser error")+"). Try Print or save as PDF in Safari.");
+  }finally{if(frame)frame.remove();btn.disabled=false}
+}
+$("dlBtn").onclick=function(){downloadSummaryPdf()};
 $("printBtn").onclick=function(){try{var w=window.open("","_blank");if(!w)throw Error("blocked");w.document.open();w.document.write(buildSummary());w.document.close();var run=function(){try{if(w.closed)return;if(typeof w.summaryDashboardLayout==="function")w.summaryDashboardLayout();w.focus();w.print()}catch(e){dlNote(tx("The print window is blocked here. Tap Save summary file instead."))}};var ready=w.document.fonts&&w.document.fonts.ready;if(ready)ready.then(run,run);else setTimeout(run,500);}catch(e){dlNote(tx("The print window is blocked here. Tap Save summary file instead."))}};
 var reopen=[];
 window.addEventListener("beforeprint",function(){
