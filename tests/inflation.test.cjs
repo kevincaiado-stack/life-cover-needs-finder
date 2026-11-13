@@ -10,3 +10,5 @@ test('reject future or stale reports',()=>{assert.equal(handler.valid({month:12,
 
 test('valid official zero and negative CPI values are accepted',()=>{const now=new Date(Date.UTC(2026,10,7));assert.equal(handler.valid({month:9,year:2026,rate:0},now),true);assert.equal(handler.valid({month:9,year:2026,rate:-0.25},now),true);assert.equal(handler.valid({month:9,year:2026,rate:-25},now),false)});
 test('official fallback is explicit when both listing and verified source are unusable',async()=>{const a=await run('',()=>'<html>unavailable</html>');assert.equal(a.result.ok,false);assert.equal(a.result.stale,true);assert.equal(a.result.reason,'official-data-unavailable')});
+
+test('official October 2026 release remains checked even when PIB listing is empty',async()=>{const a=await run('',url=>url.includes('2335416')?oct:sep);assert.equal(a.result.on,'10/2026');assert.equal(a.result.rate,6.21);assert.match(a.result.sourceUrl,/2335416/);assert.ok(a.calls.some(x=>x.url.includes('2335416')))});
