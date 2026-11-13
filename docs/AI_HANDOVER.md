@@ -1,3 +1,9 @@
+## CPI October 2026 production correction (2026-11-13)
+- Official MoSPI/PIB release dated 12 Nov 2026: October All-India Combined CPI General year-on-year **6.09%** (base 2024=100), https://www.pib.gov.in/PressReleasePage.aspx?PRID=2335416&lang=1&reg=3.
+- Production initially returned September 5.54% (`09/2026`) despite October release. Root cause: discovery depends on PIB ministry listing, which can lag or omit the latest release. Added October official verified URL to checked fallbacks while retaining older verified release and live discovery for future months; added regression test for empty listing. No financial calculations changed.
+- GitHub main code commit `d68fc8a`, regression test commit `f48d5a2`. Vercel production deployment `dpl_6Gdziw5GyCBoei3FS191y36AqHWg` READY on `f48d5a2`. Live `/api/inflation` confirmed HTTP 200 `ok:true`, `rate:6.09`, `on:10/2026`, correct official `sourceUrl`, `stale:false` at 2026-11-13 17:46 IST.
+- Regression test added but automated test execution/Actions conclusion not independently observed in this run; follow up CI verification. Future monthly release discovery still requires monitoring.
+
 # AI Handover
 
 ## M77 user acceptance + safe rollback point (2026-11-08, 20:21 IST)
