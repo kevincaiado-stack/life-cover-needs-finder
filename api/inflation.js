@@ -2,6 +2,8 @@
 const PIB='https://www.pib.gov.in';
 const LIST=PIB+'/newsite/pmreleases.aspx?lang=1&mincode=55&reg=3';
 const VERIFIED=PIB+'/PressReleasePage.aspx?PRID=2322244&lang=1&reg=3';
+// Official MoSPI/PIB release verified 12 Nov 2026. Keep as fallback if the listing lags.
+const LATEST_VERIFIED=PIB+'/PressReleasePage.aspx?PRID=2335416&lang=1&reg=3';
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 function parseRelease(html,url){
  const text=String(html).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]*>/g,' ').replace(/&nbsp;|&#160;|&amp;/gi,' ').replace(/\s+/g,' ');
@@ -20,7 +22,7 @@ function candidates(html){const out=[];const rx=/<a\b[^>]*href=['"]([^'"]+)['"][
 async function get(url){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),6500);try{const r=await fetch(url,{signal:ctl.signal,cache:'no-store',headers:{accept:'text/html'}});if(!r.ok)throw Error('official HTTP '+r.status);return await r.text()}finally{clearTimeout(to)}}
 module.exports=async(req,res)=>{
  res.setHeader('Access-Control-Allow-Origin','*');res.setHeader('Cache-Control','no-store, max-age=0');
- let urls=[VERIFIED];try{urls=[...candidates(await get(LIST)),VERIFIED].slice(0,12)}catch(e){}
+ let urls=[LATEST_VERIFIED,VERIFIED];try{urls=[...new Set([...candidates(await get(LIST)).slice(0,10),LATEST_VERIFIED,VERIFIED])]}catch(e){}
  const results=await Promise.all(urls.map(async url=>{try{const p=parseRelease(await get(url),url);return valid(p)?p:null}catch(e){return null}}));
  const p=results.filter(Boolean).sort((a,b)=>(b.year*12+b.month)-(a.year*12+a.month))[0];
  if(!p)return res.status(200).json({ok:false,source:'MoSPI via PIB',sourceUrl:VERIFIED,reason:'official-data-unavailable',stale:true});
